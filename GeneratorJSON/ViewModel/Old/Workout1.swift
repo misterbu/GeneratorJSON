@@ -19,14 +19,14 @@ class Workout1: ObservableObject {
     //    var id: String
     //    var type: ExerciseType
     
-    var id: String
-    var createAt: Date
+    var id: String = ""
+    var createAt: Date = Date()
     
     @Published var image: NSImage?
 
-    @Published var name: String
-    @Published var description: String
-    @Published var exersises: [String] // id упражнений
+    @Published var name: String = ""
+    @Published var description: String = ""
+    @Published var exersises: [String]  = []// id упражнений
     
     
     @Published var selectedType: Int = 0 {
@@ -39,11 +39,11 @@ class Workout1: ObservableObject {
             level = WorkoutLevel.allCases[newValue]
         }
     }
-    @Published var tags: [String]
-    var type: WorkoutType
-    var level: WorkoutLevel
-    @Published var isPro: Bool
-    @Published var releatedWorkouts: [String]  // id тренировок, включая текущую
+    @Published var tags: [String] = []
+    var type: WorkoutType = WorkoutType.interval
+    var level: WorkoutLevel = WorkoutLevel.started
+    @Published var isPro: Bool = false
+    @Published var releatedWorkouts: [String] = []  // id тренировок, включая текущую
    
     
     
@@ -51,16 +51,16 @@ class Workout1: ObservableObject {
     
     
     init(){
-        self.id = UUID().uuidString
-        self.name = ""
-        self.description = ""
-        self.tags = []
-        self.type = .interval
-        self.level = .started
-        self.isPro = true
-        self.releatedWorkouts = []
-        self.exersises = []
-        self.image = nil
+//        self.id = UUID().uuidString
+//        self.name = ""
+//        self.description = ""
+//        self.tags = []
+//        self.type = .interval
+//        self.level = .started
+//        self.isPro = true
+//        self.releatedWorkouts = []
+//        self.exersises = []
+//        self.image = nil
     }
     
     
