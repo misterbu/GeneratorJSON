@@ -16,9 +16,15 @@ struct Home: View {
     
     var body: some View {
         VStack{
-           topMenu
+            topMenu
             
-            ExercisesCatalogView()
+            if menuIndex == 0 {
+                WorkoutsCatalogView()
+            } else {
+                ExercisesCatalogView()
+            }
+            
+            Spacer()
         }
         .frame(width: widthScr/1.5, height: heightScr - 60)
         .background(BlurWindow())

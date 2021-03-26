@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20D80" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="CircleEntity" representedClassName="CircleEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="canGetOff" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="orderAdd" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="intervalExercises" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="IntervalExerciseEntity" inverseName="circle" inverseEntity="IntervalExerciseEntity"/>
+        <relationship name="strenghtExercises" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="StrenghtExerciseEntity" inverseName="circle" inverseEntity="StrenghtExerciseEntity"/>
+        <relationship name="workouts" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WorkoutEntity" inverseName="workoutCircles" inverseEntity="WorkoutEntity"/>
+    </entity>
     <entity name="IntervalExerciseEntity" representedClassName="IntervalExerciseEntity" syncable="YES" codeGenerationType="class">
         <attribute name="authorId" optional="YES" attributeType="String"/>
         <attribute name="descr" optional="YES" attributeType="String"/>
@@ -11,11 +20,13 @@
         <attribute name="level" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="muscle" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="orderAdd" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="restDuration" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="shortDescr" optional="YES" attributeType="String"/>
         <attribute name="type" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="video" optional="YES" attributeType="String"/>
         <attribute name="voiceComment" optional="YES" attributeType="String"/>
+        <relationship name="circle" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CircleEntity" inverseName="intervalExercises" inverseEntity="CircleEntity"/>
     </entity>
     <entity name="StrenghtExerciseEntity" representedClassName="StrenghtExerciseEntity" syncable="YES" codeGenerationType="class">
         <attribute name="authorId" optional="YES" attributeType="String"/>
@@ -29,15 +40,39 @@
         <attribute name="level" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="muscle" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="orderAdd" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="restDuration" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="shortDescr" optional="YES" attributeType="String"/>
         <attribute name="type" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="video" optional="YES" attributeType="String"/>
         <attribute name="voiceComment" optional="YES" attributeType="String"/>
         <attribute name="weight" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="circle" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CircleEntity" inverseName="strenghtExercises" inverseEntity="CircleEntity"/>
+    </entity>
+    <entity name="WorkoutEntity" representedClassName="WorkoutEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="authorId" optional="YES" attributeType="String"/>
+        <attribute name="createAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="descr" optional="YES" attributeType="String"/>
+        <attribute name="equipment" optional="YES" attributeType="String"/>
+        <attribute name="iconImage" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
+        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="image" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
+        <attribute name="isPro" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="level" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="muscle" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="seriesWorkouts" optional="YES" attributeType="String"/>
+        <attribute name="sex" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="shortDescr" optional="YES" attributeType="String"/>
+        <attribute name="target" optional="YES" attributeType="String"/>
+        <attribute name="type" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="video" optional="YES" attributeType="String"/>
+        <relationship name="workoutCircles" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CircleEntity" inverseName="workouts" inverseEntity="CircleEntity"/>
     </entity>
     <elements>
-        <element name="IntervalExerciseEntity" positionX="-63" positionY="-18" width="128" height="254"/>
-        <element name="StrenghtExerciseEntity" positionX="-54" positionY="-9" width="128" height="284"/>
+        <element name="CircleEntity" positionX="-18" positionY="171" width="128" height="134"/>
+        <element name="IntervalExerciseEntity" positionX="-63" positionY="-18" width="128" height="284"/>
+        <element name="StrenghtExerciseEntity" positionX="-54" positionY="-9" width="128" height="314"/>
+        <element name="WorkoutEntity" positionX="-36" positionY="135" width="128" height="299"/>
     </elements>
 </model>

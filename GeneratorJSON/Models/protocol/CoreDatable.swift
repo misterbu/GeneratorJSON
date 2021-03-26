@@ -11,6 +11,6 @@ import CoreData
 protocol CoreDatable {
     var id: String {get}
     init<S: NSManagedObject>(entity: S)
-    func setEntity<S: NSManagedObject>(entity: S) -> S
+    func getEntity<S: NSManagedObject>() -> S
 }
 

@@ -22,8 +22,7 @@ class CoreDataFuncs {
     //MARK: -SAVE NEW MODEL
     func add<T: NSManagedObject, S: CoreDatable>(model: S, entity: T.Type) {
         print("CD: Save model with id \(model.id)")
-        var entity = entity.init(context: context)
-        entity = model.setEntity(entity: entity)
+        var entity = model.getEntity()
         
         do {
             try context.save()
@@ -105,13 +104,13 @@ class CoreDataFuncs {
         //Создаем модель данных
         var entity: T!
         
-        if let entities = try? context.fetch(request), var entity = entities.first  {
-            //Если эта модель данных уже существует в БД, скачиваем ее и изменяем
-            entity = model.setEntity(entity: entity)
+        if let entities = try? context.fetch(request), let oldentity = entities.first  {
+            //Если эта модель данных уже существует в БД, удаляем станую и создаем новую
+            context.delete(oldentity)
+            entity = model.getEntity()
         } else {
             //Если модели данных еще нет в БД, создаем новую
-            entity = T.init(context: context)
-            entity = model.setEntity(entity: entity)
+            entity = model.getEntity()
         }
         
         //Возвращаем модель данных
@@ -123,17 +122,19 @@ class CoreDataFuncs {
     //MARK: SAVE CHANGED MODEL
     func save<T: NSManagedObject, S: CoreDatable>(entity: T.Type, model: S) {
         let entityName = String(describing: entity)
-        print("CD: Save model \(entityName) with id \(model.id)")
+        print("CD: Savae model \(entityName) with id \(model.id)")
         
         let request = NSFetchRequest<T>(entityName: entityName)
         request.predicate = NSPredicate(format: "id == %@", model.id)
         
+        var entity: T!
+        
         //Проверяем есть ли такая запись в CD, если да, то меняем ее и сохраняем. Если нет, создаем новую и записываем
-        if let entities = try? context.fetch(request), var entity = entities.first  {
-            entity = model.setEntity(entity: entity)
+        if let entities = try? context.fetch(request), let oldEntity = entities.first  {
+            context.delete(oldEntity)
+            entity = model.getEntity()
         } else {
-            var entity = T.init(context: context)
-            entity = model.setEntity(entity: entity)
+            entity = model.getEntity()
         }
 
         do {
@@ -146,7 +147,7 @@ class CoreDataFuncs {
     //MARK: DELETE MODEL
     func delete<T: NSManagedObject, S: CoreDatable>(entity: T.Type, model: S){
         let entityName = String(describing: entity)
-        print("CD: Save model \(entityName) with id \(model.id)")
+        print("CD: Delete \(entityName) with id \(model.id)")
         
         let request = NSFetchRequest<T>(entityName: entityName)
         request.predicate = NSPredicate(format: "id == %@", model.id)
@@ -161,11 +162,23 @@ class CoreDataFuncs {
             print(error.localizedDescription)
         }
     }
+    
+    func deleteAll<T: NSManagedObject>(entity: T.Type){
+        let entityName = String(describing: entity)
+        print("CD: Delete all")
+        
+        let fetch = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+        let request = NSBatchDeleteRequest(fetchRequest: fetch)
+        
+        do {
+            try context.execute(request)
+            try context.save()
+        } catch  {
+            print(error)
+        }
+    }
 }
 
-
-
-import CoreData
 
 struct PersistenceController {
     static let shared = PersistenceController()

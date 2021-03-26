@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum LevelType: Int {
+enum LevelType: Int, CaseIterable {
     case all = 0
     case beginner = 1
     case intermediate = 2

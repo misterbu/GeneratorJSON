@@ -9,6 +9,7 @@ import SwiftUI
 
 class ExercisesViewModel: ObservableObject {
     @Published var exercises: [Exercise] = []
+    @Published var exercise: Exercise?
     
     init(){
         //check core data
@@ -18,7 +19,7 @@ class ExercisesViewModel: ObservableObject {
     
     func getAllExerciseCD(){
         let inrerval = CoreDataFuncs.shared.getAll(entity: IntervalExerciseEntity.self, model: IntervalExercise.self)
-        let strenght = CoreDataFuncs.shared.getAll(entity: StrenghtExerciseEntity.self, model: StenghtExercise.self)
+        let strenght = CoreDataFuncs.shared.getAll(entity: StrenghtExerciseEntity.self, model: StrenghtExercise.self)
         exercises.append(contentsOf: inrerval)
         exercises.append(contentsOf: strenght)
     }

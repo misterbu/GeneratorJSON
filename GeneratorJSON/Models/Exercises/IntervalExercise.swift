@@ -9,19 +9,19 @@ import SwiftUI
 
 
 struct IntervalExercise: Exercise, CoreDatable {
-    
-    
+  
     /// - TAG: Protocol's vars
     var id: String = UUID().uuidString
+    var orderAdd: Int = 0
     
     var iconImage: NSImage?
     var image: NSImage?
     var video: String?
     
     var name: String = ""
-    var shortDescription: String?
+    var shortDescription: String = ""
     var description: String = ""
-    var voiceComment: String?
+    var voiceComment: String = ""
     
     var level: LevelType = .all
     var type: WorkType = .hiit
@@ -38,13 +38,16 @@ struct IntervalExercise: Exercise, CoreDatable {
      
     
     /// - TAG: INITS
+    init(){}
+    
     init<S>(entity: S) where S : NSManagedObject {
         guard let entity = entity as? IntervalExerciseEntity else {return}
         self.id = entity.id ?? ""
+        self.orderAdd = Int(entity.orderAdd)
         self.name = entity.name ?? ""
-        self.shortDescription = entity.shortDescr
+        self.shortDescription = entity.shortDescr ?? ""
         self.description = entity.descr ?? ""
-        self.voiceComment = entity.voiceComment
+        self.voiceComment = entity.voiceComment ?? ""
         self.level = LevelType(rawValue: Int(entity.level)) ?? .all
         self.type = WorkType(rawValue: Int(entity.type)) ?? .hiit
         self.authorId = entity.authorId
@@ -61,34 +64,50 @@ struct IntervalExercise: Exercise, CoreDatable {
         }
         
         if let muscleStr = entity.muscle {
-            self.muscle = muscleStr.components(separatedBy: ",")
+            self.muscle = muscleStr.components(separatedBy: ",").filter({$0 != ""})
         }
         
         //Видео пока оставить в покое
     }
     
-    func setEntity<S>(entity: S) -> S where S : NSManagedObject {
-        guard let newEntity = entity as? IntervalExerciseEntity else {return entity}
+    
+    mutating func setProperied(values: [String : Any]) {
+        if let durationValue = values["duration"] as? Int {
+            self.duration = durationValue
+        }
+        if let restValue = values["restDuration"] as? Int {
+            self.restDuration = restValue
+        }
+    }
+    
+    func getEntity<S>() -> S where S : NSManagedObject {
+        let entity = IntervalExerciseEntity(context: PersistenceController.shared.container.viewContext)
         
-        newEntity.id = id
-        newEntity.name = name
-        newEntity.shortDescr = shortDescription
-        newEntity.descr = description
-        newEntity.voiceComment = voiceComment
-        newEntity.level = level.rawValue.int32
-        newEntity.type = type.rawValue.int32
-        newEntity.authorId = authorId
-        newEntity.isPro = isPro
-        newEntity.duration = duration.int32
-        newEntity.restDuration = (restDuration ?? 0).int32
+        entity.id = id
+        entity.orderAdd = orderAdd.int32
+        entity.name = name
+        entity.shortDescr = shortDescription
+        entity.descr = description
+        entity.voiceComment = voiceComment
+        entity.level = level.rawValue.int32
+        entity.type = type.rawValue.int32
+        entity.authorId = authorId
+        entity.isPro = isPro
+        entity.duration = duration.int32
+        entity.restDuration = (restDuration ?? 0).int32
         
-        newEntity.iconImage = iconImage?.imageToJPEGData()
-        newEntity.image = image?.imageToJPEGData()
+        entity.iconImage = iconImage?.imageToJPEGData()
+        entity.image = image?.imageToJPEGData()
         
-        muscle.forEach({newEntity.muscle?.append($0 + ",")})
+        entity.muscle = ""
+        muscle.forEach({entity.muscle!.append($0 + ",")})
         
-        
-        return newEntity as! S
+        return entity as! S
     }
 
+    func setOrder<S>(entity: S, order: Int) -> S where S : NSManagedObject {
+        guard let newEntity = entity as? IntervalExerciseEntity else {return entity}
+        newEntity.orderAdd = orderAdd.int32
+        return newEntity as! S
+    }
 }

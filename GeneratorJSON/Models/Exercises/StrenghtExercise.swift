@@ -7,20 +7,21 @@
 
 import SwiftUI
 
-struct StenghtExercise: Exercise, CoreDatable {
+struct StrenghtExercise: Exercise, CoreDatable {
    
     
     /// - TAG: Protocol's vars
     var id: String = UUID().uuidString
+    var orderAdd: Int = 0
     
     var iconImage: NSImage?
     var image: NSImage?
     var video: String?
     
     var name: String = ""
-    var shortDescription: String?
+    var shortDescription: String = ""
     var description: String = ""
-    var voiceComment: String?
+    var voiceComment: String = ""
     
     var level: LevelType = .all
     var type: WorkType = .combine
@@ -40,10 +41,11 @@ struct StenghtExercise: Exercise, CoreDatable {
     init<S>(entity: S) where S : NSManagedObject {
         guard let entity = entity as? StrenghtExerciseEntity else {return}
         self.id = entity.id ?? ""
+        self.orderAdd = Int(entity.orderAdd)
         self.name = entity.name ?? ""
-        self.shortDescription = entity.shortDescr
+        self.shortDescription = entity.shortDescr ?? ""
         self.description = entity.descr ?? ""
-        self.voiceComment = entity.voiceComment
+        self.voiceComment = entity.voiceComment ?? ""
         self.level = LevelType(rawValue: Int(entity.level)) ?? .all
         self.type = WorkType(rawValue: Int(entity.type)) ?? .hiit
         self.authorId = entity.authorId
@@ -62,35 +64,56 @@ struct StenghtExercise: Exercise, CoreDatable {
         }
         
         if let muscleStr = entity.muscle {
-            self.muscle = muscleStr.components(separatedBy: ",")
+            self.muscle = muscleStr.components(separatedBy: ",").filter({$0 != ""})
         }
         
         //Видео пока оставить в покое
     }
     
-    func setEntity<S>(entity: S) -> S where S : NSManagedObject {
-        guard let newEntity = entity as? StrenghtExerciseEntity else {return entity}
+    mutating func setProperied(values: [String : Any]) {
+        if let countValue = values["count"] as? Int {
+            self.count = countValue
+        }
         
-        newEntity.id = id
-        newEntity.name = name
-        newEntity.shortDescr = shortDescription
-        newEntity.descr = description
-        newEntity.voiceComment = voiceComment
-        newEntity.level = level.rawValue.int32
-        newEntity.type = type.rawValue.int32
-        newEntity.authorId = authorId
-        newEntity.isPro = isPro
-        newEntity.restDuration = (restDuration ?? 0).int32
-        newEntity.count = count.int32
-        newEntity.weight = weight ?? 0
-        newEntity.isWarmup = isWarmUp
+        if let weightValue = values["weight"] as? Double {
+            self.weight = weightValue
+        }
         
-        newEntity.iconImage = iconImage?.imageToJPEGData()
-        newEntity.image = image?.imageToJPEGData()
+        if let isWarmUpValue = values["isWarmUp"] as? Bool {
+            self.isWarmUp = isWarmUpValue
+        }
+        if let restValue = values["restDuration"] as? Int {
+            self.restDuration = restValue
+        }
         
-        muscle.forEach({newEntity.muscle?.append($0 + ",")})
-        
-        
-        return newEntity as! S
     }
+    
+    func getEntity<S>() -> S where S : NSManagedObject {
+        let entity = StrenghtExerciseEntity(context: PersistenceController.shared.container.viewContext)
+        
+        entity.id = id
+        entity.orderAdd = orderAdd.int32
+        entity.name = name
+        entity.shortDescr = shortDescription
+        entity.descr = description
+        entity.voiceComment = voiceComment
+        entity.level = level.rawValue.int32
+        entity.type = type.rawValue.int32
+        entity.authorId = authorId
+        entity.isPro = isPro
+        entity.restDuration = (restDuration ?? 0).int32
+        entity.count = count.int32
+        entity.weight = weight ?? 0
+        entity.isWarmup = isWarmUp
+        
+        entity.iconImage = iconImage?.imageToJPEGData()
+        entity.image = image?.imageToJPEGData()
+        
+        entity.muscle = ""
+        muscle.forEach({entity.muscle?.append($0 + ",")})
+        
+        
+        return entity as! S
+    }
+
 }
