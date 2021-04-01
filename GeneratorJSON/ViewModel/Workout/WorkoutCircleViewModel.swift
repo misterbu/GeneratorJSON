@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-class WorkoutCircleViewModel: ObservableObject {
+class WorkoutCircleViewModel: Identifiable, ObservableObject {
     @Published var workoutCircle: WorkoutCircle
     @Published var intervalsExercises: [IntervalExerciseCircleViewModel]
     @Published var strenghtExercises: [StrenghtExerciseCircleViewModel]
@@ -59,9 +59,9 @@ class WorkoutCircleViewModel: ObservableObject {
         //1 Добавляем упражнение
         let type = exercise.type
         if type == .hiit {
-            intervalsExercises.append(IntervalExerciseCircleViewModel(exercise))
+            intervalsExercises.append(IntervalExerciseCircleViewModel(exercise, order: intervalsExercises.count))
         } else if type == .strenght {
-            strenghtExercises.append(StrenghtExerciseCircleViewModel(exercise))
+            strenghtExercises.append(StrenghtExerciseCircleViewModel(exercise, order: strenghtExercises.count))
         }
         
         //2 Закрываем каталог
@@ -86,15 +86,30 @@ class WorkoutCircleViewModel: ObservableObject {
         }
     }
     
-    func remove(_ cicle: WorkoutCircle){
-        
+    
+    //Удаляем упражение
+    func remove(_ exer: IntervalExerciseCircleViewModel){
+        print("WorkoutCircleViewModel: remove interval exercise ")
+        //1 Удаляем из списка
+        intervalsExercises.removeAll(where: {$0.id == exer.id})
+        //2 Удаляем из БД
+        CoreDataFuncs.shared.delete(entity: IntervalExerciseEntity.self, model: exer.exercise)
+    }
+    
+    //Удаляем упражение
+    func remove(_ exer: StrenghtExerciseCircleViewModel){
+        print("WorkoutCircleViewModel: remove strenght exercise ")
+        //1 Удаляем из списка
+        strenghtExercises.removeAll(where: {$0.id == exer.id})
+        //2 Удаляем из БД
+        CoreDataFuncs.shared.delete(entity: StrenghtExerciseEntity.self, model: exer.exercise)
     }
 }
 
 
 
 
-class IntervalExerciseCircleViewModel: ObservableObject {
+class IntervalExerciseCircleViewModel: Identifiable, ObservableObject {
     @Published var exercise: IntervalExercise
     
     @Published var duration: String = "" {
@@ -110,8 +125,8 @@ class IntervalExerciseCircleViewModel: ObservableObject {
         }
     }
     
-    init(_ base: BasicExercise) {
-        self.exercise = IntervalExercise(base)
+    init(_ base: BasicExercise, order: Int) {
+        self.exercise = IntervalExercise(base, order: order)
     }
     
     init(_ exercise: IntervalExercise) {
@@ -134,12 +149,12 @@ class IntervalExerciseCircleViewModel: ObservableObject {
 
 
 
-class StrenghtExerciseCircleViewModel: ObservableObject {
+class StrenghtExerciseCircleViewModel: Identifiable, ObservableObject {
     @Published var exercise: StrenghtExercise
     @Published var sets: [SetsStrenghtExerciseCircleViewModel] = []
     
-    init(_ base: BasicExercise) {
-        self.exercise = StrenghtExercise(base)
+    init(_ base: BasicExercise, order: Int) {
+        self.exercise = StrenghtExercise(base, order: order)
     }
     
     init(_ exercise: StrenghtExercise){
@@ -148,7 +163,7 @@ class StrenghtExerciseCircleViewModel: ObservableObject {
     }
     
     func createNewSet(){
-        sets.append(SetsStrenghtExerciseCircleViewModel())
+        sets.append(SetsStrenghtExerciseCircleViewModel(order: sets.count))
     }
     
     func getExercise() -> Exercise? {
@@ -182,8 +197,8 @@ class SetsStrenghtExerciseCircleViewModel: ObservableObject {
         self.reps = "\(set.reps)"
     }
     
-    init(){
-        self.exerciseSet = ExerciseSet()
+    init(order: Int){
+        self.exerciseSet = ExerciseSet(order: order)
     }
     
     func getSet() -> ExerciseSet? {

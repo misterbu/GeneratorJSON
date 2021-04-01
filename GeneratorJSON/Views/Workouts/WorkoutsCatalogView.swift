@@ -38,7 +38,7 @@ struct WorkoutsCatalogView: View {
         }
         .padding()
         .sheet(item: $workoutsVM.workout) { workout in
-            CreateWorkoutView(workoutVM: WorkoutViewModel(workout))
+            CreateWorkoutView(workoutVM: workout)
         }
         
     }

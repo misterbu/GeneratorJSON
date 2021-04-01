@@ -84,7 +84,7 @@ struct Workout: Identifiable, CoreDatable {
         //add circles
         if let circlesEntities = entity.workoutCircles as? Set<CircleEntity> {
             self.workoutCircles = circlesEntities.map({WorkoutCircle(entity: $0)})
-            self.workoutCircles.sort(by: {$0.orderAdd > $1.orderAdd})
+            self.workoutCircles.sort(by: {$0.orderAdd < $1.orderAdd})
             print("add new circles ")
         }
         

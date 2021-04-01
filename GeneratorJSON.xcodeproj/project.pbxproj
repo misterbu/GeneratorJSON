@@ -44,6 +44,7 @@
 		24171D7D2611E26F003852E0 /* BasicExercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24171D7C2611E26F003852E0 /* BasicExercise.swift */; };
 		24171D8826146E2E003852E0 /* CreateIntervalExerciveCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24171D8726146E2E003852E0 /* CreateIntervalExerciveCircleView.swift */; };
 		24171D8B26147020003852E0 /* CreateStrenghtExerciveCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24171D8A26147020003852E0 /* CreateStrenghtExerciveCircleView.swift */; };
+		24AFB45B2615993D006D67F2 /* Notification Names.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24AFB45A2615993D006D67F2 /* Notification Names.swift */; };
 		24F24F4B25F0AF4C003C1D04 /* GeneratorJSONApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F24F4A25F0AF4C003C1D04 /* GeneratorJSONApp.swift */; };
 		24F24F4F25F0AF4E003C1D04 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 24F24F4E25F0AF4E003C1D04 /* Assets.xcassets */; };
 		24F24F5225F0AF4E003C1D04 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 24F24F5125F0AF4E003C1D04 /* Preview Assets.xcassets */; };
@@ -88,6 +89,7 @@
 		24171D7C2611E26F003852E0 /* BasicExercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicExercise.swift; sourceTree = "<group>"; };
 		24171D8726146E2E003852E0 /* CreateIntervalExerciveCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateIntervalExerciveCircleView.swift; sourceTree = "<group>"; };
 		24171D8A26147020003852E0 /* CreateStrenghtExerciveCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateStrenghtExerciveCircleView.swift; sourceTree = "<group>"; };
+		24AFB45A2615993D006D67F2 /* Notification Names.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification Names.swift"; sourceTree = "<group>"; };
 		24F24F4725F0AF4C003C1D04 /* GeneratorJSON.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GeneratorJSON.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		24F24F4A25F0AF4C003C1D04 /* GeneratorJSONApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratorJSONApp.swift; sourceTree = "<group>"; };
 		24F24F4E25F0AF4E003C1D04 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 				2411748E25F14886001EE7CB /* NSImage+ext.swift */,
 				2411749125F152B4001EE7CB /* URL+ext.swift */,
 				24171D4C260B2478003852E0 /* NSTextField.swift */,
+				24AFB45A2615993D006D67F2 /* Notification Names.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -390,6 +393,7 @@
 				24171CF3260A1DAB003852E0 /* WorkType.swift in Sources */,
 				24171D24260A4FAE003852E0 /* BlurWindow.swift in Sources */,
 				24171D2B260A6193003852E0 /* ExercisesCatalogView.swift in Sources */,
+				24AFB45B2615993D006D67F2 /* Notification Names.swift in Sources */,
 				24171D8B26147020003852E0 /* CreateStrenghtExerciveCircleView.swift in Sources */,
 				24171D35260A62AB003852E0 /* CoreDatable.swift in Sources */,
 				24171D8826146E2E003852E0 /* CreateIntervalExerciveCircleView.swift in Sources */,

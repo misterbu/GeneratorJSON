@@ -10,9 +10,15 @@ import SwiftUI
 struct CreateIntervalExerciveCircleView: View {
     
     @ObservedObject var viewModel: IntervalExerciseCircleViewModel
+    @ObservedObject var circleVM: WorkoutCircleViewModel
     
     var body: some View {
-        HStack{
+        HStack(spacing: 5){
+            //Remove button
+            removeButton
+            
+            Text("\(viewModel.exercise.orderAdd)")
+            
             //Basic
             HStack{
                 Image(nsImage: viewModel.exercise.basic.iconImage ?? NSImage(named: "ph")!)
@@ -55,5 +61,19 @@ struct CreateIntervalExerciveCircleView: View {
                 }
             }
         }
+    }
+    
+    var removeButton: some View {
+        Button(action:{
+            print("tab")
+            circleVM.remove(viewModel)
+        }){
+            Image(systemName: "trash.circle")
+                .font(.title)
+                .foregroundColor(.black)
+                .padding()
+                .contentShape(Circle())
+        }
+        .buttonStyle(PlainButtonStyle())
     }
 }

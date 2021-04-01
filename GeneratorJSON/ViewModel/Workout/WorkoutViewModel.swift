@@ -8,7 +8,7 @@
 import SwiftUI
 import Combine
 
-class WorkoutViewModel: ObservableObject {
+class WorkoutViewModel: Identifiable, ObservableObject {
     
     lazy var cancellables: [AnyCancellable] = []
     
@@ -77,19 +77,20 @@ class WorkoutViewModel: ObservableObject {
         workoutCircles.append(WorkoutCircleViewModel())
     }
     
-    func getModelForSave() -> Workout? {
-        // 1 Добавляем  циклы в Workout
+    func save() {
+        //1 Добавляем циклы в модель тренировки и проверяем что основные данные заполнены
         workout.workoutCircles = workoutCircles.compactMap({$0.getCircle(workout.type)})
+  
+        guard workout.workoutCircles.count > 0,
+              workout.image != nil, workout.iconImage != nil,
+              workout.name != "", workout.description != "",
+              workout.level.count > 0 else { return }
         
-        //2 Проверяем что основные данные добавлены иначе возвращаем nil
-        if workout.workoutCircles.count > 0,
-           workout.image != nil, workout.iconImage != nil,
-           workout.name != "", workout.description != "",
-           workout.level.count > 0 {
-            return workout
-        } else {
-            return nil
-        }
+        //2 Сохраняем в БД
+        CoreDataFuncs.shared.save(entity: WorkoutEntity.self, model: workout)
+        
+        //3 Сообщаем WokroutsViewModel что добавлена новая БД
+        NotificationCenter.default.post(name: .saveNewWorkout, object: nil, userInfo: nil)
     }
     
     func remove(_ work: Workout){

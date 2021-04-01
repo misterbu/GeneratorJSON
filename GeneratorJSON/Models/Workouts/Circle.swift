@@ -36,9 +36,9 @@ struct WorkoutCircle: CoreDatable {
         if let strengthEntities = entity.strenghtExercises as? Set<StrenghtExerciseEntity>{
             strengthEntities.forEach({exercises.append(StrenghtExercise(entity: $0))})
         }
-        exercises.sort(by: {$0.orderAdd > $1.orderAdd})
+        exercises.sort(by: {$0.orderAdd < $1.orderAdd})
         
-        print("Init circle id \(id), exercises \(exercises.count)")
+        print("WorkoutCircle: Init circle id \(id), exercises \(exercises.count)")
     }
     
     func getEntity<S>() -> S where S : NSManagedObject {
@@ -51,7 +51,6 @@ struct WorkoutCircle: CoreDatable {
         //Сохраняем упражнения
         var intervalsEntities = Set<IntervalExerciseEntity>()
         var strenghtEntities = Set<StrenghtExerciseEntity>()
-        var order = 0
         exercises.forEach({
             switch $0.basic.type {
             case .combine:
@@ -59,19 +58,16 @@ struct WorkoutCircle: CoreDatable {
             print("Here will be a combine")
             case .hiit:
                 if var model = $0 as? IntervalExercise {
-                    model.orderAdd = order
                     intervalsEntities.insert(model.getEntity())
                 }
             case .strenght:
                 if var model = $0 as? StrenghtExercise {
-                    model.orderAdd = order
                     strenghtEntities.insert(model.getEntity())
                 }
             case .stretching:
                 //Доделать для растяжки
                 print("Here will be a stretching")
             }
-            order += 1
         })
         entity.intervalExercises = intervalsEntities as NSSet
         entity.strenghtExercises = strenghtEntities as NSSet

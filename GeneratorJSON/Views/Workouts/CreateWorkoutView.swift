@@ -125,7 +125,7 @@ struct CreateWorkoutView: View {
     var saveButton: some View {
         Button(action:{
             //Сохраняем модель тренировки
-            workoutsVM.save(workoutVM.getModelForSave())
+            workoutVM.save()
         }){
             Text("SAVE")
                 .font(.title)

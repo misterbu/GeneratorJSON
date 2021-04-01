@@ -10,9 +10,15 @@ import SwiftUI
 struct CreateStrenghtExerciveCircleView: View {
     
     @ObservedObject var viewModel: StrenghtExerciseCircleViewModel
+    @ObservedObject var circleVM: WorkoutCircleViewModel
     
     var body: some View {
-        HStack{
+        HStack(spacing: 5){
+            //Remove
+            removeButton
+            
+            Text("\(viewModel.exercise.orderAdd)")
+            
             //Basic
             HStack{
                 Image(nsImage: viewModel.exercise.basic.image ?? NSImage(named: "ph")!)
@@ -38,7 +44,7 @@ struct CreateStrenghtExerciveCircleView: View {
             
             VStack{
                 ForEach(0..<viewModel.sets.count, id:\.self) {index in
-                    CreateSetsStrenghtExerciveCircleView(viewModel: viewModel.sets[index], order: index)
+                    CreateSetsStrenghtExerciveCircleView(viewModel: viewModel.sets[index])
                 }
                 
                 //Add set
@@ -55,6 +61,16 @@ struct CreateStrenghtExerciveCircleView: View {
             }
         }
     }
+    
+    var removeButton: some View {
+        Button(action:{
+            circleVM.remove(viewModel)
+        }){
+            Image(systemName: "trash.circle")
+                .font(.title)
+                .foregroundColor(.black)
+        }.buttonStyle(PlainButtonStyle())
+    }
 }
 
 
@@ -62,37 +78,45 @@ struct CreateStrenghtExerciveCircleView: View {
 struct CreateSetsStrenghtExerciveCircleView: View {
     
     @ObservedObject var viewModel: SetsStrenghtExerciseCircleViewModel
-    var order: Int
+    @ObservedObject var exerciseVM: StrenghtExerciseCircleViewModel
     
     var body: some View{
-        //Configured
-        VStack{
-            HStack{
-                Text("\(order)")
+        HStack(spacing: 5){
+            removeButton
+            
+            Text("\(viewModel.exerciseSet.order)")
+            
+            Spacer(minLength: 40)
+            
+            Text("Reps")
+                .foregroundColor(.black)
+                .font(.body)
+            
+            TextField("Reps", text: $viewModel.reps)
+            
+            Spacer(minLength: 40)
+            
+            Text("Is warmup?")
+                .foregroundColor(.black)
+                .font(.body)
+            
+            Button(action:{
+                viewModel.exerciseSet.isWarm.toggle()
+            }){
+                Image(systemName: viewModel.exerciseSet.isWarm ? "circle.fill" : "circle")
                     .font(.title)
-                    .foregroundColor(.black)
-                
-                Spacer(minLength: 40)
-                
-                Text("Reps")
-                    .foregroundColor(.black)
-                    .font(.body)
-                
-                TextField("Reps", text: $viewModel.reps)
-                
-                Spacer(minLength: 40)
-                
-                Text("Is warmup?")
-                    .foregroundColor(.black)
-                    .font(.body)
-                
-                Button(action:{
-                    viewModel.exerciseSet.isWarm.toggle()
-                }){
-                    Image(systemName: viewModel.exerciseSet.isWarm ? "circle.fill" : "circle")
-                        .font(.title)
-                }.buttonStyle(PlainButtonStyle())
-            }
+            }.buttonStyle(PlainButtonStyle())
         }
+        
+    }
+    
+    var removeButton: some View {
+        Button(action:{
+           //
+        }){
+            Image(systemName: "trash.circle")
+                .font(.title)
+                .foregroundColor(.black)
+        }.buttonStyle(PlainButtonStyle())
     }
 }

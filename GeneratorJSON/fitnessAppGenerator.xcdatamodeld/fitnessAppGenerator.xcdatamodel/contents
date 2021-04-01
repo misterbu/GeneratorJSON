@@ -35,11 +35,17 @@
         </uniquenessConstraints>
     </entity>
     <entity name="ExerciseSetEntity" representedClassName="ExerciseSetEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="String"/>
         <attribute name="isWarm" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="order" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="reps" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="weight" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <relationship name="exercise" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="StrenghtExerciseEntity" inverseName="exerciseSets" inverseEntity="StrenghtExerciseEntity"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <entity name="IntervalExerciseEntity" representedClassName="IntervalExerciseEntity" syncable="YES" codeGenerationType="class">
         <attribute name="duration" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
@@ -49,6 +55,11 @@
         <attribute name="restDuration" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="voiceComment" optional="YES" attributeType="String"/>
         <relationship name="workoutCircle" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CircleEntity" inverseName="intervalExercises" inverseEntity="CircleEntity"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <entity name="StrenghtExerciseEntity" representedClassName="StrenghtExerciseEntity" syncable="YES" codeGenerationType="class">
         <attribute name="exerciseId" optional="YES" attributeType="String"/>
@@ -58,6 +69,11 @@
         <attribute name="voiceComment" optional="YES" attributeType="String"/>
         <relationship name="exerciseSets" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ExerciseSetEntity" inverseName="exercise" inverseEntity="ExerciseSetEntity"/>
         <relationship name="workoutCircle" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CircleEntity" inverseName="strenghtExercises" inverseEntity="CircleEntity"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
     <entity name="WorkoutEntity" representedClassName="WorkoutEntity" syncable="YES" codeGenerationType="class">
         <attribute name="authorId" optional="YES" attributeType="String"/>
@@ -87,7 +103,7 @@
     <elements>
         <element name="CircleEntity" positionX="-18" positionY="171" width="128" height="134"/>
         <element name="ExerciseEntity" positionX="18" positionY="189" width="128" height="224"/>
-        <element name="ExerciseSetEntity" positionX="0" positionY="180" width="128" height="104"/>
+        <element name="ExerciseSetEntity" positionX="0" positionY="180" width="128" height="119"/>
         <element name="IntervalExerciseEntity" positionX="-63" positionY="-18" width="128" height="134"/>
         <element name="StrenghtExerciseEntity" positionX="-54" positionY="-9" width="128" height="134"/>
         <element name="WorkoutEntity" positionX="-36" positionY="135" width="128" height="299"/>

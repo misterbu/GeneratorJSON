@@ -17,10 +17,13 @@ struct ExerciseSet: CoreDatable {
     
     
     /// - TAG: INITs
-    init(){}
+    init(order: Int){
+        self.order = order
+    }
     
     init<S>(entity: S) where S : NSManagedObject {
         guard let entity = entity as? ExerciseSetEntity else {return}
+        id = entity.id ?? UUID().uuidString
         order = entity.order.int
         reps = entity.reps.int
         weight = entity.weight
@@ -29,6 +32,7 @@ struct ExerciseSet: CoreDatable {
     
     func getEntity<S>() -> S where S : NSManagedObject {
         let entity = ExerciseSetEntity(context: PersistenceController.shared.container.viewContext)
+        entity.id = id
         entity.order = order.int32
         entity.reps = reps.int32
         entity.weight = weight

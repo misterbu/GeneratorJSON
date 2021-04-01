@@ -47,11 +47,11 @@ struct CreateWorkoutCircleView: View {
             VStack{
                 if type == .hiit {
                     ForEach(0..<circleVM.intervalsExercises.count, id: \.self){index in
-                        CreateIntervalExerciveCircleView(viewModel: circleVM.intervalsExercises[index])
+                        CreateIntervalExerciveCircleView(viewModel: circleVM.intervalsExercises[index], circleVM: circleVM)
                     }
                 } else if type == .strenght {
                     ForEach(0..<circleVM.strenghtExercises.count, id: \.self){index in
-                        CreateStrenghtExerciveCircleView(viewModel: circleVM.strenghtExercises[index])
+                        CreateStrenghtExerciveCircleView(viewModel: circleVM.strenghtExercises[index], circleVM: circleVM)
                     }
                 }
             }
@@ -80,9 +80,9 @@ struct CreateWorkoutCircleView: View {
 //                                Image(nsImage: exercise.basic.iconImage ?? NSImage(named: "ph")!)
 //                                    .resizable()
 //                                    .scaledToFill()
-//                                
+//
 //                                Color.black.opacity(0.4)
-//                                
+//
 //                                Text(exercise.basic.name)
 //                                    .font(.body)
 //                                    .foregroundColor(.white)

@@ -5,14 +5,34 @@
 //  Created by Marat Gazizov on 25.03.2021.
 //
 
+import Combine
 import SwiftUI
 
 class WorkoutsViewModel: ObservableObject {
     @Published var workouts: [WorkoutViewModel] = []
     @Published var workout: WorkoutViewModel?
     
+    /// - TAG: Combine
+    private lazy var cancellables: [AnyCancellable] = []
+    
+    
+    /// - TAG: INITs
     init() {
-       getAllWorkouts()
+        //1 Подписываемся на уведомление о добавлении новых тренировок
+        NotificationCenter.default.publisher(for: .saveNewWorkout)
+            .sink(receiveValue: {[weak self] _ in
+                guard let self = self else {return}
+                //1.1 Обновняем каталог тренировок
+                self.getAllWorkouts()
+                
+                //1.2 Закрываем окно создания или редоктирования тренировок
+                self.close()
+            }).store(in: &cancellables)
+        
+        //2 Проверяем тренировки по умолчанию
+        getAllWorkouts()
+        
+        
         print("WorkoutsVM: workouts count \(workouts.count)")
     }
     
@@ -22,31 +42,11 @@ class WorkoutsViewModel: ObservableObject {
     }
     
     func createNewWorkout(){
-        workout = Workout()
+        workout = WorkoutViewModel(Workout())
     }
     
     func choseWorkout(_ work: WorkoutViewModel){
         workout = work
-    }
-    
-    func save(_ work: Workout?){
-        //Проверяем что получили модель тренировки
-        guard let work = work else {
-            close()
-            return
-        }
-        
-        print("WorkoutsViewModel: Save workout \(work.name)")
-        
-        //1 Удаляем старую версию тренировки и добавляем новую
-        workouts.removeAll(where: {$0.id == work.id})
-        workouts.append(work)
-        
-        //2 Сохраняем в БД
-        CoreDataFuncs.shared.save(entity: WorkoutEntity.self, model: work)
-        
-        //3 Закрываем
-        close()
     }
     
     func close(){

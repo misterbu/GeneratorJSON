@@ -12,7 +12,7 @@ class ExercisesViewModel: ObservableObject {
     @Published var exercise: BasicExercise?
     
     init(){
-       // resetCD()
+        // resetCD()
         getAllExerciseCD()
         print("ExercisesVM: exercises count \(exercises.count)")
     }
@@ -58,6 +58,7 @@ class ExercisesViewModel: ObservableObject {
         CoreDataFuncs.shared.deleteAll(entity: IntervalExerciseEntity.self)
         CoreDataFuncs.shared.deleteAll(entity: StrenghtExerciseEntity.self)
         CoreDataFuncs.shared.deleteAll(entity: WorkoutEntity.self)
+        CoreDataFuncs.shared.deleteAll(entity: ExerciseSetEntity.self)
     }
 }
 

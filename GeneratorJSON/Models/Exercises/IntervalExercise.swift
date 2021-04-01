@@ -24,8 +24,9 @@ struct IntervalExercise: Exercise, CoreDatable {
     /// - TAG: INITS
     init(){}
     
-    init(_ base: BasicExercise){
+    init(_ base: BasicExercise, order: Int){
         self.basic = base
+        self.orderAdd = order
     }
     
     init<S>(entity: S) where S : NSManagedObject {
@@ -34,13 +35,13 @@ struct IntervalExercise: Exercise, CoreDatable {
                  let model = CoreDataFuncs.shared.get(entity: ExerciseEntity.self, model: BasicExercise.self, id: basicExerciseId) else {return}
         
         self.id = entity.id ?? UUID().uuidString
-        self.basic = model
-        
+        self.basic = model   
         self.orderAdd = entity.order.int
         self.duration = entity.duration.int
         self.restDuration = entity.restDuration.int
         self.voiceComment = entity.voiceComment
         
+        print("IntervalExercise: Init exercise \(id)")
         
         //Видео пока оставить в покое
     }
@@ -59,6 +60,7 @@ struct IntervalExercise: Exercise, CoreDatable {
         let entity = IntervalExerciseEntity(context: PersistenceController.shared.container.viewContext)
         
         entity.id = id
+        entity.order = orderAdd.int32
         entity.exerciseId = basic.id
         entity.duration = duration.int32
         entity.restDuration = restDuration.int32

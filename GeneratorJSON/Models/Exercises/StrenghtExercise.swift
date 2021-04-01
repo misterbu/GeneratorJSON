@@ -22,8 +22,9 @@ struct StrenghtExercise: Exercise, CoreDatable {
     
     /// - TAG: INITS
     
-    init(_ base: BasicExercise){
+    init(_ base: BasicExercise, order: Int){
         self.basic = base
+        self.orderAdd = order
     }
     
     init<S>(entity: S) where S : NSManagedObject {
@@ -33,16 +34,16 @@ struct StrenghtExercise: Exercise, CoreDatable {
         
 
         self.id = entity.id ?? UUID().uuidString
+        self.orderAdd = entity.order.int
         self.basic = model
         self.voiceComment = entity.voiceComment
-        
-        
+          
         //Специальные данные силовой тренировки
         self.restDuration = entity.restDuration.int
         if let setsEntities = entity.exerciseSets as? Set<ExerciseSetEntity> {
             self.sets = setsEntities
                 .compactMap({ExerciseSet(entity: $0)})
-                .sorted(by: {$0.order > $1.order})
+                .sorted(by: {$0.order < $1.order})
         }
         
         //Видео пока оставить в покое
@@ -59,19 +60,18 @@ struct StrenghtExercise: Exercise, CoreDatable {
         let entity = StrenghtExerciseEntity(context: PersistenceController.shared.container.viewContext)
         
         entity.id = id
+        entity.order = orderAdd.int32
         entity.exerciseId = basic.id
         entity.voiceComment = voiceComment
         entity.restDuration = restDuration.int32
         
-        var order = 0
         var setsEntities = Set<ExerciseSetEntity>()
         sets.forEach({
             if let setEntity = $0.getEntity() as? ExerciseSetEntity {
-                setEntity.order = order.int32
                 setsEntities.insert(setEntity)
-                order += 1
             }
         })
+        entity.exerciseSets = setsEntities as NSSet
         
         print("StrenghtExercise: Save exercise \(id)")
         
