@@ -19,3 +19,10 @@ extension Int32 {
         Int(self)
     }
 }
+
+
+extension Optional where Wrapped == Int32 {
+    var int: Int {
+        return  Int(self ?? 0)
+    }
+}

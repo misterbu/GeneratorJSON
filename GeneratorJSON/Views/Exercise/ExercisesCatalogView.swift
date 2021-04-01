@@ -31,25 +31,28 @@ struct ExercisesCatalogView: View {
                             .frame(maxWidth: .infinity, maxHeight: 200)
                             .clipShape(RoundedRectangle(cornerRadius: 5))
                             .onTapGesture {
-                                exercisesVM.exercise = exercise
-                                showCreate.toggle()
+                                //выбераем из текущей
+                                exercisesVM.chooseExercise(exercise)
                             }
                     }
                 })
             }
         }
-        .sheet(isPresented: $showCreate, content: {
-            CreateExerciseView(exerciseVM: ExerciseViewModel(exercisesVM.exercise as! Exercise), close: $showCreate)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+        
+        .sheet(item: $exercisesVM.exercise, content: { exercise in
+            CreateExerciseView(exerciseVM: CreateExerciseViewModel(exercise))
         })
+//        .sheet(isPresented: $showCreate, content: {
+//            CreateExerciseView(exerciseVM: ExerciseViewModel(exercisesVM.exercise as! Exercise), close: $showCreate)
+//                .frame(maxWidth: .infinity, maxHeight: .infinity)
+//        })
         .padding()
     }
     
     
     var createIntervalButton: some View {
         Button(action:{
-            exercisesVM.exercise = IntervalExercise()
-            showCreate.toggle()
+            exercisesVM.createNewExercise()
         }){
             HStack{
                 Image(systemName: "plus.square")
@@ -74,7 +77,7 @@ struct ExercisesCatalogView_Previews: PreviewProvider {
 
 
 struct ExercisesCatalogItemView: View {
-    var exercise: Exercise
+    var exercise: BasicExercise
     
     var body: some View {
         ZStack(alignment: .center) {

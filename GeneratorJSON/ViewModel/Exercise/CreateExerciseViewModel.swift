@@ -9,12 +9,12 @@ import SwiftUI
 import Combine
 
 
-class ExerciseViewModel: ObservableObject {
+class CreateExerciseViewModel: ObservableObject {
     
     lazy var cancellables: [AnyCancellable] = []
     
     /// - TAG: Published
-    @Published var exercise: Exercise
+    @Published var exercise: BasicExercise
     @Published var iconURL: URL?
     @Published var imageURL: URL?
     @Published var level: [Int] = []
@@ -23,18 +23,18 @@ class ExerciseViewModel: ObservableObject {
     @Published var duration: String = ""
     
     
-    var canUse: Bool {
-        if exercise.name != "",
-           exercise.description != "",
-           exercise.image != nil,
-           exercise.iconImage != nil {
-            return true
-        } else {
-            return false
-        }
-    }
+//    var canUse: Bool {
+//        if exercise.basic.name != "",
+//           exercise.basic.description != "",
+//           exercise.basic.image != nil,
+//           exercise.basic.iconImage != nil {
+//            return true
+//        } else {
+//            return false
+//        }
+//    }
     
-    init(_ exersice: Exercise) {
+    init(_ exersice: BasicExercise) {
         self.exercise = exersice
         
 
@@ -52,9 +52,12 @@ class ExerciseViewModel: ObservableObject {
         changeMuscle()
         
         //Init level
-        if let index = LevelType.allCases.firstIndex(of: exercise.level) {
-            level = [index]
-        }
+        level = exersice.level.compactMap({
+            if let index = LevelType.allCases.firstIndex(of: $0),
+               !self.level.contains(index) {
+                return index
+            } else {return nil}
+        })
         
         //init type
         if let index = WorkType.allCases.firstIndex(of: exersice.type) {
@@ -103,9 +106,10 @@ class ExerciseViewModel: ObservableObject {
             .sink(receiveValue: {[weak self] value in
                 guard let self = self else {return}
                 
-                if let value = value.first {
-                    self.exercise.level = LevelType.allCases[value]
-                }
+                self.exercise.level = value.compactMap({
+                    guard $0 < LevelType.allCases.count else {return nil}
+                    return LevelType.allCases[$0]
+                })
             }).store(in: &cancellables)
         
         
@@ -133,24 +137,6 @@ class ExerciseViewModel: ObservableObject {
             }).store(in: &cancellables)
     }
     
-    func changeDuration(value: String){
-        print("change duration1 \(value)")
-        if let durationInt = Int(value) {
-            var values = [String: Any]()
-            values["duration"] = durationInt
-            print("change duration2 \(durationInt)")
-            //Устанавливаем особенные значения через функцию
-            self.exercise.setProperied(values: values)
-        }
-        
-    }
+
     
-    func save(){
-        if let interval = exercise as? IntervalExercise {
-            CoreDataFuncs.shared.save(entity: IntervalExerciseEntity.self, model: interval)
-        } else if let strenght = exercise as? StrenghtExercise{
-            //Сиовая
-        }
-        //Добавить про тренировку с растяжкой
-    }
 }

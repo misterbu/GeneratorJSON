@@ -9,15 +9,16 @@ import SwiftUI
 
 struct CreateExerciseView: View {
     
-    @ObservedObject var exerciseVM: ExerciseViewModel
-    @Binding var close: Bool
+    @EnvironmentObject var exercisesVM: ExercisesViewModel
+    @ObservedObject var exerciseVM: CreateExerciseViewModel
+
     
     
     var body: some View {
         VStack{
             HStack{
                 Button(action:{
-                    withAnimation{ close.toggle() }
+                    exercisesVM.close()
                 }){
                     Image(systemName: "xmark")
                         .font(.title)
@@ -29,7 +30,7 @@ struct CreateExerciseView: View {
                 Spacer()
                 
                 
-                //is pro
+                //Is Pro
                 Text("Is Pro")
                     .font(.body)
                     .foregroundColor(.black)
@@ -88,31 +89,13 @@ struct CreateExerciseView: View {
                     //Types
                     HStack(alignment: .top, spacing: 30){
                        
-                        MultiCaseChoseView(name: "LEVEL", selected: $exerciseVM.level, array: LevelType.allCases.map({$0.str}))
+                        MultiCaseChoseView(name: "LEVEL", selected: $exerciseVM.level, multiChoose: true, array: LevelType.allCases.map({$0.str}))
                         MultiCaseChoseView(name: "Type", selected: $exerciseVM.type, array: WorkType.allCases.map({$0.str}))
                         MultiCaseChoseView(name: "Muscle", selected: $exerciseVM.muscule, multiChoose: true, array: MuscleType.allCases.map({$0.str}))
                     }
                     
-                    //Interval values
-                    if exerciseVM.exercise.type == .hiit {
-                        TextField("Duration", text: $exerciseVM.duration) { _ in
-                            
-                        } onCommit: {
-                            exerciseVM.changeDuration(value: exerciseVM.duration)
-                        }
-                        .textFieldStyle(PlainTextFieldStyle())
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 5)
-                        .background(Color.black.opacity(0.1))
-                        .cornerRadius(5)
-                            
-                    } else if exerciseVM.exercise.type == .strenght {
-                        Text("fdsjfdsj")
-                    }
-                    
                     Button(action:{
-                        exerciseVM.save()
-                        close.toggle()
+                        exercisesVM.save(exerciseVM.exercise)
                     }){
                         Text("SAVE")
                             .font(.title)
@@ -131,41 +114,3 @@ struct CreateExerciseView: View {
 
 
 
-struct MultiCaseChoseView: View {
-    
-    var name: String
-    @Binding var selected: [Int]
-    var multiChoose: Bool = false
-    var array: [String]
-    
-    var body: some View {
-        VStack{
-            Text(name)
-                .font(.body)
-                .foregroundColor(Color.black.opacity(0.6))
-                .padding(.bottom, 20)
-            
-            ForEach(0..<array.count, id: \.self){index in
-                VStack(spacing: 50) {
-                    Text(array[index])
-                        .font(.body)
-                        .foregroundColor(.black)
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 5)
-                        .background(selected.contains(index) ? Color.black.opacity(0.2) : Color.clear)
-                        .clipShape(RoundedRectangle(cornerRadius: 2))
-                        .onTapGesture {
-                            if selected.contains(index) {
-                                selected.removeAll(where: {$0 == index})
-                            } else  {
-                                if !multiChoose {
-                                    selected.removeAll()
-                                }
-                                selected.append(index)
-                            }
-                        }
-                }
-            }
-        }
-    }
-}

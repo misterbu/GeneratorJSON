@@ -15,6 +15,12 @@ struct WorkoutCircle: CoreDatable {
     var canGetOff: Bool = false
     var exercises: [Exercise] = []
     
+    
+    /// - TAG: INITs
+    init(){
+        
+    }
+    
     init<S>(entity: S) where S : NSManagedObject {
         guard let entity = entity as? CircleEntity else {return}
         
@@ -24,13 +30,15 @@ struct WorkoutCircle: CoreDatable {
         self.canGetOff = entity.canGetOff
         
         //Получаем все типы тренировок из CD и сортируем их в нужном порядке
-        if let intervalsEntities = entity.intervalExercises as? Set<IntervalExerciseEntity> {
-            exercises.append(contentsOf: intervalsEntities.map({IntervalExercise(entity: $0)}))
+        if let intervalsEntities = entity.intervalExercises as? Set<IntervalExerciseEntity>  {
+            intervalsEntities.forEach({exercises.append(IntervalExercise(entity: $0))})
         }
-        if let strenghtEntities = entity.strenghtExercises as? Set<StrenghtExerciseEntity> {
-            exercises.append(contentsOf: strenghtEntities.map({StrenghtExercise(entity: $0)}))
+        if let strengthEntities = entity.strenghtExercises as? Set<StrenghtExerciseEntity>{
+            strengthEntities.forEach({exercises.append(StrenghtExercise(entity: $0))})
         }
         exercises.sort(by: {$0.orderAdd > $1.orderAdd})
+        
+        print("Init circle id \(id), exercises \(exercises.count)")
     }
     
     func getEntity<S>() -> S where S : NSManagedObject {
@@ -41,21 +49,49 @@ struct WorkoutCircle: CoreDatable {
         entity.canGetOff = canGetOff
         
         //Сохраняем упражнения
-        //Записываем порядок их расположения, увеличивая order
-        var order = 0
-        var intervalEntities = Set<IntervalExerciseEntity>()
+        var intervalsEntities = Set<IntervalExerciseEntity>()
         var strenghtEntities = Set<StrenghtExerciseEntity>()
+        var order = 0
         exercises.forEach({
-            if var inteval = $0 as? IntervalExercise {
-                inteval.orderAdd = order
-                intervalEntities.insert(inteval.getEntity())
-            } else if var strenght = $0 as? StrenghtExercise {
-                strenght.orderAdd = order
-                strenghtEntities.insert(strenght.getEntity())
+            switch $0.basic.type {
+            case .combine:
+                //Доделать для комбинированно
+            print("Here will be a combine")
+            case .hiit:
+                if var model = $0 as? IntervalExercise {
+                    model.orderAdd = order
+                    intervalsEntities.insert(model.getEntity())
+                }
+            case .strenght:
+                if var model = $0 as? StrenghtExercise {
+                    model.orderAdd = order
+                    strenghtEntities.insert(model.getEntity())
+                }
+            case .stretching:
+                //Доделать для растяжки
+                print("Here will be a stretching")
             }
             order += 1
         })
+        entity.intervalExercises = intervalsEntities as NSSet
+        entity.strenghtExercises = strenghtEntities as NSSet
+        
+        print("WorkoutCircle: Save circle \(id),  Interval exercises count \(entity.intervalExercises?.count)")
+        print("WorkoutCircle: Save circle \(id),  Strenght exercises count \(entity.strenghtExercises?.count)")
         
         return entity as! S
+    }
+    
+    
+    /// - TAG: Private funcs
+    private func getExercise(_ id: String) -> Exercise? {
+        print("Circle: Get exercise \(id)")
+        if let interval = CoreDataFuncs.shared.get(entity: IntervalExerciseEntity.self, model: IntervalExercise.self, id: id) {
+            return interval
+        } else if let strenght = CoreDataFuncs.shared.get(entity: StrenghtExerciseEntity.self, model: StrenghtExercise.self, id: id) {
+            return strenght
+        } else {
+            return nil
+        }
     }
 }

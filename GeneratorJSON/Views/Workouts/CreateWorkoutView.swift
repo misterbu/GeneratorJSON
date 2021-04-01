@@ -9,15 +9,14 @@ import SwiftUI
 
 struct CreateWorkoutView: View {
     
+    @EnvironmentObject var workoutsVM: WorkoutsViewModel
     @ObservedObject var workoutVM: WorkoutViewModel
-    @Binding var close: Bool
-    
     
     var body: some View {
         VStack{
             HStack{
                 Button(action:{
-                    withAnimation{ close.toggle() }
+                    workoutsVM.close()
                 }){
                     Image(systemName: "xmark")
                         .font(.title)
@@ -44,7 +43,7 @@ struct CreateWorkoutView: View {
                 }.buttonStyle(PlainButtonStyle())
             }
             
-            ScrollView(.vertical, showsIndicators: false, content: {
+            ScrollView(.vertical, showsIndicators: true, content: {
                 VStack(spacing: 20){
                     //Images
                     HStack(spacing: 20){
@@ -81,31 +80,61 @@ struct CreateWorkoutView: View {
                     //Types
                     HStack(alignment: .top, spacing: 30){
                        
-                        MultiCaseChoseView(name: "LEVEL", selected: $workoutVM.level, array: LevelType.allCases.map({$0.str}))
+                        MultiCaseChoseView(name: "LEVEL", selected: $workoutVM.level, multiChoose: true, array: LevelType.allCases.map({$0.str}))
                         MultiCaseChoseView(name: "Type", selected: $workoutVM.type, array: WorkType.allCases.map({$0.str}))
                         MultiCaseChoseView(name: "Sex", selected: $workoutVM.sex, array: SexType.allCases.map({$0.str}))
                         MultiCaseChoseView(name: "Target", selected: $workoutVM.target, multiChoose: true, array: TargetType.allCases.map({$0.str}))
                         MultiCaseChoseView(name: "Equipment", selected: $workoutVM.equipnemt, multiChoose: true, array: EquipmentType.allCases.map({$0.str}))
                     }
                     
-                   
+                    //Circles
+                    Divider()
+                    VStack(spacing: 10){
+                        Text("Circles")
+                        addCircleButton
+                        ForEach(0..<workoutVM.workoutCircles.count, id: \.self){index in
+                            VStack(spacing: 30){
+                                CreateWorkoutCircleView(circleVM: workoutVM.workoutCircles[index], type: workoutVM.workout.type)
+                            }
+                        }
+                    }
+                    Divider()
                     
-                    Button(action:{
-                        //workout save
-                        close.toggle()
-                    }){
-                        Text("SAVE")
-                            .font(.title)
-                            .foregroundColor(.black)
-                            .padding()
-                            .overlay(RoundedRectangle(cornerRadius: 5)
-                                        .stroke(Color.black, lineWidth: 2))
-                    }.buttonStyle(PlainButtonStyle())
+                   saveButton
+                    
+                   
                 }
                 
                 
             })
-        }
+        }.padding()
+    }
+    
+    var addCircleButton: some View {
+        Button(action:{
+            workoutVM.createNewCircle()
+        }){
+            HStack(spacing: 5){
+                Image(systemName: "plus")
+                    .foregroundColor(.black)
+                    .font(.title)
+            }
+        }.buttonStyle(PlainButtonStyle())
+    }
+    
+    var saveButton: some View {
+        Button(action:{
+            //Сохраняем модель тренировки
+            workoutsVM.save(workoutVM.getModelForSave())
+        }){
+            Text("SAVE")
+                .font(.title)
+                .foregroundColor(.black)
+                .padding()
+                .overlay(RoundedRectangle(cornerRadius: 5)
+                            .stroke(Color.black, lineWidth: 2))
+        }.buttonStyle(PlainButtonStyle())
     }
 }
+
 

@@ -136,7 +136,7 @@ class CoreDataFuncs {
         } else {
             entity = model.getEntity()
         }
-
+    
         do {
             try context.save()
         } catch  {
@@ -187,9 +187,29 @@ struct PersistenceController {
 
     init(inMemory: Bool = false) {
         container = NSPersistentCloudKitContainer(name: "fitnessAppGenerator")
+        
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
         }
+        
+        container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+        
+        
+//       // FULL RESET CD
+//        guard let firstStoreURL = container.persistentStoreCoordinator.persistentStores.first?.url else {
+//            print("Missing first store URL - could not destroy")
+//            return
+//        }
+//        
+//        do {
+//            try container.persistentStoreCoordinator.destroyPersistentStore(at: firstStoreURL, ofType: NSSQLiteStoreType, options: nil)
+//        } catch  {
+//            print("Unable to destroy persistent store: \(error) - \(error.localizedDescription)")
+//        }
+//        
+        
+        
+        
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.
@@ -207,4 +227,5 @@ struct PersistenceController {
             }
         })
     }
+    
 }

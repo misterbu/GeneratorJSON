@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Workout: CoreDatable {
+struct Workout: Identifiable, CoreDatable {
     var id: String = UUID().uuidString
     var createAt: Date = Date()
     
@@ -21,7 +21,7 @@ struct Workout: CoreDatable {
     var workoutCircles: [WorkoutCircle] = []
     var seriesId: [String] = []
     
-    var level: LevelType = .all
+    var level: [LevelType] = []
     var type: WorkType = .combine
     var sex: SexType = .unisex
     var target: [TargetType] = []
@@ -37,13 +37,12 @@ struct Workout: CoreDatable {
     
     init<S>(entity: S) where S : NSManagedObject {
         guard let entity = entity as? WorkoutEntity else {return}
-        self.id = entity.id ?? ""
+        self.id = entity.id ?? UUID().uuidString
         self.createAt = entity.createAt ?? Date()
         self.name = entity.name ?? ""
         self.shortDescription = entity.shortDescr ?? ""
         self.description = entity.descr ?? ""
         
-        self.level = LevelType(rawValue: Int(entity.level)) ?? .all
         self.type = WorkType(rawValue: Int(entity.type)) ?? .hiit
         self.sex = SexType(rawValue: Int(entity.sex)) ?? .unisex
         
@@ -57,6 +56,13 @@ struct Workout: CoreDatable {
             self.equipment = equipnemtStr.components(separatedBy: ",")
                 .filter({$0 != ""})
                 .map({EquipmentType(strValue: $0)})
+        }
+        
+        if let levelStr = entity.level {
+            self.level = levelStr
+                .components(separatedBy: ",")
+                .filter({$0 != ""})
+                .map({LevelType(strValue: $0)})
         }
         
         if let seriesStr = entity.seriesWorkouts {
@@ -79,7 +85,12 @@ struct Workout: CoreDatable {
         if let circlesEntities = entity.workoutCircles as? Set<CircleEntity> {
             self.workoutCircles = circlesEntities.map({WorkoutCircle(entity: $0)})
             self.workoutCircles.sort(by: {$0.orderAdd > $1.orderAdd})
+            print("add new circles ")
         }
+        
+        print("Get workout from CD, circles count \(entity.workoutCircles?.count)")
+        print("Get workout from CD, target \(entity.target)")
+        print("Get workout from CD, equipment \(entity.equipment)")
     }
     
     func getEntity<S>() -> S where S : NSManagedObject {
@@ -91,15 +102,22 @@ struct Workout: CoreDatable {
         entity.name = name
         entity.shortDescr = shortDescription
         entity.descr = description
-        entity.level = level.rawValue.int32
         entity.type = type.rawValue.int32
         entity.sex = sex.rawValue.int32
         entity.authorId = authorId
         entity.isPro = isPro
         
+        entity.target = ""
         target.forEach({entity.target?.append($0.str + ",")})
+        
+        entity.equipment = ""
         equipment.forEach({entity.equipment?.append($0.str + ",")})
+        
+        entity.seriesWorkouts = ""
         seriesId.forEach({entity.seriesWorkouts?.append($0 + ",")})
+        
+        entity.level = ""
+        level.forEach({entity.level?.append($0.str + ",")})
         
         entity.iconImage = iconImage?.imageToJPEGData()
         entity.image = image?.imageToJPEGData()
@@ -113,6 +131,11 @@ struct Workout: CoreDatable {
             circlesEntities.insert(circle.getEntity())
             order += 1
         })
+        entity.workoutCircles = circlesEntities as NSSet
+        
+        print("Workout. Save wrokout \(id), circles count \(entity.workoutCircles?.count) ")
+        print("Workout. Save wrokout \(id), target \(entity.target) ")
+        print("Workout. Save wrokout \(id), equipment \(entity.equipment) ")
         
         return entity as! S
     }

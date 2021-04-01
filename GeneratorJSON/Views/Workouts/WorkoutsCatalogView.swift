@@ -25,31 +25,28 @@ struct WorkoutsCatalogView: View {
                 }
                 
                 LazyVGrid(columns: row, content: {
-                    ForEach(workoutsVM.workouts, id: \.id){workout in
-                        WorktouCatalogItemView(workout: workout)
+                    ForEach(0..<workoutsVM.workouts.count, id: \.self){index in
+                        WorktouCatalogItemView(workoutVM: workoutsVM.workouts[index])
                             .frame(maxWidth: .infinity, maxHeight: 200)
                             .clipShape(RoundedRectangle(cornerRadius: 5))
                             .onTapGesture {
-                                workoutsVM.workout = workout
-                                showCreate.toggle()
+                                workoutsVM.choseWorkout(workoutsVM.workouts[index])
                             }
                     }
                 })
             }
         }
         .padding()
-        .sheet(isPresented: $showCreate, content: {
-            CreateWorkoutView(workoutVM: WorkoutViewModel(workoutsVM.workout!), close: $showCreate)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-        })
+        .sheet(item: $workoutsVM.workout) { workout in
+            CreateWorkoutView(workoutVM: WorkoutViewModel(workout))
+        }
         
     }
     
     
     var createIntervalButton: some View {
         Button(action:{
-            workoutsVM.workout = Workout()
-            showCreate.toggle()
+            workoutsVM.createNewWorkout()
         }){
             HStack{
                 Image(systemName: "plus.square")
@@ -75,17 +72,17 @@ struct WorkoutsCatalogView_Previews: PreviewProvider {
 
 
 struct WorktouCatalogItemView: View {
-    var workout: Workout
+    var workoutVM: WorkoutViewModel
     
     var body: some View {
         ZStack(alignment: .center) {
-            Image(nsImage: workout.iconImage ?? NSImage(named: "ph")!)
+            Image(nsImage: workoutVM.workout.image ?? NSImage(named: "ph")!)
                 .resizable()
                 .scaledToFill()
             
             Color.black.opacity(0.4)
             
-            Text(workout.name)
+            Text(workoutVM.workout.name)
                 .font(.title)
                 .foregroundColor(.white)
         }
