@@ -20,8 +20,10 @@ struct Home: View {
             
             if menuIndex == 0 {
                 WorkoutsCatalogView()
-            } else {
+            } else if menuIndex == 1 {
                 ExercisesCatalogView()
+            } else {
+                WorkoutSeriasCatalogView()
             }
             
             Spacer()
@@ -65,6 +67,26 @@ struct Home: View {
                 .buttonStyle(PlainButtonStyle())
                 
                 if menuIndex == 1 {
+                    RoundedRectangle(cornerRadius: 4)
+                        .frame(width: 20, height: 5, alignment: .center)
+                        .foregroundColor(.black)
+                }
+                Spacer()
+            }
+            .frame(height: 80)
+            
+            VStack(spacing: 10){
+                Button(action:{
+                    menuIndex = 2
+                }){
+                    Text("SERIES")
+                        .font(.largeTitle)
+                        .foregroundColor(menuIndex == 2 ? Color.black : Color.gray)
+                        .contentShape(Rectangle())
+                }
+                .buttonStyle(PlainButtonStyle())
+                
+                if menuIndex == 2 {
                     RoundedRectangle(cornerRadius: 4)
                         .frame(width: 20, height: 5, alignment: .center)
                         .foregroundColor(.black)

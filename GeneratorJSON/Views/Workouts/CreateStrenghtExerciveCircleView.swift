@@ -44,7 +44,7 @@ struct CreateStrenghtExerciveCircleView: View {
             
             VStack{
                 ForEach(0..<viewModel.sets.count, id:\.self) {index in
-                    CreateSetsStrenghtExerciveCircleView(viewModel: viewModel.sets[index])
+                    CreateSetsStrenghtExerciveCircleView(viewModel: viewModel.sets[index], exerciseVM: viewModel)
                 }
                 
                 //Add set

@@ -9,4 +9,5 @@ import Foundation
 
 extension Notification.Name {
    static let saveNewWorkout = Notification.Name("AddNewWorkout")
+    static let saveNewSeria = Notification.Name("AddNewSeria")
 }

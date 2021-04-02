@@ -14,8 +14,8 @@ class WorkoutCircleViewModel: Identifiable, ObservableObject {
     
     @Published var showExercisesCatalog: Bool = false
 
-    init(){
-        self.workoutCircle = WorkoutCircle()
+    init(order: Int){
+        self.workoutCircle = WorkoutCircle(order: order)
         self.intervalsExercises = []
         self.strenghtExercises = []
     }

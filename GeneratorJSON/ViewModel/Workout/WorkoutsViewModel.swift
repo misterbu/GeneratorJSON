@@ -52,4 +52,8 @@ class WorkoutsViewModel: ObservableObject {
     func close(){
         workout = nil
     }
+    
+    func getFreeWorkouts() -> [WorkoutViewModel] {
+        return workouts.filter({$0.workout.seriaId == nil || $0.workout.seriaId == "" })
+    }
 }

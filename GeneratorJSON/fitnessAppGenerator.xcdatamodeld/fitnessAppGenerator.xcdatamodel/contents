@@ -100,6 +100,39 @@
             </uniquenessConstraint>
         </uniquenessConstraints>
     </entity>
+    <entity name="WorkoutSeriaItemsEntity" representedClassName="WorkoutSeriaItemsEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="day" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="workoutId" optional="YES" attributeType="String"/>
+        <relationship name="workoutSeria" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WorkoutsSeriaEntity" inverseName="workoutItems" inverseEntity="WorkoutsSeriaEntity"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
+    <entity name="WorkoutsSeriaEntity" representedClassName="WorkoutsSeriaEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="authorId" optional="YES" attributeType="String"/>
+        <attribute name="descr" optional="YES" attributeType="String"/>
+        <attribute name="equipment" optional="YES" attributeType="String"/>
+        <attribute name="iconImage" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
+        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="image" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
+        <attribute name="isPro" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="level" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="sex" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="shortDescr" optional="YES" attributeType="String"/>
+        <attribute name="target" optional="YES" attributeType="String"/>
+        <attribute name="type" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="video" optional="YES" attributeType="String"/>
+        <relationship name="workoutItems" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="WorkoutSeriaItemsEntity" inverseName="workoutSeria" inverseEntity="WorkoutSeriaItemsEntity"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="id"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
+    </entity>
     <elements>
         <element name="CircleEntity" positionX="-18" positionY="171" width="128" height="134"/>
         <element name="ExerciseEntity" positionX="18" positionY="189" width="128" height="224"/>
@@ -107,5 +140,7 @@
         <element name="IntervalExerciseEntity" positionX="-63" positionY="-18" width="128" height="134"/>
         <element name="StrenghtExerciseEntity" positionX="-54" positionY="-9" width="128" height="134"/>
         <element name="WorkoutEntity" positionX="-36" positionY="135" width="128" height="299"/>
+        <element name="WorkoutSeriaItemsEntity" positionX="-9" positionY="153" width="128" height="89"/>
+        <element name="WorkoutsSeriaEntity" positionX="-18" positionY="144" width="128" height="254"/>
     </elements>
 </model>

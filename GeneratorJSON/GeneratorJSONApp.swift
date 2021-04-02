@@ -18,6 +18,7 @@ struct GeneratorJSONApp: App {
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
                 .environmentObject(ExercisesViewModel())
                 .environmentObject(WorkoutsViewModel())
+                .environmentObject(WorkoutSeriesViewModel())
             
         }
         .windowStyle(HiddenTitleBarWindowStyle())

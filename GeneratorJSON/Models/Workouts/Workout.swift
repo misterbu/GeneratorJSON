@@ -19,7 +19,7 @@ struct Workout: Identifiable, CoreDatable {
     var shortDescription: String = ""
     var description: String = ""
     var workoutCircles: [WorkoutCircle] = []
-    var seriesId: [String] = []
+    var seriaId: String?
     
     var level: [LevelType] = []
     var type: WorkType = .combine
@@ -42,6 +42,7 @@ struct Workout: Identifiable, CoreDatable {
         self.name = entity.name ?? ""
         self.shortDescription = entity.shortDescr ?? ""
         self.description = entity.descr ?? ""
+        self.seriaId = entity.seriesWorkouts
         
         self.type = WorkType(rawValue: Int(entity.type)) ?? .hiit
         self.sex = SexType(rawValue: Int(entity.sex)) ?? .unisex
@@ -63,11 +64,6 @@ struct Workout: Identifiable, CoreDatable {
                 .components(separatedBy: ",")
                 .filter({$0 != ""})
                 .map({LevelType(strValue: $0)})
-        }
-        
-        if let seriesStr = entity.seriesWorkouts {
-            self.seriesId = seriesStr.components(separatedBy: ",")
-                .filter({$0 != ""})
         }
         
         self.authorId = entity.authorId
@@ -102,6 +98,7 @@ struct Workout: Identifiable, CoreDatable {
         entity.name = name
         entity.shortDescr = shortDescription
         entity.descr = description
+        entity.seriesWorkouts = seriaId
         entity.type = type.rawValue.int32
         entity.sex = sex.rawValue.int32
         entity.authorId = authorId
@@ -113,9 +110,6 @@ struct Workout: Identifiable, CoreDatable {
         entity.equipment = ""
         equipment.forEach({entity.equipment?.append($0.str + ",")})
         
-        entity.seriesWorkouts = ""
-        seriesId.forEach({entity.seriesWorkouts?.append($0 + ",")})
-        
         entity.level = ""
         level.forEach({entity.level?.append($0.str + ",")})
         
@@ -123,13 +117,10 @@ struct Workout: Identifiable, CoreDatable {
         entity.image = image?.imageToJPEGData()
         
         //Сохраняем циклы, не забыв указать им порядковый номер
-        var order = 0
+     
         var circlesEntities = Set<CircleEntity>()
         workoutCircles.forEach({
-            var circle = $0
-            circle.orderAdd = order
-            circlesEntities.insert(circle.getEntity())
-            order += 1
+            circlesEntities.insert($0.getEntity())
         })
         entity.workoutCircles = circlesEntities as NSSet
         

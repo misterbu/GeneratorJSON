@@ -1,19 +1,19 @@
 //
-//  WorkoutViewModel.swift
+//  WorkoutSeriaViewModel.swift
 //  GeneratorJSON
 //
-//  Created by Marat Gazizov on 25.03.2021.
+//  Created by Marat Gazizov on 01.04.2021.
 //
 
 import SwiftUI
 import Combine
 
-class WorkoutViewModel: Identifiable, ObservableObject {
+class WorkoutSeriaViewModel: Identifiable, ObservableObject {
     
     lazy var cancellables: [AnyCancellable] = []
     
-    /// - TAG: Published
-    @Published var workout: Workout
+    @Published var seria: WorkoutSeria
+    @Published var items: [WorkoutSeriaItemViewModel] = []
     
     @Published var iconURL: URL?
     @Published var imageURL: URL?
@@ -22,13 +22,11 @@ class WorkoutViewModel: Identifiable, ObservableObject {
     @Published var sex: [Int] = []
     @Published var target: [Int] = []
     @Published var equipnemt: [Int] = []
-
-    @Published var workoutCircles: [WorkoutCircleViewModel] = []
     
-   
-    /// - TAG: INITs
-    init(_ workout: Workout){
-        self.workout = workout
+    @Published var showWorkoutCatalog: Bool = false
+    
+    init(_ seria: WorkoutSeria){
+        self.seria = seria
         
         addIcon()
         addImage()
@@ -39,13 +37,13 @@ class WorkoutViewModel: Identifiable, ObservableObject {
         changeEquipment()
         
         //init vars
-        if let index = WorkType.allCases.firstIndex(of: workout.type) {
+        if let index = WorkType.allCases.firstIndex(of: seria.type) {
             type = [index]
         }
-        if let index = SexType.allCases.firstIndex(of: workout.sex) {
+        if let index = SexType.allCases.firstIndex(of: seria.sex) {
             sex = [index]
         }
-        target = workout.target.compactMap({
+        target = seria.target.compactMap({
             if let index = TargetType.allCases.firstIndex(of: $0),
                !self.target.contains(index) {
                 return index
@@ -53,7 +51,7 @@ class WorkoutViewModel: Identifiable, ObservableObject {
                 return nil
             }
         })
-        equipnemt = workout.equipment.compactMap({
+        equipnemt = seria.equipment.compactMap({
             if let index = EquipmentType.allCases.firstIndex(of: $0),
                !self.equipnemt.contains(index) {
                 return index
@@ -62,46 +60,40 @@ class WorkoutViewModel: Identifiable, ObservableObject {
             }
         })
         
-        level = workout.level.compactMap({
+        level = seria.level.compactMap({
             if let index = LevelType.allCases.firstIndex(of: $0),
                !self.level.contains(index) {
                 return index
             } else {return nil}
         })
         
-        workoutCircles = workout.workoutCircles.map({WorkoutCircleViewModel($0)})
+        items = seria.workouts.map({WorkoutSeriaItemViewModel($0)})
     }
+    
     
     /// - TAG: Public funcs
-    func createNewCircle(){
-        workoutCircles.append(WorkoutCircleViewModel(order: workoutCircles.count))
+    func showCatalog(){
+        showWorkoutCatalog.toggle()
     }
     
-    func save() {
-        //1 Добавляем циклы в модель тренировки и проверяем что основные данные заполнены
-        workout.workoutCircles = workoutCircles.compactMap({$0.getCircle(workout.type)})
-  
-        guard workout.workoutCircles.count > 0,
-              workout.image != nil, workout.iconImage != nil,
-              workout.name != "", workout.description != "",
-              workout.level.count > 0 else { return }
+    func closeCatalog(){
+        showWorkoutCatalog.toggle()
+    }
+    
+    func chooseWorkout(_ work: WorkoutViewModel){
+        items.append(WorkoutSeriaItemViewModel(work))
+    }
+    
+    func save(){
+        //1 Добавляем items в seria
+        seria.workouts = items.compactMap({$0.getItem(seria.id)})
         
         //2 Сохраняем в БД
-        CoreDataFuncs.shared.save(entity: WorkoutEntity.self, model: workout)
-        
-        //3 Сообщаем WokroutsViewModel что добавлена новая БД
-        NotificationCenter.default.post(name: .saveNewWorkout, object: nil, userInfo: nil)
+        CoreDataFuncs.shared.save(entity: WorkoutsSeriaEntity.self, model: seria)
+
+        //3 Уведомляем об добавляении новой серии
+        NotificationCenter.default.post(name: .saveNewSeria, object: nil, userInfo: nil)
     }
-    
-    func remove(_ work: Workout){
-        
-    }
-    
-    func changeSeriaId(id seria: String){
-        workout.seriaId = seria
-        CoreDataFuncs.shared.save(entity: WorkoutEntity.self, model: workout)
-    }
-    
     
     /// - TAG: Private funcs
     private func addImage() {
@@ -109,7 +101,7 @@ class WorkoutViewModel: Identifiable, ObservableObject {
             .sink(receiveValue: {[weak self] url in
                 guard let self = self else {return}
                 if let url = url {
-                    self.workout.image = NSImage(byReferencing: url)
+                    self.seria.image = NSImage(byReferencing: url)
                 }
             }).store(in: &cancellables)
     }
@@ -119,7 +111,7 @@ class WorkoutViewModel: Identifiable, ObservableObject {
             .sink(receiveValue: {[weak self] url in
                 guard let self = self else {return}
                 if let url = url {
-                    self.workout.iconImage = NSImage(byReferencing: url)
+                    self.seria.iconImage = NSImage(byReferencing: url)
                 }
             }).store(in: &cancellables)
     }
@@ -129,7 +121,7 @@ class WorkoutViewModel: Identifiable, ObservableObject {
             .sink(receiveValue: {[weak self] value in
                 guard let self = self else {return}
                 
-                self.workout.level = value.compactMap({
+                self.seria.level = value.compactMap({
                     guard $0 < LevelType.allCases.count else {return nil}
                     return LevelType.allCases[$0]
                 })
@@ -141,7 +133,7 @@ class WorkoutViewModel: Identifiable, ObservableObject {
             .sink(receiveValue: {[weak self] value in
                 guard let self = self else {return}
                 if let value = value.first {
-                    self.workout.type = WorkType.allCases[value]
+                    self.seria.type = WorkType.allCases[value]
                 }
             }).store(in: &cancellables)
     }
@@ -151,7 +143,7 @@ class WorkoutViewModel: Identifiable, ObservableObject {
             .sink(receiveValue: {[weak self] value in
                 guard let self = self else {return}
                 if let value = value.first {
-                    self.workout.sex = SexType.allCases[value]
+                    self.seria.sex = SexType.allCases[value]
                 }
             }).store(in: &cancellables)
     }
@@ -160,7 +152,7 @@ class WorkoutViewModel: Identifiable, ObservableObject {
         $target
             .sink(receiveValue: {[weak self] value in
                 guard let self = self else {return}
-                self.workout.target = value.compactMap({
+                self.seria.target = value.compactMap({
                     guard $0 < TargetType.allCases.count else {return nil}
                     return TargetType.allCases[$0]
                 })
@@ -172,7 +164,7 @@ class WorkoutViewModel: Identifiable, ObservableObject {
         $equipnemt
             .sink(receiveValue: {[weak self] value in
                 guard let self = self else {return}
-                self.workout.equipment = value.compactMap({
+                self.seria.equipment = value.compactMap({
                     guard $0 < EquipmentType.allCases.count else {return nil}
                     return EquipmentType.allCases[$0]
                 })

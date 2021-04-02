@@ -1,57 +1,52 @@
 //
-//  WorkoutsCatalogView.swift
+//  WorkoutSeriasCatalogView.swift
 //  GeneratorJSON
 //
-//  Created by Marat Gazizov on 25.03.2021.
+//  Created by Marat Gazizov on 02.04.2021.
 //
 
 import SwiftUI
 
-struct WorkoutsCatalogView: View {
-    
-    @EnvironmentObject var workoutsVM: WorkoutsViewModel
+struct WorkoutSeriasCatalogView: View {
+    @EnvironmentObject var seriesVM: WorkoutSeriesViewModel
     
     private let row = Array(repeating: GridItem(.flexible(), spacing: 15, alignment: .center), count: 5)
     
     var body: some View {
         VStack{
             ScrollView{
-                HStack{
-                    //Create new exercise
-                    createIntervalButton
-                    
-                }
+                createNewSeria
                 
                 LazyVGrid(columns: row, content: {
-                    ForEach(0..<workoutsVM.workouts.count, id: \.self){index in
-                        WorktouCatalogItemView(workoutVM: workoutsVM.workouts[index])
+                    ForEach(0..<seriesVM.series.count, id: \.self){index in
+                        WorkoutSeriesCatalogItemView(seria: seriesVM.series[index].seria)
                             .frame(maxWidth: .infinity, maxHeight: 200)
                             .clipShape(RoundedRectangle(cornerRadius: 5))
                             .onTapGesture {
-                                workoutsVM.choseWorkout(workoutsVM.workouts[index])
+                                seriesVM.choseSeria(index)
                             }
                     }
                 })
             }
         }
         .padding()
-        .sheet(item: $workoutsVM.workout) { workout in
-            CreateWorkoutView(workoutVM: workout)
+        .sheet(item: $seriesVM.seria) { seria in
+            CreateWorkoutSeriaView(seriaVM: seria)
         }
         
     }
     
     
-    var createIntervalButton: some View {
+    var createNewSeria: some View {
         Button(action:{
-            workoutsVM.createNewWorkout()
+            seriesVM.createNewSeria()
         }){
             HStack{
                 Image(systemName: "plus.square")
                     .font(.title)
                     .foregroundColor(.black)
                 
-                Text("WORKOUT NEW")
+                Text(" NEW")
                     .font(.title)
                     .foregroundColor(.black)
             }
@@ -60,27 +55,20 @@ struct WorkoutsCatalogView: View {
     }
 }
 
-struct WorkoutsCatalogView_Previews: PreviewProvider {
-    static var previews: some View {
-        WorkoutsCatalogView()
-    }
-}
 
-
-
-
-struct WorktouCatalogItemView: View {
-    var workoutVM: WorkoutViewModel
+struct WorkoutSeriesCatalogItemView: View {
+    
+    var seria: WorkoutSeria
     
     var body: some View {
         ZStack(alignment: .center) {
-            Image(nsImage: workoutVM.workout.image ?? NSImage(named: "ph")!)
+            Image(nsImage: seria.image ?? NSImage(named: "ph")!)
                 .resizable()
                 .scaledToFill()
             
             Color.black.opacity(0.4)
             
-            Text(workoutVM.workout.name)
+            Text(seria.name)
                 .font(.title)
                 .foregroundColor(.white)
         }

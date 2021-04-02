@@ -17,8 +17,8 @@ struct WorkoutCircle: CoreDatable {
     
     
     /// - TAG: INITs
-    init(){
-        
+    init(order: Int){
+        self.orderAdd = order
     }
     
     init<S>(entity: S) where S : NSManagedObject {
@@ -57,11 +57,11 @@ struct WorkoutCircle: CoreDatable {
                 //Доделать для комбинированно
             print("Here will be a combine")
             case .hiit:
-                if var model = $0 as? IntervalExercise {
+                if let model = $0 as? IntervalExercise {
                     intervalsEntities.insert(model.getEntity())
                 }
             case .strenght:
-                if var model = $0 as? StrenghtExercise {
+                if let model = $0 as? StrenghtExercise {
                     strenghtEntities.insert(model.getEntity())
                 }
             case .stretching:

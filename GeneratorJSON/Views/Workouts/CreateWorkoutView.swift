@@ -76,6 +76,39 @@ struct CreateWorkoutView: View {
                         .background(Color.black.opacity(0.1))
                         .cornerRadius(5)
                     
+                    //Series id
+                    VStack(alignment: .leading, spacing: 5){
+                        Text("SERIA:")
+                        if let seriaId = workoutVM.workout.seriaId {
+                            HStack{
+                                Text("Seria id \(seriaId)")
+                                Button(action:{
+                                    
+                                }){
+                                    Text("Change seria")
+                                        .font(.body)
+                                        .foregroundColor(.black)
+                                        .padding()
+                                        .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.black, lineWidth: 1))
+                                        .contentShape(RoundedRectangle(cornerRadius: 5))
+                                }.buttonStyle(PlainButtonStyle())
+                            }
+                        }
+                        else {
+                            Button(action:{
+                                
+                            }){
+                                Text("Add seria")
+                                    .font(.body)
+                                    .foregroundColor(.black)
+                                    .padding()
+                                    .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color.black, lineWidth: 1))
+                                    .contentShape(RoundedRectangle(cornerRadius: 5))
+                            }.buttonStyle(PlainButtonStyle())
+                        }
+                    }.padding(.vertical, 30)
+                    
+                    
                     
                     //Types
                     HStack(alignment: .top, spacing: 30){
