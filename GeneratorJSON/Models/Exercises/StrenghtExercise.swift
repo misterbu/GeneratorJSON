@@ -77,5 +77,18 @@ struct StrenghtExercise: Exercise, CoreDatable {
         
         return entity as! S
     }
+    
+    func getForJSON() -> [String : Any] {
+        let dict: [String : Any] = [
+            "id" : id,
+            "basicId" : basic.id,
+            "orderAdd" : orderAdd,
+            "sets": sets.map({$0.getForJSON()}),
+            "restDuration" : restDuration,
+            "voiceComment" : voiceComment ?? ""
+        ]
+        
+        return dict
+    }
 
 }

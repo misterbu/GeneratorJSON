@@ -40,4 +40,16 @@ struct ExerciseSet: CoreDatable {
         
         return entity as! S
     }
+    
+    func getForJSON() -> [String : Any] {
+        let dict: [String : Any] = [
+            "id" : id,
+            "orderAdd" : order,
+            "reps": reps,
+            "weight": weight,
+            "isWarmUp": isWarm
+        ]
+        
+        return dict
+    }
 }

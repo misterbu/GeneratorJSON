@@ -14,6 +14,8 @@ protocol Exercise {
     var orderAdd: Int {get set}
     
     mutating func setProperied(values: [String : Any])
+    
+    func getForJSON() -> [String: Any]
 }
 
 

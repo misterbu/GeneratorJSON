@@ -29,4 +29,7 @@ class WorkoutSeriaItemViewModel: ObservableObject {
         //2 Передаем item
         return WorkoutSeriaItem(workout: workoutVM.workout, day: day)
     }
+    
+    
+  
 }

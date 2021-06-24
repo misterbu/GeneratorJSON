@@ -78,6 +78,18 @@ struct WorkoutCircle: CoreDatable {
         return entity as! S
     }
     
+    func getForJSON() -> [String: Any] {
+        let dict: [String: Any] = [
+            "id" : id,
+            "orderAdd": orderAdd,
+            "name" : name,
+            "canGetOff" : canGetOff,
+            "exercises" : exercises.map({$0.getForJSON()})
+        ]
+        
+        return dict
+    }
+    
     
     /// - TAG: Private funcs
     private func getExercise(_ id: String) -> Exercise? {

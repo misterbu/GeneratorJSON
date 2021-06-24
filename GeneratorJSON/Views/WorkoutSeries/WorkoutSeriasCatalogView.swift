@@ -15,7 +15,14 @@ struct WorkoutSeriasCatalogView: View {
     var body: some View {
         VStack{
             ScrollView{
-                createNewSeria
+                HStack{
+                    Spacer()
+                    //Create new exercise
+                    createNewSeria
+                    Spacer()
+                    generateJSONButton
+                    Spacer()
+                }
                 
                 LazyVGrid(columns: row, content: {
                     ForEach(0..<seriesVM.series.count, id: \.self){index in
@@ -47,6 +54,23 @@ struct WorkoutSeriasCatalogView: View {
                     .foregroundColor(.black)
                 
                 Text(" NEW")
+                    .font(.title)
+                    .foregroundColor(.black)
+            }
+        }
+        .buttonStyle(PlainButtonStyle())
+    }
+    
+    var generateJSONButton: some View {
+        Button(action:{
+            seriesVM.generateJSON()
+        }){
+            HStack{
+                Image(systemName: "pencil.and.outline")
+                    .font(.title)
+                    .foregroundColor(.black)
+                
+                Text("GENERATE")
                     .font(.title)
                     .foregroundColor(.black)
             }

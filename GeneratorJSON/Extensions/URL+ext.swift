@@ -32,6 +32,12 @@ extension URL {
             url = downloadFolderURL.appendingPathComponent("FitApp/Workouts/Image", isDirectory: true)
         case .workoutVideo:
             url = downloadFolderURL.appendingPathComponent("FitApp/Workouts/Video", isDirectory: true)
+        case .seriaJSON:
+            url = downloadFolderURL.appendingPathComponent("FitApp/Program", isDirectory: true)
+        case .seriaImage:
+            url = downloadFolderURL.appendingPathComponent("FitApp/Program/Image", isDirectory: true)
+        case .seriaVideo:
+            url = downloadFolderURL.appendingPathComponent("FitApp/Program/Video", isDirectory: true)
         }
         
         if create,!FileManager.default.fileExists(atPath: url.path){
@@ -60,7 +66,12 @@ enum MyLocation {
     case exerciseJSON
     case exerciseImage
     case exerciseVideo
+    
     case workoutJSON
     case workoutImage
     case workoutVideo
+    
+    case seriaJSON
+    case seriaImage
+    case seriaVideo
 }

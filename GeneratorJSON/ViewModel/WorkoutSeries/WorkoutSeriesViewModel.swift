@@ -48,4 +48,25 @@ class WorkoutSeriesViewModel: ObservableObject {
     func close(){
         seria = nil
     }
+    
+    func generateJSON(){
+        //  1 Получаем адрес папки
+        guard var url = URL.getURL(location: .seriaJSON, create: true) else {return}
+        
+        url.appendPathComponent("ProgramJSON")
+        url.appendPathExtension("json")
+        
+        // 2 Получаем даныне
+        var dics = [String: Any]()
+        dics["programs"] = series.map({$0.seria.getForJSON()})
+        
+        // 3 Конвектируем в JSON и записываем
+        do{
+            let data = try JSONSerialization.data(withJSONObject: dics)
+            try data.write(to: url)
+        }
+        catch {
+            print("We have error while write a new program ")
+        }
+    }
 }

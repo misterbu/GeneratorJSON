@@ -52,6 +52,27 @@ class ExercisesViewModel: ObservableObject {
         exercise = nil
     }
     
+    func generateJSON(){
+        //  1 Получаем адрес папки
+        guard var url = URL.getURL(location: .exerciseJSON, create: true) else {return}
+        
+        url.appendPathComponent("ExerciseJSON")
+        url.appendPathExtension("json")
+        
+        // 2 Получаем даныне
+        var dics = [String: Any]()
+        dics["exercises"] = exercises.map({$0.getForJSON()})
+        
+        // 3 Конвектируем в JSON и записываем
+        do{
+            let data = try JSONSerialization.data(withJSONObject: dics)
+            try data.write(to: url)
+        }
+        catch {
+            print("We have error while write a new exersise ")
+        }
+    }
+    
     
     private func resetCD(){
         CoreDataFuncs.shared.deleteAll(entity: CircleEntity.self)

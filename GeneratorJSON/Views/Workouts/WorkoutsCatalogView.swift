@@ -17,9 +17,12 @@ struct WorkoutsCatalogView: View {
         VStack{
             ScrollView{
                 HStack{
+                    Spacer()
                     //Create new exercise
                     createIntervalButton
-                    
+                    Spacer()
+                    generateJSONButton
+                    Spacer()
                 }
                 
                 LazyVGrid(columns: row, content: {
@@ -58,6 +61,24 @@ struct WorkoutsCatalogView: View {
         }
         .buttonStyle(PlainButtonStyle())
     }
+    
+    var generateJSONButton: some View {
+        Button(action:{
+            workoutsVM.generateJSON()
+        }){
+            HStack{
+                Image(systemName: "pencil.and.outline")
+                    .font(.title)
+                    .foregroundColor(.black)
+                
+                Text("GENERATE")
+                    .font(.title)
+                    .foregroundColor(.black)
+            }
+        }
+        .buttonStyle(PlainButtonStyle())
+    }
+    
 }
 
 struct WorkoutsCatalogView_Previews: PreviewProvider {

@@ -94,6 +94,75 @@ struct BasicExercise: Identifiable, CoreDatable {
         
         return entity as! S
     }
+    
+    func getForJSON() -> [String : Any] {
+        var dict: [String : Any] = [
+            "id" : id,
+            "name" : name,
+            "shortDescription" : shortDescription,
+            "description" : description,
+            "voiceComment" : voiceComment,
+            "level" : level.map({$0.rawValue}),
+            "type": type.rawValue,
+            "muscle" : muscle,
+            "autorId": authorId ?? "",
+            "isPro" : isPro,
+        ]
+        
+        //Сохраняем изображения
+        saveImage()
+        saveIcon()
+        
+        return dict
+    }
+    
+        func saveImage(){
+            //1 Get data from image
+            guard let photo = image,
+                  let newPhoto = photo.crop(toSize: NSSize(width: 1080, height: 1920)),
+                  let data = newPhoto.imageToJPEGData(compress: 0.7)
+            else {
+                print("Save Image: Can't get data from NSimage")
+                return
+            }
+    
+            // 2 Get Url
+            guard let url = URL.getURL(location: .exerciseImage, fileName: "exercise_image_\(id)", fileType: "jpg", create: true) else {
+                print("Save Image: Can't get URL")
+                return
+            }
+    
+            // Save Image
+            do{
+                try data.write(to: url)
+            } catch let error {
+                print(error.localizedDescription)
+            }
+        }
+    
+        func saveIcon(){
+            //1 Get data from image
+            guard let icon = iconImage,
+                  let newPhoto = icon.crop(toSize: NSSize(width: 400, height: 400)),
+                  let data = newPhoto.imageToJPEGData(compress: 1)
+            else {
+                print("Save Image: Can't get data from NSimage")
+                return
+            }
+    
+            // 2 Get Url
+            guard let url = URL.getURL(location: .exerciseImage, fileName: "exercise_icon_\(id)", fileType: "jpg", create: true) else {
+                print("Save Image: Can't get URL")
+                return
+            }
+    
+            // Save Image
+            do{
+                try data.write(to: url)
+            } catch let error {
+                print(error.localizedDescription)
+            }
+        }
 }
 
 

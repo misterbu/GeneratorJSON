@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftyJSON
 
 struct Workout: Identifiable, CoreDatable {
     var id: String = UUID().uuidString
@@ -130,4 +131,178 @@ struct Workout: Identifiable, CoreDatable {
         
         return entity as! S
     }
+    
+    func getForJSON() -> [String: Any]{
+        let dict: [String: Any] = [
+            "id": id,
+            "name": name,
+            "shortDescription" : shortDescription,
+            "description" : description,
+            "serieaId" : seriaId ?? "",
+            "level" : level.map({$0.rawValue}),
+            "type": type.rawValue,
+            "sex": sex.rawValue,
+            "target" : target.map({$0.rawValue}),
+            "equipment" : equipment.map({$0.rawValue}),
+            "autorId": authorId ?? "",
+            "isPro" : isPro,
+            "workoutCircles" : workoutCircles.map({$0.getForJSON()})
+        ]
+
+        saveImage()
+        saveIcon()
+        
+        return dict
+    }
+    
+    func saveImage(){
+        //1 Get data from image
+        guard let photo = image,
+              let newPhoto = photo.resize(withSize: NSSize(width: 1080, height: 1920)),
+              let data = newPhoto.imageToJPEGData(compress: 0.7)
+        else {
+            print("Save Image: Can't get data from NSimage")
+            return
+        }
+
+        // 2 Get Url
+        guard let url = URL.getURL(location: .workoutImage, fileName: "workout_image_\(id)", fileType: "jpg", create: true) else {
+            print("Save Image: Can't get URL")
+            return
+        }
+
+        // Save Image
+        do{
+            try data.write(to: url)
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
+
+    func saveIcon(){
+        //1 Get data from image
+        guard let icon = iconImage,
+              let newPhoto = icon.resize(withSize: NSSize(width: 400, height: 400)),
+              let data = newPhoto.imageToJPEGData(compress: 1)
+        else {
+            print("Save Image: Can't get data from NSimage")
+            return
+        }
+
+        // 2 Get Url
+        guard let url = URL.getURL(location: .workoutImage, fileName: "workout_icon_\(id)", fileType: "jpg", create: true) else {
+            print("Save Image: Can't get URL")
+            return
+        }
+
+        // Save Image
+        do{
+            try data.write(to: url)
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
 }
+
+
+//
+//func getDictinary() -> [String: Any]{
+//    var dict: [String : Any] = [
+//        "id" : id,
+//        "name" : title,
+//        "tags" : tags,
+//        "type" : type.rawValue,
+//        "duration": duration
+//    ]
+//
+//    if description != "" {
+//        dict["desc"] = description
+//    }
+//    if  voiceComment != "" {
+//        dict["voiceComment"] = voiceComment
+//    }
+//
+//    //Проверяем фото и видео
+//
+//    return dict
+//    //return try? JSONSerialization.data(withJSONObject: dict)
+//}
+//
+//func getImage(id: String){
+//    guard let url = URL.getURL(location: .exerciseImage, fileName: "exercise_image_\(id)", fileType: "jpg", create: false) else {return}
+//    if FileManager.default.fileExists(atPath: url.path) {
+//        photo = NSImage(byReferencing: url)
+//    }
+//}
+//
+//func addTag(_ value: String){
+//    guard  value != "" else {return}
+//    //Создаем массив тегов из полученной строчки (теги разделены запятой)
+//    //До этого убираем из полученной строчки все пробелы
+//    let tagStr = value.replacingOccurrences(of: " ", with: "")
+//    let tagArray = tagStr.components(separatedBy: ",")
+//
+//    //Если такого тега еще нет, добавляем его
+//    tagArray.forEach({ tag in
+//        if !tags.contains(where: {tag == $0}) {
+//            tags.append(tag)
+//        }
+//    })
+//}
+//
+//func deleteTag(_ index: Int) {
+//    tags.remove(at: index)
+//}
+//
+//func addImage(url: URL) {
+//    photo = NSImage(byReferencing: url)
+//}
+//
+//
+//func saveImage(){
+//    //1 Get data from image
+//    guard let photo = photo,
+//          let newPhoto = photo.resize(withSize: NSSize(width: 1080, height: 1920)),
+//          let data = newPhoto.imageToJPEGData(compress: 0.7)
+//    else {
+//        print("Save Image: Can't get data from NSimage")
+//        return
+//    }
+//
+//    // 2 Get Url
+//    guard let url = URL.getURL(location: .exerciseImage, fileName: "exercise_image_\(id)", fileType: "jpg", create: true) else {
+//        print("Save Image: Can't get URL")
+//        return
+//    }
+//
+//    // Save Image
+//    do{
+//        try data.write(to: url)
+//    } catch let error {
+//        print(error.localizedDescription)
+//    }
+//}
+//
+//func saveIcon(){
+//    //1 Get data from image
+//    guard let icon = photo,
+//          let newPhoto = icon.resize(withSize: NSSize(width: 200, height: 200)),
+//          let data = newPhoto.imageToJPEGData(compress: 1)
+//    else {
+//        print("Save Image: Can't get data from NSimage")
+//        return
+//    }
+//
+//    // 2 Get Url
+//    guard let url = URL.getURL(location: .exerciseImage, fileName: "exercise_icon_\(id)", fileType: "jpg", create: true) else {
+//        print("Save Image: Can't get URL")
+//        return
+//    }
+//
+//    // Save Image
+//    do{
+//        try data.write(to: url)
+//    } catch let error {
+//        print(error.localizedDescription)
+//    }
+//}

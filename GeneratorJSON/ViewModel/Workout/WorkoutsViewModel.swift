@@ -56,4 +56,25 @@ class WorkoutsViewModel: ObservableObject {
     func getFreeWorkouts() -> [WorkoutViewModel] {
         return workouts.filter({$0.workout.seriaId == nil || $0.workout.seriaId == "" })
     }
+    
+    func generateJSON(){
+        //  1 Получаем адрес папки
+        guard var url = URL.getURL(location: .workoutJSON, create: true) else {return}
+        
+        url.appendPathComponent("WorkoutJSON")
+        url.appendPathExtension("json")
+        
+        // 2 Получаем даныне
+        var dics = [String: Any]()
+        dics["workouts"] = workouts.map({$0.workout.getForJSON()})
+        
+        // 3 Конвектируем в JSON и записываем
+        do{
+            let data = try JSONSerialization.data(withJSONObject: dics)
+            try data.write(to: url)
+        }
+        catch {
+            print("We have error while write a new exersise ")
+        }
+    }
 }
