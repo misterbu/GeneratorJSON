@@ -20,7 +20,11 @@ struct StrenghtExercise: Exercise, CoreDatable {
     var restDuration: Int = 0
     var voiceComment: String?
     
+    var noLimitReps: Bool = false
+    var ownWeight: Bool = false
+    
     /// - TAG: INITS
+    init(){}
     
     init(_ base: BasicExercise, order: Int){
         self.basic = base
@@ -28,15 +32,18 @@ struct StrenghtExercise: Exercise, CoreDatable {
     }
     
     init<S>(entity: S) where S : NSManagedObject {
-        guard let entity = entity as? StrenghtExerciseEntity,
-              let basicExerciseId = entity.exerciseId,
-                 let model = CoreDataFuncs.shared.get(entity: ExerciseEntity.self, model: BasicExercise.self, id: basicExerciseId) else {return}
+        guard let entity = entity as? StrenghtExerciseEntity else {return}
         
 
         self.id = entity.id ?? UUID().uuidString
         self.orderAdd = entity.order.int
-        self.basic = model
         self.voiceComment = entity.voiceComment
+        self.noLimitReps = entity.noLimitReps
+        self.ownWeight = entity.ownWeight
+        
+        if let basicEntity = entity.basic {
+            basic = BasicExercise(entity: basicEntity)
+        }
           
         //Специальные данные силовой тренировки
         self.restDuration = entity.restDuration.int
@@ -61,9 +68,11 @@ struct StrenghtExercise: Exercise, CoreDatable {
         
         entity.id = id
         entity.order = orderAdd.int32
-        entity.exerciseId = basic.id
         entity.voiceComment = voiceComment
         entity.restDuration = restDuration.int32
+        entity.noLimitReps = noLimitReps
+        entity.ownWeight = ownWeight
+        entity.basic = basic.getEntity()
         
         var setsEntities = Set<ExerciseSetEntity>()
         sets.forEach({
@@ -85,7 +94,9 @@ struct StrenghtExercise: Exercise, CoreDatable {
             "orderAdd" : orderAdd,
             "sets": sets.map({$0.getForJSON()}),
             "restDuration" : restDuration,
-            "voiceComment" : voiceComment ?? ""
+            "voiceComment" : voiceComment ?? "",
+            "noRepsLimit" : noLimitReps,
+            "ownWeight" : ownWeight
         ]
         
         return dict

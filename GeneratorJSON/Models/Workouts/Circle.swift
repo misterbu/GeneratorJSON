@@ -13,6 +13,7 @@ struct WorkoutCircle: CoreDatable {
     var orderAdd: Int = 0
     var name: String = ""
     var canGetOff: Bool = false
+    var type: CircleType = .main
     var exercises: [Exercise] = []
     
     
@@ -28,6 +29,7 @@ struct WorkoutCircle: CoreDatable {
         self.orderAdd = Int(entity.orderAdd)
         self.name = entity.name ?? ""
         self.canGetOff = entity.canGetOff
+        self.type = CircleType(rawValue: entity.type.int) ?? .main
         
         //Получаем все типы тренировок из CD и сортируем их в нужном порядке
         if let intervalsEntities = entity.intervalExercises as? Set<IntervalExerciseEntity>  {
@@ -47,6 +49,7 @@ struct WorkoutCircle: CoreDatable {
         entity.orderAdd = orderAdd.int32
         entity.name = name
         entity.canGetOff = canGetOff
+        entity.type = type.rawValue.int32
         
         //Сохраняем упражнения
         var intervalsEntities = Set<IntervalExerciseEntity>()
@@ -72,8 +75,7 @@ struct WorkoutCircle: CoreDatable {
         entity.intervalExercises = intervalsEntities as NSSet
         entity.strenghtExercises = strenghtEntities as NSSet
         
-        print("WorkoutCircle: Save circle \(id),  Interval exercises count \(entity.intervalExercises?.count)")
-        print("WorkoutCircle: Save circle \(id),  Strenght exercises count \(entity.strenghtExercises?.count)")
+        print("!!!! \(intervalsEntities.count)")
         
         return entity as! S
     }
@@ -84,7 +86,8 @@ struct WorkoutCircle: CoreDatable {
             "orderAdd": orderAdd,
             "name" : name,
             "canGetOff" : canGetOff,
-            "exercises" : exercises.map({$0.getForJSON()})
+            "exercises" : exercises.map({$0.getForJSON()}),
+            "type": type.rawValue
         ]
         
         return dict

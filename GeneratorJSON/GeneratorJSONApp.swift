@@ -14,11 +14,11 @@ struct GeneratorJSONApp: App {
     
     var body: some Scene {
         WindowGroup {
-            Home()
+            MyHome(viewModel: MyHomeViewModel())
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
-                .environmentObject(ExercisesViewModel())
-                .environmentObject(WorkoutsViewModel())
-                .environmentObject(WorkoutSeriesViewModel())
+                .environmentObject(MyExercisesViewModel())
+                .environmentObject(MyWorkoutsViewModel())
+                .environmentObject(MySeriesViewModel())
             
         }
         .windowStyle(HiddenTitleBarWindowStyle())

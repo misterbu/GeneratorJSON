@@ -15,16 +15,18 @@ struct WorkoutSeria: CoreDatable {
     var image: NSImage?
     var video: String?
     
-    var name: String = ""
+    var name: String = "Default"
     var shortDescription: String = ""
     var description: String = ""
-    var workouts: [WorkoutSeriaItem] = []
     
-//    var level: [LevelType] = []
-//    var type: WorkType = .combine
-//    var sex: SexType = .unisex
-//    var target: [TargetType] = []
-//    var equipment: [EquipmentType] = []
+    var workouts: [Workout] = []
+    var daysBetweenWorkout: Int = 0
+    
+    var level: [LevelType] = []
+    var type: WorkType = .combine
+    var sex: SexType = .unisex
+    var target: [TargetType] = []
+    var equipment: [EquipmentType] = []
     
     var authorId: String?
     var isPro: Bool = false
@@ -39,27 +41,27 @@ struct WorkoutSeria: CoreDatable {
         self.shortDescription = entity.shortDescr ?? ""
         self.description = entity.descr ?? ""
         
-//        self.type = WorkType(rawValue: Int(entity.type)) ?? .hiit
-//        self.sex = SexType(rawValue: Int(entity.sex)) ?? .unisex
-//
-//        if let targetStr = entity.target {
-//            self.target = targetStr.components(separatedBy: ",")
-//                .filter({$0 != ""})
-//                .map({ TargetType(strValue: $0)})
-//        }
-//
-//        if let equipnemtStr = entity.equipment {
-//            self.equipment = equipnemtStr.components(separatedBy: ",")
-//                .filter({$0 != ""})
-//                .map({EquipmentType(strValue: $0)})
-//        }
-//
-//        if let levelStr = entity.level {
-//            self.level = levelStr
-//                .components(separatedBy: ",")
-//                .filter({$0 != ""})
-//                .map({LevelType(strValue: $0)})
-//        }
+        self.type = WorkType(rawValue: Int(entity.type)) ?? .hiit
+        self.sex = SexType(rawValue: Int(entity.sex)) ?? .unisex
+
+        if let targetStr = entity.target {
+            self.target = targetStr.components(separatedBy: ",")
+                .filter({$0 != ""})
+                .map({ TargetType(strValue: $0)})
+        }
+
+        if let equipnemtStr = entity.equipment {
+            self.equipment = equipnemtStr.components(separatedBy: ",")
+                .filter({$0 != ""})
+                .map({EquipmentType(strValue: $0)})
+        }
+
+        if let levelStr = entity.level {
+            self.level = levelStr
+                .components(separatedBy: ",")
+                .filter({$0 != ""})
+                .map({LevelType(strValue: $0)})
+        }
         
         self.authorId = entity.authorId
         self.isPro = entity.isPro
@@ -72,9 +74,10 @@ struct WorkoutSeria: CoreDatable {
             self.image = NSImage(data: imageData)
         }
         
-        if let workoutSeriaItemsEntities = entity.workoutItems as? Set<WorkoutSeriaItemsEntity> {
-            self.workouts = workoutSeriaItemsEntities.map({WorkoutSeriaItem(entity: $0)})
+        if let workoutsEntities = entity.workout as? Set<WorkoutEntity> {
+            self.workouts = workoutsEntities.map({Workout(entity: $0)})
         }
+        self.daysBetweenWorkout = entity.daysBetweenWorkouts.int
     }
     
     func getEntity<S>() -> S where S : NSManagedObject {
@@ -102,9 +105,11 @@ struct WorkoutSeria: CoreDatable {
         entity.iconImage = iconImage?.imageToJPEGData()
         entity.image = image?.imageToJPEGData()
         
-        var items = Set<WorkoutSeriaItemsEntity>()
+        var items = Set<WorkoutEntity>()
         workouts.forEach({items.insert($0.getEntity())})
-        entity.workoutItems = items as NSSet
+        entity.workout = items as NSSet
+        
+        entity.daysBetweenWorkouts = daysBetweenWorkout.int32
         
         return entity as! S
     }
@@ -122,7 +127,7 @@ struct WorkoutSeria: CoreDatable {
             "equipment" : equipment.map({$0.rawValue}),
             "autorId": authorId ?? "",
             "isPro" : isPro,
-            "items": workouts.map({$0.getForJSON()})
+            "workouts": workouts.map({$0.getForJSON()})
         ]
         
         saveIcon()
@@ -182,52 +187,52 @@ struct WorkoutSeria: CoreDatable {
 }
 
 
-struct WorkoutSeriaItem: CoreDatable {
-
-    var id: String = UUID().uuidString
-    var day: Int = 0
-    var workout: Workout = Workout()
-    
-    init(workout: Workout, day: Int){
-        self.workout = workout
-        self.day = day
-    }
-    
-    /// - TAG: INITs
-    init(){}
-    
-    init<S>(entity: S) where S : NSManagedObject {
-        guard let entity = entity as? WorkoutSeriaItemsEntity else {return}
-        self.id = entity.id ?? UUID().uuidString
-        self.day = entity.day.int
-        
-        if let workoutId = entity.workoutId,
-           let workoutModel = CoreDataFuncs.shared.get(entity: WorkoutEntity.self, model: Workout.self, id: workoutId) {
-            self.workout = workoutModel
-        } else {
-            self.workout = Workout()
-        }
-    }
-    
-    func getEntity<S>() -> S where S : NSManagedObject {
-        let entity = WorkoutSeriaItemsEntity(context: PersistenceController.shared.container.viewContext)
-        entity.id = id
-        entity.day = day.int32
-        entity.workoutId = workout.id
-        
-        
-        
-        return entity as! S
-    }
-    
-    func getForJSON() -> [String: Any] {
-        let dict: [String: Any] = [
-            "id": id,
-            "day": day,
-            "workout" : workout.id
-        ]
-        
-        return dict
-    }
-    
-}
+//struct WorkoutSeriaItem: CoreDatable {
+//
+//    var id: String = UUID().uuidString
+//    var day: Int = 0
+//    var workout: Workout = Workout()
+//
+//    init(workout: Workout, day: Int){
+//        self.workout = workout
+//        self.day = day
+//    }
+//
+//    /// - TAG: INITs
+//    init(){}
+//
+//    init<S>(entity: S) where S : NSManagedObject {
+//        guard let entity = entity as? WorkoutSeriaItemsEntity else {return}
+//        self.id = entity.id ?? UUID().uuidString
+//        self.day = entity.day.int
+//
+//        if let workoutId = entity.workoutId,
+//           let workoutModel = CoreDataFuncs.shared.get(entity: WorkoutEntity.self, model: Workout.self, id: workoutId) {
+//            self.workout = workoutModel
+//        } else {
+//            self.workout = Workout()
+//        }
+//    }
+//
+//    func getEntity<S>() -> S where S : NSManagedObject {
+//        let entity = WorkoutSeriaItemsEntity(context: PersistenceController.shared.container.viewContext)
+//        entity.id = id
+//        entity.day = day.int32
+//        entity.workoutId = workout.id
+//
+//
+//
+//        return entity as! S
+//    }
+//
+//    func getForJSON() -> [String: Any] {
+//        let dict: [String: Any] = [
+//            "id": id,
+//            "day": day,
+//            "workout" : workout.id
+//        ]
+//
+//        return dict
+//    }
+//
+//}

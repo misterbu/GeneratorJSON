@@ -200,13 +200,13 @@ struct PersistenceController {
 //            print("Missing first store URL - could not destroy")
 //            return
 //        }
-//        
+//
 //        do {
 //            try container.persistentStoreCoordinator.destroyPersistentStore(at: firstStoreURL, ofType: NSSQLiteStoreType, options: nil)
 //        } catch  {
 //            print("Unable to destroy persistent store: \(error) - \(error.localizedDescription)")
 //        }
-        
+//
         
         
         

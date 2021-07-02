@@ -8,6 +8,9 @@
 import Foundation
 
 extension Notification.Name {
-   static let saveNewWorkout = Notification.Name("AddNewWorkout")
-    static let saveNewSeria = Notification.Name("AddNewSeria")
+    static let saveWorkout = Notification.Name("SaveWorkout")
+    static let saveSeria = Notification.Name("SaveSeria")
+    static let saveExercise = Notification.Name("SaveExercise")
+    
+    static let changeExerciseInWorkout = Notification.Name("ChangeExerciseInWorkout")
 }

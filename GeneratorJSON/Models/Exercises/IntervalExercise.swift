@@ -19,6 +19,8 @@ struct IntervalExercise: Exercise, CoreDatable {
     var restDuration: Int = 0
     var voiceComment: String?
     
+    var noTimeLimit: Bool = false
+    
      
     
     /// - TAG: INITS
@@ -30,16 +32,18 @@ struct IntervalExercise: Exercise, CoreDatable {
     }
     
     init<S>(entity: S) where S : NSManagedObject {
-        guard let entity = entity as? IntervalExerciseEntity,
-              let basicExerciseId = entity.exerciseId,
-                 let model = CoreDataFuncs.shared.get(entity: ExerciseEntity.self, model: BasicExercise.self, id: basicExerciseId) else {return}
+        guard let entity = entity as? IntervalExerciseEntity else {return}
         
         self.id = entity.id ?? UUID().uuidString
-        self.basic = model   
         self.orderAdd = entity.order.int
         self.duration = entity.duration.int
         self.restDuration = entity.restDuration.int
+        self.noTimeLimit =  entity.noTimeLimit
         self.voiceComment = entity.voiceComment
+        
+        if let basicEntity = entity.basic {
+            basic = BasicExercise(entity: basicEntity)
+        }
         
         print("IntervalExercise: Init exercise \(id)")
         
@@ -61,10 +65,11 @@ struct IntervalExercise: Exercise, CoreDatable {
         
         entity.id = id
         entity.order = orderAdd.int32
-        entity.exerciseId = basic.id
         entity.duration = duration.int32
         entity.restDuration = restDuration.int32
         entity.voiceComment = voiceComment
+        entity.noTimeLimit = noTimeLimit
+        entity.basic = basic.getEntity()
         
         print("IntervalExercise: Save exercise \(id)")
         
@@ -78,7 +83,8 @@ struct IntervalExercise: Exercise, CoreDatable {
             "orderAdd" : orderAdd,
             "duration" : duration,
             "restDuration" : restDuration,
-            "voiceComment" : voiceComment ?? ""
+            "voiceComment" : voiceComment ?? "",
+            "noTimeLimit" : noTimeLimit
         ]
         
         

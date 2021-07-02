@@ -16,7 +16,7 @@ struct Workout: Identifiable, CoreDatable {
     var image: NSImage?
     var video: String?
     
-    var name: String = ""
+    var name: String = "Default"
     var shortDescription: String = ""
     var description: String = ""
     var workoutCircles: [WorkoutCircle] = []
@@ -85,9 +85,6 @@ struct Workout: Identifiable, CoreDatable {
             print("add new circles ")
         }
         
-        print("Get workout from CD, circles count \(entity.workoutCircles?.count)")
-        print("Get workout from CD, target \(entity.target)")
-        print("Get workout from CD, equipment \(entity.equipment)")
     }
     
     func getEntity<S>() -> S where S : NSManagedObject {
@@ -125,9 +122,6 @@ struct Workout: Identifiable, CoreDatable {
         })
         entity.workoutCircles = circlesEntities as NSSet
         
-        print("Workout. Save wrokout \(id), circles count \(entity.workoutCircles?.count) ")
-        print("Workout. Save wrokout \(id), target \(entity.target) ")
-        print("Workout. Save wrokout \(id), equipment \(entity.equipment) ")
         
         return entity as! S
     }

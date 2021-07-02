@@ -17,7 +17,7 @@ struct BasicExercise: Identifiable, CoreDatable {
     var image: NSImage?
     var video: String?
     
-    var name: String = ""
+    var name: String = "Defalult"
     var shortDescription: String = ""
     var description: String = ""
     var voiceComment: String = ""
@@ -38,7 +38,7 @@ struct BasicExercise: Identifiable, CoreDatable {
         guard let entity = entity as? ExerciseEntity else {return}
         
         self.id = entity.id ?? UUID().uuidString
-        self.name = entity.name ?? ""
+        self.name = entity.name ?? "Default"
         self.shortDescription = entity.shortDescr ?? ""
         self.description = entity.descr ?? ""
         self.voiceComment = entity.voiceComment ?? ""
