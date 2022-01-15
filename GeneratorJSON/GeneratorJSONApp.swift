@@ -9,17 +9,15 @@ import SwiftUI
 
 @main
 struct GeneratorJSONApp: App {
-    
-    let persistenceController = PersistenceController.shared
-    
     var body: some Scene {
         WindowGroup {
-            MyHome(viewModel: MyHomeViewModel())
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
-                .environmentObject(MyExercisesViewModel())
-                .environmentObject(MyWorkoutsViewModel())
-                .environmentObject(MySeriesViewModel())
-            
+            Home()
+                .buttonStyle(PlainButtonStyle())
+                .textFieldStyle(PlainTextFieldStyle())
+                .environmentObject(ProgramsViewModel())
+                .environmentObject(ExercisesViewModel())
+                .environmentObject(WorkoutsViewModel())
+                .preferredColorScheme(.dark)
         }
         .windowStyle(HiddenTitleBarWindowStyle())
     }

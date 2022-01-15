@@ -8,7 +8,8 @@
 import Foundation
 import CoreData
 
-struct WorkoutCircle: CoreDatable {
+struct WorkoutCircle: Identifiable, CoreDatable {
+
     var id: String = UUID().uuidString
     var orderAdd: Int = 0
     var name: String = ""
@@ -17,11 +18,28 @@ struct WorkoutCircle: CoreDatable {
     var exercises: [Exercise] = []
     
     
-    /// - TAG: INITs
+    // MARK: -  INIT
     init(order: Int){
         self.orderAdd = order
     }
-    
+
+
+    // MARK: - PRIVATE FUNCS
+    private func getExercise(_ id: String) -> Exercise? {
+        print("Circle: Get exercise \(id)")
+        if let interval = CoreDataFuncs.shared.get(entity: IntervalExerciseEntity.self, model: IntervalExercise.self, id: id) {
+            return interval
+        } else if let strenght = CoreDataFuncs.shared.get(entity: StrenghtExerciseEntity.self, model: StrenghtExercise.self, id: id) {
+            return strenght
+        } else {
+            return nil
+        }
+    }
+}
+
+
+// MARK: - COREDATABLE
+extension WorkoutCircle {
     init<S>(entity: S) where S : NSManagedObject {
         guard let entity = entity as? CircleEntity else {return}
         
@@ -43,8 +61,10 @@ struct WorkoutCircle: CoreDatable {
         print("WorkoutCircle: Init circle id \(id), exercises \(exercises.count)")
     }
     
+    
+   
     func getEntity<S>() -> S where S : NSManagedObject {
-        let entity = CircleEntity(context: PersistenceController.shared.container.viewContext)
+        let entity = CoreDataFuncs.shared.getEntity(entity: CircleEntity.self, id: id) ??  CircleEntity(context: PersistenceController.shared.container.viewContext)
         entity.id = id
         entity.orderAdd = orderAdd.int32
         entity.name = name
@@ -75,11 +95,12 @@ struct WorkoutCircle: CoreDatable {
         entity.intervalExercises = intervalsEntities as NSSet
         entity.strenghtExercises = strenghtEntities as NSSet
         
-        print("!!!! \(intervalsEntities.count)")
-        
         return entity as! S
     }
-    
+}
+
+// MARK: - JSONBLE
+extension WorkoutCircle {
     func getForJSON() -> [String: Any] {
         let dict: [String: Any] = [
             "id" : id,
@@ -92,17 +113,16 @@ struct WorkoutCircle: CoreDatable {
         
         return dict
     }
-    
-    
-    /// - TAG: Private funcs
-    private func getExercise(_ id: String) -> Exercise? {
-        print("Circle: Get exercise \(id)")
-        if let interval = CoreDataFuncs.shared.get(entity: IntervalExerciseEntity.self, model: IntervalExercise.self, id: id) {
-            return interval
-        } else if let strenght = CoreDataFuncs.shared.get(entity: StrenghtExerciseEntity.self, model: StrenghtExercise.self, id: id) {
-            return strenght
-        } else {
-            return nil
-        }
+}
+
+// MARK: - EQUTABLE
+extension WorkoutCircle: Equatable {
+    static func == (lhs: WorkoutCircle, rhs: WorkoutCircle) -> Bool {
+        guard lhs.name == rhs.name,
+           lhs.canGetOff == rhs.canGetOff,
+              lhs.type.str == rhs.type.str,
+              lhs.exercises.count == rhs.exercises.count else {return false}
+        
+        return true
     }
 }
