@@ -17,9 +17,19 @@ struct Workout: Identifiable, Reviewble, CoreDatable {
     var image: NSImage?
     var video: String?
     
-    var name: String = "Default"
-    var shortDescription: String = ""
-    var description: String = ""
+    var name_en: String = "Default"
+    var shortDescription_en: String = ""
+    var description_en: String = ""
+    
+    var name_ru: String = ""
+    var description_ru: String = ""
+    var shortDescription_ru: String = ""
+    
+    
+    var name: String {name_en}
+    var shortDescription: String {shortDescription_en}
+    var description: String {description_en}
+    
     var workoutCircles: [WorkoutCircle] = []
     var seriaId: String?
     
@@ -98,9 +108,13 @@ extension Workout  {
         self.id = entity.id ?? UUID().uuidString
         self.orderAdd = entity.orderAdd.int
         self.createAt = entity.createAt ?? Date()
-        self.name = entity.name ?? ""
-        self.shortDescription = entity.shortDescr ?? ""
-        self.description = entity.descr ?? ""
+        self.name_en = entity.name ?? ""
+        self.shortDescription_en = entity.shortDescr ?? ""
+        self.description_en = entity.descr ?? ""
+        self.name_ru = entity.nameRu ?? ""
+        self.shortDescription_ru = entity.shortDescrRu ?? ""
+        self.description_ru = entity.descrRu ?? ""
+        
         self.seriaId = entity.seriesWorkouts
         
         self.type = WorkType(rawValue: Int(entity.type)) ?? .hiit
@@ -161,9 +175,13 @@ extension Workout  {
         entity.orderAdd = orderAdd.int32
         entity.createAt = createAt
         
-        entity.name = name
-        entity.shortDescr = shortDescription
-        entity.descr = description
+        entity.name = name_en
+        entity.shortDescr = shortDescription_en
+        entity.descr = description_en
+        entity.nameRu = name_ru
+        entity.shortDescrRu = shortDescription_ru
+        entity.descrRu = description_ru
+        
         entity.seriesWorkouts = seriaId
         entity.type = type.rawValue.int32
         entity.sex = sex.rawValue.int32
@@ -204,9 +222,12 @@ extension Workout {
     func getForJSON() -> [String: Any]{
         let dict: [String: Any] = [
             "id": id,
-            "name": name,
-            "shortDescription" : shortDescription,
-            "description" : description,
+            "name_en": name_en,
+            "shortDescription_en" : shortDescription_en,
+            "description_en" : description_en,
+            "name_ru": name_ru,
+            "shortDescription_ru" : shortDescription_ru,
+            "description_ru" : description_ru,
             "serieaId" : seriaId ?? "",
             "level" : level.map({$0.rawValue}),
             "muscle": muscle.map({$0.rawValue}),

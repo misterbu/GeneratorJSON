@@ -15,9 +15,17 @@ struct WorkoutProgmar: CoreDatable, Reviewble {
     var image: NSImage?
     var video: String?
     
-    var name: String = "Default"
-    var shortDescription: String = ""
-    var description: String = ""
+    var name_en: String = "Default"
+    var shortDescription_en: String = ""
+    var description_en: String = ""
+    
+    var name_ru: String = ""
+    var description_ru: String = ""
+    var shortDescription_ru: String = ""
+    
+    var name: String {name_en}
+    var shortDescription: String {shortDescription_en}
+    var description: String {description_en}
     
     var workouts: [Workout] = []
     var daysBetweenWorkout: Int = 0
@@ -31,6 +39,7 @@ struct WorkoutProgmar: CoreDatable, Reviewble {
     
     var authorId: String?
     var isPro: Bool = false
+    
     
     
     // MARK: - INIT
@@ -94,9 +103,12 @@ extension WorkoutProgmar {
     init<S>(entity: S) where S : NSManagedObject {
         guard let entity = entity as? WorkoutsSeriaEntity else {return}
         self.id = entity.id ?? UUID().uuidString
-        self.name = entity.name ?? ""
-        self.shortDescription = entity.shortDescr ?? ""
-        self.description = entity.descr ?? ""
+        self.name_en = entity.name ?? ""
+        self.shortDescription_en = entity.shortDescr ?? ""
+        self.description_en = entity.descr ?? ""
+        self.name_ru = entity.nameRu ?? ""
+        self.shortDescription_ru = entity.shortDescrRu ?? ""
+        self.description_ru = entity.descrRu ?? ""
         
         self.type = WorkType(rawValue: Int(entity.type)) ?? .hiit
         self.sex = SexType(rawValue: Int(entity.sex)) ?? .unisex
@@ -142,9 +154,12 @@ extension WorkoutProgmar {
         let entity = CoreDataFuncs.shared.getEntity(entity: WorkoutsSeriaEntity.self, id: id) ?? WorkoutsSeriaEntity(context: PersistenceController.shared.container.viewContext)
         
         entity.id = id
-        entity.name = name
-        entity.shortDescr = shortDescription
-        entity.descr = description
+        entity.name = name_en
+        entity.shortDescr = shortDescription_en
+        entity.descr = description_en
+        entity.nameRu = name_ru
+        entity.shortDescrRu = shortDescription_ru
+        entity.descrRu = description_ru
         entity.type = type.rawValue.int32
         entity.sex = sex.rawValue.int32
         entity.place = place.rawValue.int32
@@ -178,9 +193,12 @@ extension WorkoutProgmar{
     func getForJSON() -> [String: Any] {
         let dict: [String: Any] = [
             "id": id,
-            "name": name,
-            "shortDescription" : shortDescription,
-            "description" : description,
+            "name_en": name_en,
+            "shortDescription_en" : shortDescription_en,
+            "description_en" : description_en,
+            "name_ru": name_ru,
+            "shortDescription_ru" : shortDescription_ru,
+            "description_ru" : description_ru,
             "level" : level.map({$0.rawValue}),
             "type": type.rawValue,
             "sex": sex.rawValue,

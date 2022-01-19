@@ -40,13 +40,21 @@ struct WorkoutDetail: View {
                     }
                     
                     //НАЗВАНИЕ
-                    MyTextField(name: "Name", text: $workout.name)
+                    HStack(spacing: 10){
+                        MyTextField(name: "Name", text: $workout.name_en)
+                        MyTextField(name: "Имя", text: $workout.name_ru)
+                    }
                     
                     //ОПИСАНИЕ
-                    MyTextField(name: "Description", text: $workout.description, multiline: true)
-                    
+                    HStack(spacing: 10){
+                        MyTextField(name: "Description", text: $workout.description_en, multiline: true)
+                        MyTextField(name: "Описание", text: $workout.description_ru, multiline: true)
+                    }
                     //КОРОТКОЕ ОПИСАНИЕ
-                    MyTextField(name: "Short description", text: $workout.shortDescription, multiline: true)
+                    HStack(spacing: 10){
+                        MyTextField(name: "Short description", text: $workout.shortDescription_en, multiline: true)
+                        MyTextField(name: "Короткое описание", text: $workout.shortDescription_ru, multiline: true)
+                    }
                     
                     //PROGRAM ID
                     if let seriaId = workout.seriaId{

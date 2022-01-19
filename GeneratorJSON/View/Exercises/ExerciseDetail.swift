@@ -36,13 +36,22 @@ struct ExerciseDetail: View {
                 }
                 
                 //НАЗВАНИЕ
-                MyTextField(name: "Name", text: $exercise.name)
+                HStack(spacing: 10){
+                    MyTextField(name: "Name", text: $exercise.name_en)
+                    MyTextField(name: "Имя", text: $exercise.name_ru)
+                }
                 
                 //ОПИСАНИЕ
-                MyTextField(name: "Description", text: $exercise.description, multiline: true)
+                HStack(spacing: 10){
+                    MyTextField(name: "Description", text: $exercise.description_en, multiline: true)
+                    MyTextField(name: "Описание", text: $exercise.description_ru, multiline: true)
+                }
                 
                 //КОРОТКОЕ ОПИСАНИЕ
-                MyTextField(name: "Short description", text: $exercise.shortDescription, multiline: true)
+                HStack(spacing: 10){
+                    MyTextField(name: "Short description", text: $exercise.shortDescription_en, multiline: true)
+                    MyTextField(name: "Короткое описание", text: $exercise.shortDescription_ru, multiline: true)
+                }
                 
                 //ФОТО
                 HStack(spacing: 40){

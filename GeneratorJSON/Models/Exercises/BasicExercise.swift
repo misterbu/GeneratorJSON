@@ -17,9 +17,18 @@ struct BasicExercise: Identifiable, Reviewble, Equatable {
     var image: NSImage?
     var video: String?
     
-    var name: String = "Defalult"
-    var shortDescription: String = ""
-    var description: String = ""
+    var name_en: String = "Default"
+    var shortDescription_en: String = ""
+    var description_en: String = ""
+    
+    var name_ru: String = ""
+    var description_ru: String = ""
+    var shortDescription_ru: String = ""
+    
+    var name: String {name_en}
+    var shortDescription: String {shortDescription_en}
+    var description: String {description_en}
+    
     var voiceComment: [String] = []
     
     var level: [LevelType] = []
@@ -92,9 +101,12 @@ extension BasicExercise: CoreDatable {
         guard let entity = entity as? ExerciseEntity else {return}
         
         self.id = entity.id ?? UUID().uuidString
-        self.name = entity.name ?? "Default"
-        self.shortDescription = entity.shortDescr ?? ""
-        self.description = entity.descr ?? ""
+        self.name_en = entity.name ?? ""
+        self.shortDescription_en = entity.shortDescr ?? ""
+        self.description_en = entity.descr ?? ""
+        self.name_ru = entity.nameRu ?? ""
+        self.shortDescription_ru = entity.shortDescrRu ?? ""
+        self.description_ru = entity.descrRu ?? ""
        // self.level = LevelType(rawValue: Int(entity.level)) ?? .all
         self.type = WorkType(rawValue: Int(entity.type)) ?? .hiit
         self.authorId = entity.autorId
@@ -140,9 +152,12 @@ extension BasicExercise: CoreDatable {
         let entity = CoreDataFuncs.shared.getEntity(entity: ExerciseEntity.self, id: id) ?? ExerciseEntity(context: PersistenceController.shared.container.viewContext)
         
         entity.id = id
-        entity.name = name
-        entity.shortDescr = shortDescription
-        entity.descr = description
+        entity.name = name_en
+        entity.shortDescr = shortDescription_en
+        entity.descr = description_en
+        entity.nameRu = name_ru
+        entity.shortDescrRu = shortDescription_ru
+        entity.descrRu = description_ru
         entity.type = type.rawValue.int32
         entity.autorId = authorId
         entity.isPro = isPro
@@ -173,9 +188,12 @@ extension BasicExercise {
     func getForJSON() -> [String : Any] {
         let dict: [String : Any] = [
             "id" : id,
-            "name" : name,
-            "shortDescription" : shortDescription,
-            "description" : description,
+            "name_en": name_en,
+            "shortDescription_en" : shortDescription_en,
+            "description_en" : description_en,
+            "name_ru": name_ru,
+            "shortDescription_ru" : shortDescription_ru,
+            "description_ru" : description_ru,
             "voiceComment" : voiceComment.joined(separator: ";"),
             "level" : level.map({$0.rawValue}),
             "type": type.rawValue,

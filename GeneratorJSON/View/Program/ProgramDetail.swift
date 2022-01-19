@@ -37,13 +37,25 @@ struct ProgramDetail: View {
                 }
                 
                 //НАЗВАНИЕ
-                MyTextField(name: "Name", text: $program.name)
+                HStack(spacing: 10){
+                    MyTextField(name: "Name", text: $program.name_en)
+                    MyTextField(name: "Название", text: $program.name_ru)
+                }
+               
                 
                 //ОПИСАНИЕ
-                MyTextField(name: "Description", text: $program.description, multiline: true)
+                HStack(spacing: 10){
+                    MyTextField(name: "Description", text: $program.description_en, multiline: true)
+                    MyTextField(name: "Описание", text: $program.description_ru, multiline: true)
+                }
+                
                 
                 //КОРОТКОЕ ОПИСАНИЕ
-                MyTextField(name: "Short description", text: $program.shortDescription, multiline: true)
+                HStack(spacing: 10){
+                    MyTextField(name: "Short description", text: $program.shortDescription_en, multiline: true)
+                    MyTextField(name: "Короткое описание", text: $program.shortDescription_ru, multiline: true)
+                }
+               
                 
                 //ФОТО
                 HStack(spacing: 40){
