@@ -13,7 +13,7 @@ struct ProgramsView: View {
     var body: some View {
         HStack{
             ProgramReview()
-                .frame(width: 350)
+                .frame(width: 450)
                 .background(BlurWindow())
             
             ProgramDetail(program: $viewModel.selectProgram)
