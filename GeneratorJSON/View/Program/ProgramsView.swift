@@ -15,6 +15,7 @@ struct ProgramsView: View {
             ProgramReview()
                 .frame(width: 350)
                 .background(BlurWindow())
+                .background(Color.red)
             
             ProgramDetail(program: $viewModel.selectProgram)
         }
