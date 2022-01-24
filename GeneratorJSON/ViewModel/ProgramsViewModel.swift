@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import SwiftyJSON
 
 class ProgramsViewModel: ObservableObject {
     private var cancellables: [AnyCancellable] = []
@@ -103,12 +104,14 @@ class ProgramsViewModel: ObservableObject {
         url.appendPathExtension("json")
         
         // 2 Получаем даныне
-        var dics = [String: Any]()
-        dics["programs"] = allPrograms.map({$0.getForJSON()})
+      
+        let dict = JSON(["programs" : allPrograms.map({$0.getForJSON()})])
+        
         
         // 3 Конвектируем в JSON и записываем
         do{
-            let data = try JSONSerialization.data(withJSONObject: dics)
+            let data = try dict.rawData()
+            //let data = try JSONSerialization.data(withJSONObject: dics)
             try data.write(to: url)
         }
         catch {

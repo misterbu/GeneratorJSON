@@ -121,7 +121,6 @@
         <attribute name="target" optional="YES" attributeType="String"/>
         <attribute name="type" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="video" optional="YES" attributeType="String"/>
-        <relationship name="series" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="WorkoutsSeriaEntity" inverseName="workout" inverseEntity="WorkoutsSeriaEntity"/>
         <relationship name="special" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SpecialEntity" inverseName="workouts" inverseEntity="SpecialEntity"/>
         <relationship name="workoutCircles" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="CircleEntity" inverseName="workouts" inverseEntity="CircleEntity"/>
         <uniquenessConstraints>
@@ -132,7 +131,6 @@
     </entity>
     <entity name="WorkoutsSeriaEntity" representedClassName="WorkoutsSeriaEntity" syncable="YES" codeGenerationType="class">
         <attribute name="authorId" optional="YES" attributeType="String"/>
-        <attribute name="daysBetweenWorkouts" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="descr" optional="YES" attributeType="String"/>
         <attribute name="descrRu" optional="YES" attributeType="String"/>
         <attribute name="equipment" optional="YES" attributeType="String"/>
@@ -144,6 +142,7 @@
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="nameRu" optional="YES" attributeType="String"/>
         <attribute name="place" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="plan" optional="YES" attributeType="Binary"/>
         <attribute name="sex" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="shortDescr" optional="YES" attributeType="String"/>
         <attribute name="shortDescrRu" optional="YES" attributeType="String"/>
@@ -151,7 +150,6 @@
         <attribute name="type" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="video" optional="YES" attributeType="String"/>
         <relationship name="special" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SpecialEntity" inverseName="programs" inverseEntity="SpecialEntity"/>
-        <relationship name="workout" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="WorkoutEntity" inverseName="series" inverseEntity="WorkoutEntity"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="id"/>
@@ -165,7 +163,7 @@
         <element name="IntervalExerciseEntity" positionX="-63" positionY="-18" width="128" height="14"/>
         <element name="SpecialEntity" positionX="-18" positionY="144" width="128" height="104"/>
         <element name="StrenghtExerciseEntity" positionX="-54" positionY="-9" width="128" height="14"/>
-        <element name="WorkoutEntity" positionX="-36" positionY="135" width="128" height="404"/>
-        <element name="WorkoutsSeriaEntity" positionX="-18" positionY="144" width="128" height="344"/>
+        <element name="WorkoutEntity" positionX="-36" positionY="135" width="128" height="389"/>
+        <element name="WorkoutsSeriaEntity" positionX="-18" positionY="144" width="128" height="329"/>
     </elements>
 </model>

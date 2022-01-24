@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftyJSON
 
 struct WorkoutProgmar: CoreDatable, Reviewble {
     var id: String = UUID().uuidString
@@ -27,8 +28,7 @@ struct WorkoutProgmar: CoreDatable, Reviewble {
     var shortDescription: String {shortDescription_en}
     var description: String {description_en}
     
-    var workouts: [Workout] = []
-    var daysBetweenWorkout: Int = 0
+    var plan: [String: String] = [:]
     
     var level: [LevelType] = []
     var type: WorkType = .combine
@@ -110,6 +110,11 @@ extension WorkoutProgmar {
         self.shortDescription_ru = entity.shortDescrRu ?? ""
         self.description_ru = entity.descrRu ?? ""
         
+        if let planData = entity.plan,
+           let value = try? JSONDecoder().decode([String: String].self, from: planData) {
+            self.plan = value
+        }
+        
         self.type = WorkType(rawValue: Int(entity.type)) ?? .hiit
         self.sex = SexType(rawValue: Int(entity.sex)) ?? .unisex
         self.place = PlaceType(rawValue: entity.place.int) ?? .home
@@ -144,10 +149,6 @@ extension WorkoutProgmar {
             self.image = NSImage(data: imageData)
         }
         
-        if let workoutsEntities = entity.workout as? Set<WorkoutEntity> {
-            self.workouts = workoutsEntities.map({Workout(entity: $0)})
-        }
-        self.daysBetweenWorkout = entity.daysBetweenWorkouts.int
     }
     
     func getEntity<S>() -> S where S : NSManagedObject {
@@ -166,6 +167,10 @@ extension WorkoutProgmar {
         entity.authorId = authorId
         entity.isPro = isPro
         
+        if let data = try? JSONEncoder().encode(plan) {
+            entity.plan = data
+        }
+        
         entity.target = ""
         target.forEach({entity.target?.append($0.str + ",")})
         
@@ -178,20 +183,14 @@ extension WorkoutProgmar {
         entity.iconImage = iconImage?.imageToJPEGData()
         entity.image = image?.imageToJPEGData()
         
-        var items = Set<WorkoutEntity>()
-        workouts.forEach({items.insert($0.getEntity())})
-        entity.workout = items as NSSet
-        
-        entity.daysBetweenWorkouts = daysBetweenWorkout.int32
-        
         return entity as! S
     }
 }
 
 // MARK: - JSONBle
 extension WorkoutProgmar{
-    func getForJSON() -> [String: Any] {
-        let dict: [String: Any] = [
+    func getForJSON() -> JSON {
+        var json = JSON([
             "id": id,
             "name_en": name_en,
             "shortDescription_en" : shortDescription_en,
@@ -206,13 +205,15 @@ extension WorkoutProgmar{
             "equipment" : equipment.map({$0.rawValue}),
             "place" : place.rawValue,
             "autorId": authorId ?? "",
-            "isPro" : isPro,
-            "workoutsIDs": workouts.map({$0.id})
-        ]
+            "isPro" : isPro
+        ])
+
+              json["plan"] = JSON(plan)
+
         
         saveIcon()
         saveImage()
         
-        return dict
+        return json
     }
 }

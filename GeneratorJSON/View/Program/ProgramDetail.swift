@@ -13,6 +13,7 @@ struct ProgramDetail: View {
     @EnvironmentObject var workoutsViewModel: WorkoutsViewModel
     
     @State var showCatalog = false
+    @State var selectedDay: String? = nil
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
@@ -80,43 +81,64 @@ struct ProgramDetail: View {
                 
                 //ТРЕНИРОВКИ
                 VStack{
-                    HStack{
-                        Text("Workouts:".uppercased())
-                            .font(.title3)
-                            .foregroundColor(.white.opacity(0.5))
-                            .padding(.vertical)
+                    HStack(spacing: 20){
                         
+                        ForEach(Calendar.current.shortWeekdaySymbols, id: \.self) {day in
+                            getDayView(day)
+                        }
                         Spacer()
                         
+//                        Text("Workouts:".uppercased())
+//                            .font(.title3)
+//                            .foregroundColor(.white.opacity(0.5))
+//                            .padding(.vertical)
+//
+//                        Spacer()
+//
+//                        //ДОБАВЛЯЕМ ТРЕНИРОВКУ
+//                        ButtonWIthIcon(name: "Add workout", icon: "plus") {
+//                            showCatalog = true
+//                        }
+//                        .sheet(isPresented: $showCatalog) {
+//                            WorkoutCatalog(show: $showCatalog, programId: program.id) { newWorkout in
+//                                //ДОБАВЛЯЕМ ТРЕНИРОВКУ
+//                                program.workouts.append(newWorkout)
+//                                //Сохраняем
+//                                programsViewModel.save(program)
+//                            }
+//                        }
+//                    }
+//
+//                    ScrollView(.horizontal, showsIndicators: false) {
+//                        HStack(spacing: 20){
+//                            ForEach(program.workouts, id:\.id){workout in
+//                                WorkoutIconView(workout: workout) { deletedWorkout in
+//                                    //Удаляем seriaId из тренировки
+//                                    workoutsViewModel.deleteSeriaId(for: deletedWorkout)
+//                                    //Удаляем тренировку из программы тренировок
+//                                    program.workouts.removeAll(where: {$0.id == deletedWorkout.id})
+//                                    //Сохраняем
+//                                    programsViewModel.save(program)
+//                                }
+//                            }
+//                        }
+                    }
+                    
+                }
+                .sheet(isPresented: $showCatalog) {
+                    WorkoutCatalog(show: $showCatalog, programId: program.id) { newWorkout in
+                        
+                        guard let day = selectedDay else {return}
+                        
                         //ДОБАВЛЯЕМ ТРЕНИРОВКУ
-                        ButtonWIthIcon(name: "Add workout", icon: "plus") {
-                            showCatalog = true
-                        }
-                        .sheet(isPresented: $showCatalog) {
-                            WorkoutCatalog(show: $showCatalog, programId: program.id) { newWorkout in
-                                //ДОБАВЛЯЕМ ТРЕНИРОВКУ
-                                program.workouts.append(newWorkout)
-                                //Сохраняем
-                                programsViewModel.save(program)
-                            }
-                        }
+                        program.plan[day] = newWorkout.id
+                        self.selectedDay = nil
+                        
+                        //Сохраняем
+                        programsViewModel.save(program)
+                        
+                        withAnimation{self.showCatalog = false}
                     }
-                    
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 20){
-                            ForEach(program.workouts, id:\.id){workout in
-                                WorkoutIconView(workout: workout) { deletedWorkout in
-                                    //Удаляем seriaId из тренировки
-                                    workoutsViewModel.deleteSeriaId(for: deletedWorkout)
-                                    //Удаляем тренировку из программы тренировок
-                                    program.workouts.removeAll(where: {$0.id == deletedWorkout.id})
-                                    //Сохраняем
-                                    programsViewModel.save(program)
-                                }
-                            }
-                        }
-                    }
-                    
                 }
                 
                 //КНОПКИ УДАЛИТЬ СОХРАНИТЬ
@@ -131,14 +153,47 @@ struct ProgramDetail: View {
                     
                     //УДАЛИТь
                     ButtonWIthIcon(name: "DELETE", icon: "trash", isBig: true) {
-                        //Перед удалением программы удаляем seriaId во всех тренировках
-                        program.workouts.forEach({workoutsViewModel.deleteSeriaId(for: $0)})
+                        
                         //Удаляем программу
                         programsViewModel.delete(program)
                     }
                 }
             }
             .padding()
+        }
+    }
+        
+    @ViewBuilder
+    private func getDayView(_ day: String) -> some View {
+        VStack{
+            if let workoutID = program.plan.first(where: {$0.key == day})?.value,
+               let workout = workoutsViewModel.allWorkouts.first(where: {$0.id == workoutID}) {
+            
+                Image(nsImage: workout.image ?? NSImage(named: "ph")!)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 100, height: 100)
+                    .clipShape(Circle())
+            
+            } else {
+                Circle()
+                    .fill(Color.white.opacity(0.2))
+                    .frame(width: 100, height: 100)
+                    .overlay(Image(systemName: "plus")
+                                .font(.body)
+                                .foregroundColor(.white.opacity(0.6)))
+            }
+            
+            Text(day)
+                .foregroundColor(.white)
+                .font(.body)
+                .fontWeight(.semibold)
+                .textCase(.uppercase)
+        }
+        .contentShape(Rectangle())
+        .onTapGesture {
+            self.selectedDay = day
+            self.showCatalog = true
         }
     }
     
@@ -159,52 +214,3 @@ struct ProgramDetail: View {
     }
     
 }
-
-
-
-struct WorkoutIconView: View {
-    var workout: Workout
-    var onDelete:(Workout)->()
-    
-    var body: some View{
-        VStack{
-            HStack{
-                Spacer()
-                
-                //КНОПКА УДАЛИТЬ
-                IconButton(icon: "trash") {
-                    onDelete(workout)
-                }
-            }
-            
-            Spacer()
-            
-            HStack{
-                Text(workout.name.uppercased())
-                    .font(.title3)
-                    .foregroundColor(.white)
-                    .multilineTextAlignment(.leading)
-                    .lineLimit(3)
-                Spacer(minLength: 30)
-            }
-        }
-        .padding()
-        .cornerRadius(10)
-        .background(
-            VStack{
-                if let image = workout.image {
-                    Image(nsImage: image)
-                        .resizable()
-                        .scaledToFill()
-                    
-                } else {
-                    BlurWindow()
-                }
-            }
-        )
-        .frame(width: 250, height: 220)
-        .clipped()
-        
-    }
-}
-
