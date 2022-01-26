@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum SexType: Int, CaseIterable, StrChooseble {
+enum SexType: Int, CaseIterable, StrChooseble, Property {
     case unisex = 0
     case male = 1
     case female = 2
@@ -24,6 +24,8 @@ enum SexType: Int, CaseIterable, StrChooseble {
             self = .unisex
         }
     }
+    
+    var id: String {"SexType_\(str)"}
     
     var str: String {
         switch self {

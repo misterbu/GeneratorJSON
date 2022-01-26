@@ -7,12 +7,14 @@
 
 import Foundation
 
-enum EquipmentType: Int, CaseIterable, StrChooseble {
+enum EquipmentType: Int, CaseIterable, StrChooseble, Property {
     case nothing = 0
     case gym = 1
     case dumbbells = 2
     case skippingRope = 3
     case horizontalBar = 4
+    
+    var id: String {"EquipmentType_\(str)"}
     
     var str : String {
         switch self {

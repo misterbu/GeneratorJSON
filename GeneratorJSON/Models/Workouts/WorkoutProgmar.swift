@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftyJSON
 
-struct WorkoutProgmar: CoreDatable, Reviewble {
+struct WorkoutProgmar: Reviewble, CatalogItem, HasProperties {
     var id: String = UUID().uuidString
     var createAt: Date = Date()
     
@@ -40,6 +40,7 @@ struct WorkoutProgmar: CoreDatable, Reviewble {
     var authorId: String?
     var isPro: Bool = false
     
+    var properties: [Property] = []
     
     
     // MARK: - INIT
@@ -99,7 +100,7 @@ struct WorkoutProgmar: CoreDatable, Reviewble {
 
 
 // MARK: - COREDATABLE
-extension WorkoutProgmar {
+extension WorkoutProgmar: CoreDatable {
     init<S>(entity: S) where S : NSManagedObject {
         guard let entity = entity as? WorkoutsSeriaEntity else {return}
         self.id = entity.id ?? UUID().uuidString

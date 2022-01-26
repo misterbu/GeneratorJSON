@@ -7,24 +7,11 @@
 
 import Foundation
 
-enum TargetType: Int, CaseIterable, StrChooseble {
+enum TargetType: Int, CaseIterable, StrChooseble, Property {
     case healt = 0
     case loseWeight = 1
     case buildMuscule = 2
     case drying = 3
-    
-    var str: String {
-        switch self {
-        case .healt:
-            return "Healt"
-        case .loseWeight:
-            return "LoseWeight"
-        case .buildMuscule:
-            return "BuildMuscule"
-        case .drying:
-            return "Drying"
-        }
-    }
     
     init(strValue: String){
         switch strValue {
@@ -41,6 +28,21 @@ enum TargetType: Int, CaseIterable, StrChooseble {
         }
     }
     
+    var id: String {"SexType_\(str)"}
+    
+    var str: String {
+        switch self {
+        case .healt:
+            return "Healt"
+        case .loseWeight:
+            return "LoseWeight"
+        case .buildMuscule:
+            return "BuildMuscule"
+        case .drying:
+            return "Drying"
+        }
+    }
+     
     static var allCased: [String]{
         return TargetType.allCases.map({$0.str})
     }

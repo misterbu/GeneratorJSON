@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum WorkType: Int, CaseIterable, StrChooseble {
+enum WorkType: Int, CaseIterable, StrChooseble, Property {
     case combine = 0
     case hiit = 1
     case strenght = 2
@@ -27,6 +27,8 @@ enum WorkType: Int, CaseIterable, StrChooseble {
             self = .hiit
         }
     }
+    
+    var id: String {"WorkType_\(str)"}
     
     var str: String {
         switch self {

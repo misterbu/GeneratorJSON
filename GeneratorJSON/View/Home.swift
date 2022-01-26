@@ -35,11 +35,11 @@ struct Home: View {
             ZStack{
                 switch activeTab {
                 case .programs:
-                    ProgramsView()
+                    CatalogContainer(items: programsViewModel.allPrograms)
                 case .workouts:
-                    WorkoutsView()
+                    CatalogContainer(items: workoutViewModel.allWorkouts)
                 case .exercises:
-                   ExercisesView()
+                    CatalogContainer(items: exercisesViewModel.allExerises)
                 }
             }.frame(maxWidth: .infinity, maxHeight: .infinity)
         }

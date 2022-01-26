@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum MuscleType: Int, CaseIterable, Identifiable, StrChooseble {
+enum MuscleType: Int, CaseIterable, Identifiable, StrChooseble, Property {
     case fullBody = 0
     case upperBody = 1
     case lowBody = 2
@@ -44,7 +44,8 @@ enum MuscleType: Int, CaseIterable, Identifiable, StrChooseble {
         }
     }
     
-    var id: Int {self.rawValue}
+    
+    var id: String {"MuscleType_\(str)"}
     
     var str: String {
         switch self {

@@ -7,10 +7,12 @@
 
 import Foundation
 
-enum PlaceType: Int, CaseIterable, StrChooseble {
+enum PlaceType: Int, CaseIterable, StrChooseble , Property{
     case home = 0
     case gym = 1
     case outdoor = 2
+    
+    var id: String {"PlaceType_\(str)"}
     
     var str : String {
         switch self {

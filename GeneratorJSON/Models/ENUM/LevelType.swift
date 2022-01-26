@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum LevelType: Int, CaseIterable, StrChooseble {
+enum LevelType: Int, CaseIterable, StrChooseble, Property {
     case all = 0
     case beginner = 1
     case intermediate = 2
@@ -27,6 +27,8 @@ enum LevelType: Int, CaseIterable, StrChooseble {
             self = .all
         }
     }
+    
+    var id: String {"LevelType_\(str)"}
     
     var str: String {
         switch self {

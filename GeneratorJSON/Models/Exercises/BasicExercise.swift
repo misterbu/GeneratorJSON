@@ -10,7 +10,7 @@ import CoreData
 import SwiftUI
 import SwiftyJSON
 
-struct BasicExercise: Identifiable, Reviewble, Equatable {
+struct BasicExercise: Identifiable, Reviewble, CatalogItem, HasProperties {
     var id: String = UUID().uuidString
     
     var iconImage: NSImage?
@@ -40,6 +40,7 @@ struct BasicExercise: Identifiable, Reviewble, Equatable {
     
     var isPro: Bool = false
     
+    var properties: [Property] = []
     
     // MARK: -  INIT
     init(){}
