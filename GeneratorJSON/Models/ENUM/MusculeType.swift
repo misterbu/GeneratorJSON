@@ -70,9 +70,14 @@ enum MuscleType: Int, CaseIterable, Identifiable, StrChooseble, Property {
         }
     }
     
+    var type: PropertyType {.muscleType}
+    
     static var allCased: [String] {
         return MuscleType.allCases.map({$0.str})
     }
+    
+    static var typeName: String {"Muscle"}
+    static var multiSelect: Bool {true}
 
     static var allMuscles: [MuscleType] {
         return [.fullBody, .lowBody , .upperBody, .chest,.shoulders,.back,.hands,.legs,.abs]

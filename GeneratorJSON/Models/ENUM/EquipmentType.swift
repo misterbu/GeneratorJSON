@@ -48,6 +48,11 @@ enum EquipmentType: Int, CaseIterable, StrChooseble, Property {
         }
     }
     
+    var type: PropertyType {.equipmentType}
+    
+    static var typeName: String {"Equipnent"}
+    static var multiSelect: Bool {true}
+    
     static var allCased: [String]{
         return EquipmentType.allCases.map({$0.str})
     }

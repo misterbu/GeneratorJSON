@@ -43,7 +43,14 @@ enum LevelType: Int, CaseIterable, StrChooseble, Property {
         }
     }
     
+    var type: PropertyType {.levelsType}
+    
+    static var typeName: String {"Level"}
+    static var multiSelect: Bool {false}
+    
     static var allCased: [String] {
         LevelType.allCases.map({$0.str})
     }
+    
+    
 }

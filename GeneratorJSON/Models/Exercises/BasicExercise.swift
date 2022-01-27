@@ -40,7 +40,16 @@ struct BasicExercise: Identifiable, Reviewble, CatalogItem, HasProperties {
     
     var isPro: Bool = false
     
-    var properties: [Property] = []
+    var properties: [Property] {
+        get{
+            var value = [Property]()
+            value.append(contentsOf: level)
+            value.append( type)
+            value.append(contentsOf: muscle)
+            return value
+        }
+        set{}
+    }
     
     // MARK: -  INIT
     init(){}

@@ -38,6 +38,11 @@ enum PlaceType: Int, CaseIterable, StrChooseble , Property{
         }
     }
     
+    var type: PropertyType {.placeType}
+    
+    static var typeName: String {"Place"}
+    static var multiSelect: Bool {false}
+    
     static var allCased: [String]{
         return PlaceType.allCases.map({$0.str})
     }

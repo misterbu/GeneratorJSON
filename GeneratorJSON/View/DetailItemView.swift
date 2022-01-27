@@ -8,8 +8,10 @@
 import SwiftUI
 
 
-struct DetailItemView<Item: CatalogDetailItem>: View {
+struct DetailItemView<Item: CatalogDetailItem & HasProperties>: View {
     @Binding var item: Item
+    var onSave: (Item)->()
+    var onDelete: (Item)->()
     
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
@@ -49,6 +51,36 @@ struct DetailItemView<Item: CatalogDetailItem>: View {
                     MyTextField(name: "Short description", text: $item.shortDescription_en, multiline: true)
                     MyTextField(name: "Короткое описание", text: $item.shortDescription_ru, multiline: true)
                 }
+                
+                //ФОТО
+                HStack(spacing: 40){
+                    ImageFrame( image: $item.iconImage, name: "Icon")
+                    ImageFrame( image: $item.image, name: "Image")
+                    Spacer()
+                }
+                
+                //СВОЙСТВА
+                ProperiesView(properties: $item.properties)
+                
+                //ОПРЕДЕЛЕННОЕ СВОЙСТВО В ЗАВИСИМОСТИ ОТ ТИПА ОБЬЕКТА
+                specificProperties
+                    .padding(.vertical, 20)
+                
+                //КНОПКИ УДАЛИТЬ СОХРАНИТЬ
+                Divider()
+                
+                HStack(spacing: 50){
+                    Spacer()
+                    //СОХРАНИТЬ
+                    ButtonWIthIcon(name: "SAVE", icon: "opticaldiscdrive.fill", isBig: true) {
+                        
+                    }
+                    
+                    //УДАЛИТь
+                    ButtonWIthIcon(name: "DELETE", icon: "trash", isBig: true) {
+                        
+                    }
+                }
             }
         }
     }
@@ -69,4 +101,18 @@ struct DetailItemView<Item: CatalogDetailItem>: View {
         }
         .buttonStyle(PlainButtonStyle())
     }
+    
+    private var specificProperties: some View {
+        VStack{
+            if let workoutProgram = item as? WorkoutProgmar {
+                WorkoutProgramPropertyView(program: .init(get: {workoutProgram},
+                                                          set: {item = $0 as! Item }))
+            } else if let workout = item as? Workout {
+                WorkoutPropertyView(workout: .init(get: {workout},
+                                                   set: {item = $0 as! Item}))
+            }
+        }
+    }
 }
+
+

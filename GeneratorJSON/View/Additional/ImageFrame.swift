@@ -41,6 +41,7 @@ struct ImageFrame: View {
                     Image(nsImage: image)
                         .resizable()
                         .scaledToFill()
+                        .clipped()
                 } else {
                     ZStack{
                         Color.black.opacity(0.3)
@@ -56,8 +57,6 @@ struct ImageFrame: View {
             .buttonStyle(PlainButtonStyle())
             .frame(width: 250, height: 190, alignment: .center)
             .clipShape(RoundedRectangle(cornerRadius: 10))
-            
-            
         }
     }
 }

@@ -43,6 +43,11 @@ enum WorkType: Int, CaseIterable, StrChooseble, Property {
         }
     }
     
+    var type: PropertyType {.exerciseType}
+    
+    static var typeName: String {"Type"}
+    static var multiSelect: Bool {false}
+    
     static var allCased: [String] {
         return WorkType.allCases.map({$0.str})
     }

@@ -45,7 +45,18 @@ struct Workout: Identifiable, Reviewble, CatalogItem, HasProperties {
     
     var isPro: Bool = false
     
-    var properties: [Property] = []
+    var properties: [Property] {
+        get{
+            var value = [Property]()
+            value.append(contentsOf: level)
+            value.append( type)
+            value.append(sex)
+            value.append(contentsOf: target)
+            value.append(place)
+            return value
+        }
+        set{}
+    }
     
     // MARK: - INIT
     init(){}

@@ -38,6 +38,11 @@ enum SexType: Int, CaseIterable, StrChooseble, Property {
         }
     }
     
+    var type: PropertyType {.sexType}
+    
+    static var typeName: String {"Gender type"}
+    static var multiSelect: Bool {false}
+    
     static var allCased: [String] {
         SexType.allCases.map({$0.str})
     }

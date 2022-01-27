@@ -7,9 +7,15 @@
 
 import SwiftUI
 
-struct CatalogView<Item: CatalogTitleItem>: View {
-    var items: [Item]
+struct CatalogView<Item: CatalogTitleItem & HasProperties>: View {
+    @ObservedObject var searchManager: SearchManager<Item>
+    //var items: [Item]
     @Binding var selectedItem: Item?
+    
+    init(items: [Item], selectedItem: Binding<Item?>){
+        self._selectedItem = selectedItem
+        self.searchManager = SearchManager(items)
+    }
     
     var body: some View {
         VStack{
@@ -18,14 +24,14 @@ struct CatalogView<Item: CatalogTitleItem>: View {
             
             //ОТОБРАЖАТЬ ТОЛЬКО СИЛОВЫЕ ИЛИ ИНТЕРВАЛЬНЫЕ ТРЕНИРОВКИ ИЛИ И ТО И ТО
             HStack(spacing: 20){
-//                showStrenghtButton
-//                showHiitButton
+                showStrenghtButton
+                showHiitButton
             }.padding(.bottom, 20)
             
             //ЭЛЕМЕНТЫ КАТАЛОГА
             VStack(spacing: 0){
                 ScrollView(.vertical, showsIndicators: false) {
-                    ForEach(items, id:\.id) {item in
+                    ForEach(searchManager.visibleItems, id:\.id) {item in
                         CatalogItemView(item: item)
                             .background(Color.black.opacity(isSelected(item.id) ? 0.2 : 0))
                             .contentShape(Rectangle())
@@ -58,6 +64,36 @@ struct CatalogView<Item: CatalogTitleItem>: View {
             .cornerRadius(5)
         }.buttonStyle(PlainButtonStyle())
 
+    }
+    
+    private var showHiitButton: some View {
+        Button {
+            searchManager.selectFilter(WorkType.hiit)
+        } label: {
+            Text("HIIT")
+                .foregroundColor(.white)
+                .padding(.vertical, 5)
+                .padding(.horizontal, 10)
+                .frame(width: 150)
+                .background(Color.orange.opacity(searchManager.selectedFilters.contains(where: {$0.id == WorkType.hiit.id}) ? 1 : 0.2))
+                .cornerRadius(5)
+
+        }
+        .buttonStyle(PlainButtonStyle())
+    }
+
+    private var showStrenghtButton: some View {
+        Button {
+            searchManager.selectFilter(WorkType.strenght)
+        } label: {
+            Text("STRENGHT")
+                .foregroundColor(.white)
+                .padding(.vertical, 5)
+                .padding(.horizontal, 10)
+                .frame(width: 150)
+                .background(Color.blue.opacity(searchManager.selectedFilters.contains(where: {$0.id == WorkType.strenght.id}) ? 1 : 0.2))
+                .cornerRadius(5)
+        }.buttonStyle(PlainButtonStyle())
     }
     
     private func isSelected(_ itemID: String) -> Bool {

@@ -150,6 +150,12 @@ extension WorkoutProgmar: CoreDatable {
             self.image = NSImage(data: imageData)
         }
         
+        self.properties.append(type)
+        self.properties.append(sex)
+        self.properties.append(place)
+        self.properties.append(contentsOf: target)
+        self.properties.append(contentsOf: equipment)
+        self.properties.append(contentsOf: level)
     }
     
     func getEntity<S>() -> S where S : NSManagedObject {

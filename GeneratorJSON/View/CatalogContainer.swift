@@ -7,13 +7,20 @@
 
 import SwiftUI
 
-struct CatalogContainer<Item: CatalogItem>: View {
+struct CatalogContainer<Item: CatalogItem & HasProperties>: View {
     
     var items: [Item]
+    var onSave:(Item)->()
+    var onDelete: (Item)->()
+    
     @State var selectedItem: Item?
     
-    init(items: [Item]){
+    init(items: [Item],
+         onSave: @escaping (Item)->(),
+         onDelete: @escaping (Item)->()){
         self.items = items
+        self.onSave = onSave
+        self.onDelete = onDelete
         self._selectedItem = .init(initialValue: items.first ?? nil)
     }
     
@@ -27,11 +34,14 @@ struct CatalogContainer<Item: CatalogItem>: View {
             //DetailViewOfCatalogItem
             if let item = selectedItem {
                 DetailItemView(item: .init(get: {item},
-                                           set: {self.selectedItem = $0}))
+                                           set: {self.selectedItem = $0}),
+                               onSave: onSave,
+                               onDelete: onDelete)
             } else {
                 //Отображаем страницу предлагающую создать первый элемент
             }
         }
+        .padding()
     }
 }
 

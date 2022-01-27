@@ -42,6 +42,11 @@ enum TargetType: Int, CaseIterable, StrChooseble, Property {
             return "Drying"
         }
     }
+    
+    var type: PropertyType {.targetType}
+    
+    static var typeName: String {"Target"}
+    static var multiSelect: Bool {true}
      
     static var allCased: [String]{
         return TargetType.allCases.map({$0.str})
