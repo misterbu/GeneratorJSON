@@ -8,17 +8,19 @@
 import Foundation
 import SwiftUI
 
-typealias CatalogItem = CatalogTitleItem & CatalogDetailItem
+typealias CatalogItem = CatalogTitle & CatalogDetail
 
-protocol CatalogTitleItem {
+protocol CatalogTitle {
     var id: String {get}
     var name: String {get}
     var image: NSImage? {get}
     var type: WorkType {get}
+    
+    init()
 }
 
 
-protocol CatalogDetailItem {
+protocol CatalogDetail {
     var id: String {get}
     
     var iconImage: NSImage? {get set}

@@ -1,9 +1,3 @@
-//
-//  StrenghtExerciseSidePage.swift
-//  GeneratorJSON
-//
-//  Created by Marat Gazizov on 03.10.2021.
-//
 
 import SwiftUI
 

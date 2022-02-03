@@ -12,5 +12,7 @@ protocol CoreDatable {
     var id: String {get}
     init<S: NSManagedObject>(entity: S)
     func getEntity<S: NSManagedObject>() -> S
+    var entityType: NSManagedObject.Type { get }
 }
+
 

@@ -8,7 +8,7 @@
 import SwiftUI
 
 
-struct CatalogItemView<Item: CatalogTitleItem>: View {
+struct CatalogItemView<Item: CatalogTitle>: View {
     var item: Item
     
     var body: some View {

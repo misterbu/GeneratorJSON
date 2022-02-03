@@ -29,6 +29,8 @@ struct IntervalExercise: Exercise {
         }
     }
     
+    var entityType: NSManagedObject.Type {IntervalExerciseEntity.self}
+    
     // MARK: - INIT
     init(){}
     

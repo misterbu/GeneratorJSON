@@ -42,6 +42,7 @@ struct WorkoutProgmar: Reviewble, CatalogItem, HasProperties {
     
     var properties: [Property] = []
     
+    var entityType: NSManagedObject.Type {WorkoutsSeriaEntity.self}
     
     // MARK: - INIT
     init(){}
@@ -195,7 +196,8 @@ extension WorkoutProgmar: CoreDatable {
 }
 
 // MARK: - JSONBle
-extension WorkoutProgmar{
+extension WorkoutProgmar: JSONble{
+    static var jsonType: JSONType {.program}
     func getForJSON() -> JSON {
         var json = JSON([
             "id": id,

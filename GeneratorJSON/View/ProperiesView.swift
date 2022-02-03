@@ -44,12 +44,7 @@ struct ProperiesView: View {
     private func getProperties(for selectType: Property.Type)->[Property]{
         self.properties.filter({type(of: $0) == selectType})
     }
-    
-
 }
-
-
-
 
 struct PropertySelectView: View {
     @Binding var selected: [Property]

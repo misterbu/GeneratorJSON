@@ -1,48 +1,42 @@
-//
-//  CatalogContainer.swift
-//  GeneratorJSON
-//
-//  Created by Marat Gazizov on 26.01.2022.
-//
+
 
 import SwiftUI
 
-struct CatalogContainer<Item: CatalogItem & HasProperties>: View {
+struct CatalogContainer<Manager: ItemManager>: View {
     
-    var items: [Item]
-    var onSave:(Item)->()
-    var onDelete: (Item)->()
-    
-    @State var selectedItem: Item?
-    
-    init(items: [Item],
-         onSave: @escaping (Item)->(),
-         onDelete: @escaping (Item)->()){
-        self.items = items
-        self.onSave = onSave
-        self.onDelete = onDelete
-        self._selectedItem = .init(initialValue: items.first ?? nil)
+    @ObservedObject var manager: Manager
+ 
+    init(manager: Manager){
+        self.manager = manager
     }
     
     var body: some View {
         HStack{
             //CatalogView
-            CatalogView(items: items, selectedItem: $selectedItem)
+            CatalogView(items: manager.items,
+                        selectedItem: $manager.selectedItem,
+                        onAdd: {manager.add()})
+                .background(BlurWindow().edgesIgnoringSafeArea(.all))
                 .frame(width: 350)
-                .background(BlurWindow())
+                .frame(maxHeight: .infinity)
+               
             
             //DetailViewOfCatalogItem
-            if let item = selectedItem {
+            if let item = manager.selectedItem {
                 DetailItemView(item: .init(get: {item},
-                                           set: {self.selectedItem = $0}),
-                               onSave: onSave,
-                               onDelete: onDelete)
+                                           set: {manager.selectedItem = $0}),
+                               onSave: {_ in},
+                               onDelete: {_ in })
             } else {
                 //Отображаем страницу предлагающую создать первый элемент
             }
-        }
-        .padding()
+        }.edgesIgnoringSafeArea(.all)
     }
 }
 
-
+struct CatalogContainer_Preview: PreviewProvider{
+    static var previews: some View {
+        CatalogContainer(manager: WorkoutsManager())
+            .preferredColorScheme(.dark)
+    }
+}

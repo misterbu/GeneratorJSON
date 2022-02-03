@@ -51,6 +51,8 @@ struct BasicExercise: Identifiable, Reviewble, CatalogItem, HasProperties {
         set{}
     }
     
+    var entityType: NSManagedObject.Type {ExerciseEntity.self}
+    
     // MARK: -  INIT
     init(){}
 
@@ -194,9 +196,11 @@ extension BasicExercise: CoreDatable {
 }
 
 // MARK: - JSOBLE
-extension BasicExercise {
-    func getForJSON() -> [String : Any] {
-        let dict: [String : Any] = [
+extension BasicExercise: JSONble {
+    static var jsonType: JSONType {.exercise}
+    
+    func getForJSON() -> JSON {
+        let json = JSON([
             "id" : id,
             "name_en": name_en,
             "shortDescription_en" : shortDescription_en,
@@ -210,12 +214,12 @@ extension BasicExercise {
             "muscle" : muscle.map({$0.rawValue}),
             "autorId": authorId ?? "",
             "isPro" : isPro
-        ]
+        ])
         
         //Сохраняем изображения
         saveImage()
         saveIcon()
         
-        return dict
+        return json
     }
 }

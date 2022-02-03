@@ -16,6 +16,7 @@ struct ExerciseSet: Equatable {
     var isWarm: Bool = false
     var voiceComment:[String] = []
     
+    var entityType: NSManagedObject.Type {ExerciseSetEntity.self}
     
     // MARK: - INIT
     init(order: Int){

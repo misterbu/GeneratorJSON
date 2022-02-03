@@ -21,9 +21,6 @@ protocol HasProperties {
     var properties: [Property] {get set}
 }
 
-
-
-
 enum PropertyType {
     case exerciseType
     case levelsType

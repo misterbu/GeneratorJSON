@@ -14,6 +14,8 @@ struct SpecialProgram {
     var description = ""
     var items: [Reviewble] = []
     
+    var entityType: NSManagedObject.Type {SpecialEntity.self}
+    
     init(){}
     
 }

@@ -10,8 +10,8 @@ import SwiftUI
 struct WorkoutProgramPropertyView: View {
     @Binding var program: WorkoutProgmar
     
-    @EnvironmentObject var programsViewModel: ProgramsViewModel
-    @EnvironmentObject var workoutsViewModel: WorkoutsViewModel
+    @EnvironmentObject var programsViewModel: ProgramsManager
+    @EnvironmentObject var workoutsManager: WorkoutsManager
     @State var showCatalog = false
     @State var selectedDay: String? = nil
     
@@ -23,28 +23,28 @@ struct WorkoutProgramPropertyView: View {
             }
             Spacer()
         }
-        .sheet(isPresented: $showCatalog) {
-            WorkoutCatalog(show: $showCatalog, programId: program.id) { newWorkout in
-                
-                guard let day = selectedDay else {return}
-                
-                //ДОБАВЛЯЕМ ТРЕНИРОВКУ
-                program.plan[day] = newWorkout.id
-                self.selectedDay = nil
-                
-                //Сохраняем
-                //programsViewModel.save(program)
-                
-                withAnimation{self.showCatalog = false}
-            }
-        }
+//        .sheet(isPresented: $showCatalog) {
+//            WorkoutCatalog(show: $showCatalog, programId: program.id) { newWorkout in
+//
+//                guard let day = selectedDay else {return}
+//
+//                //ДОБАВЛЯЕМ ТРЕНИРОВКУ
+//                program.plan[day] = newWorkout.id
+//                self.selectedDay = nil
+//
+//                //Сохраняем
+//                //programsViewModel.save(program)
+//
+//                withAnimation{self.showCatalog = false}
+//            }
+//        }
     }
     
     @ViewBuilder
     private func getDayView(_ day: String) -> some View {
         VStack{
             if let workoutID = program.plan.first(where: {$0.key == day})?.value,
-               let workout = workoutsViewModel.allWorkouts.first(where: {$0.id == workoutID}) {
+               let workout = workoutsManager.items.first(where: {$0.id == workoutID}) {
             
                 Image(nsImage: workout.image ?? NSImage(named: "ph")!)
                     .resizable()
@@ -68,9 +68,32 @@ struct WorkoutProgramPropertyView: View {
                 .textCase(.uppercase)
         }
         .contentShape(Rectangle())
-        .onTapGesture {
-            self.selectedDay = day
-            self.showCatalog = true
+//        .onTapGesture {
+//            self.selectedDay = day
+//
+//            let catalogView = SearchCatalogView(searchManager: SearchManager(workoutsManager.items),
+//                                                title: "Select workout to \n\(selectedDay ?? "")",
+//                                                onSelect: {workout in
+//                //1. Add workout to plan
+//                if let selectedDay = selectedDay {
+//                    self.program.plan[selectedDay] = workout.id
+//                    self.selectedDay = nil
+//                }
+//
+//            })
+//
+//            showWorkoutsCatalog(AnyView(catalogView))
+//        }
+    }
+}
+
+
+struct WorkoutsCatalog: View {
+    var body: some View {
+        VStack{
+            Text("CATALOG ")
+                .font(.title)
+                .foregroundColor(.red)
         }
     }
 }

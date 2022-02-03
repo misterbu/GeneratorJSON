@@ -1,9 +1,3 @@
-//
-//  Home.swift
-//  GeneratorJSON
-//
-//  Created by Marat Gazizov on 01.10.2021.
-//
 
 import SwiftUI
 
@@ -11,8 +5,8 @@ struct Home: View {
     
     @State var activeTab: MainPageType = .programs
     
-    @EnvironmentObject var workoutViewModel: WorkoutsViewModel
-    @EnvironmentObject var programsViewModel: ProgramsViewModel
+    @EnvironmentObject var workoutsManager: WorkoutsManager
+    @EnvironmentObject var programsManager: ProgramsManager
     @EnvironmentObject var exercisesViewModel: ExercisesViewModel
     
     var body: some View {
@@ -35,17 +29,11 @@ struct Home: View {
             ZStack{
                 switch activeTab {
                 case .programs:
-                    CatalogContainer(items: programsViewModel.allPrograms,
-                                     onSave: {_ in },
-                                     onDelete: {_ in})
+                    CatalogContainer(manager: programsManager)
                 case .workouts:
-                    CatalogContainer(items: workoutViewModel.allWorkouts,
-                                     onSave: {_ in },
-                                     onDelete: {_ in})
+                    CatalogContainer(manager: workoutsManager)
                 case .exercises:
-                    CatalogContainer(items: exercisesViewModel.allExerises,
-                                     onSave: {_ in },
-                                     onDelete: {_ in})
+                    CatalogContainer(manager: exercisesViewModel)
                 }
             }.frame(maxWidth: .infinity, maxHeight: .infinity)
         }
@@ -57,8 +45,8 @@ struct Home: View {
     
     var generateJSONButton: some View {
         Button {
-            workoutViewModel.generateJSON()
-            programsViewModel.generateJSON()
+            workoutsManager.generateJSON()
+            programsManager.generateJSON()
             exercisesViewModel.generateJSON()
         } label: {
             VStack{
@@ -78,9 +66,4 @@ struct Home: View {
     }
 }
 
-struct Home_Previews: PreviewProvider {
-    static var previews: some View {
-        Home()
-            .preferredColorScheme(.dark)
-    }
-}
+

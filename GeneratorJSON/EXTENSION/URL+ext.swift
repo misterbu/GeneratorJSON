@@ -60,8 +60,6 @@ extension URL {
     }
 }
 
-
-
 enum MyLocation {
     case exerciseJSON
     case exerciseImage
@@ -75,3 +73,5 @@ enum MyLocation {
     case seriaImage
     case seriaVideo
 }
+
+

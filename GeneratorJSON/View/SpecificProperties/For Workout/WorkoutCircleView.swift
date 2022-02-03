@@ -83,24 +83,24 @@ struct WorkoutCircleView: View {
                         
                         //ADD EXERCISE
                         addExerciseButon
-                            .sheet(isPresented: $showExerciseCatalog) {
-                                //КАТАЛОГ УПРЖАНЕНИЙ
-                                ExerciseCatalog(show: $showExerciseCatalog) { basic in
-                                    //ВЫБРАЛИ УПР В КАТАЛОГЕ
-                                    if basic.type == .strenght {
-                                        //ЕСЛИ ЭТО СИЛОВОЕ УПР
-                                        let exercise = StrenghtExercise(basic, order: workoutCircle.exercises.count)
-                                        workoutCircle.exercises.append(exercise)
-                                    } else if basic.type == .hiit {
-                                        //ЕСЛИ ЭТО ИНТЕРВАЛЬНОЕ УПР
-                                        let exercise = IntervalExercise(basic, order: workoutCircle.exercises.count)
-                                        workoutCircle.exercises.append(exercise)
-                                    }
-                                    
-                                    //ЗАКРЫВАЕМ КАТАЛОГ УПР
-                                    self.showExerciseCatalog = false
-                                }
-                            }
+//                            .sheet(isPresented: $showExerciseCatalog) {
+//                                //КАТАЛОГ УПРЖАНЕНИЙ
+//                                ExerciseCatalog(show: $showExerciseCatalog) { basic in
+//                                    //ВЫБРАЛИ УПР В КАТАЛОГЕ
+//                                    if basic.type == .strenght {
+//                                        //ЕСЛИ ЭТО СИЛОВОЕ УПР
+//                                        let exercise = StrenghtExercise(basic, order: workoutCircle.exercises.count)
+//                                        workoutCircle.exercises.append(exercise)
+//                                    } else if basic.type == .hiit {
+//                                        //ЕСЛИ ЭТО ИНТЕРВАЛЬНОЕ УПР
+//                                        let exercise = IntervalExercise(basic, order: workoutCircle.exercises.count)
+//                                        workoutCircle.exercises.append(exercise)
+//                                    }
+//                                    
+//                                    //ЗАКРЫВАЕМ КАТАЛОГ УПР
+//                                    self.showExerciseCatalog = false
+//                                }
+//                            }
                     }
                 }
             }

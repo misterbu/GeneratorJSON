@@ -14,11 +14,12 @@ struct GeneratorJSONApp: App {
             Home()
                 .buttonStyle(PlainButtonStyle())
                 .textFieldStyle(PlainTextFieldStyle())
-                .environmentObject(ProgramsViewModel())
+                .environmentObject(ProgramsManager())
                 .environmentObject(ExercisesViewModel())
-                .environmentObject(WorkoutsViewModel())
+                .environmentObject(WorkoutsManager())
                 .preferredColorScheme(.dark)
         }
-        .windowStyle(HiddenTitleBarWindowStyle())
+        .windowStyle(.hiddenTitleBar)
+//        .windowStyle(HiddenTitleBarWindowStyle())
     }
 }

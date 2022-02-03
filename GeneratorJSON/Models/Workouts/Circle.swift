@@ -17,6 +17,7 @@ struct WorkoutCircle: Identifiable, CoreDatable {
     var type: CircleType = .main
     var exercises: [Exercise] = []
     
+    var entityType: NSManagedObject.Type {CircleEntity.self}
     
     // MARK: -  INIT
     init(order: Int){

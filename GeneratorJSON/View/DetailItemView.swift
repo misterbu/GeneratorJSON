@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-
-struct DetailItemView<Item: CatalogDetailItem & HasProperties>: View {
+struct DetailItemView<Item: CatalogDetail & HasProperties>: View {
     @Binding var item: Item
     var onSave: (Item)->()
     var onDelete: (Item)->()
     
     var body: some View {
+        //MAIN VIEW
         ScrollView(.vertical, showsIndicators: false) {
             VStack(spacing: 20){
                 HStack(spacing: 20){
@@ -73,12 +73,12 @@ struct DetailItemView<Item: CatalogDetailItem & HasProperties>: View {
                     Spacer()
                     //СОХРАНИТЬ
                     ButtonWIthIcon(name: "SAVE", icon: "opticaldiscdrive.fill", isBig: true) {
-                        
+                        onSave(item)
                     }
                     
                     //УДАЛИТь
                     ButtonWIthIcon(name: "DELETE", icon: "trash", isBig: true) {
-                        
+                        onDelete(item)
                     }
                 }
             }
@@ -102,6 +102,7 @@ struct DetailItemView<Item: CatalogDetailItem & HasProperties>: View {
         .buttonStyle(PlainButtonStyle())
     }
     
+    
     private var specificProperties: some View {
         VStack{
             if let workoutProgram = item as? WorkoutProgmar {
@@ -114,5 +115,4 @@ struct DetailItemView<Item: CatalogDetailItem & HasProperties>: View {
         }
     }
 }
-
 

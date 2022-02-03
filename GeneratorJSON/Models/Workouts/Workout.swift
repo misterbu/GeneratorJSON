@@ -58,6 +58,8 @@ struct Workout: Identifiable, Reviewble, CatalogItem, HasProperties {
         set{}
     }
     
+    var entityType: NSManagedObject.Type {WorkoutEntity.self}
+    
     // MARK: - INIT
     init(){}
     
@@ -230,9 +232,12 @@ extension Workout: CoreDatable  {
 }
 
 // MARK: - JSONBle
-extension Workout {
-    func getForJSON() -> [String: Any]{
-        let dict: [String: Any] = [
+extension Workout: JSONble {
+    
+    static var jsonType: JSONType {.workout}
+    
+    func getForJSON() -> JSON {
+        let json = JSON ([
             "id": id,
             "name_en": name_en,
             "shortDescription_en" : shortDescription_en,
@@ -251,11 +256,11 @@ extension Workout {
             "autorId": authorId ?? "",
             "isPro" : isPro,
             "workoutCircles" : workoutCircles.map({$0.getForJSON()})
-        ]
+        ])
 
         saveImage()
         saveIcon()
         
-        return dict
+        return json
     }
 }

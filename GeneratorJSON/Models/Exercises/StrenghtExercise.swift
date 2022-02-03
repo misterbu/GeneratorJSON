@@ -21,6 +21,8 @@ struct StrenghtExercise: Exercise {
     var noLimitReps: Bool = false
     var ownWeight: Bool = false
     
+    var entityType: NSManagedObject.Type {StrenghtExerciseEntity.self}
+    
     // MARK: - INIT
     init(){}
     

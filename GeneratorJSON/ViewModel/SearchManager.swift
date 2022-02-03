@@ -8,7 +8,7 @@
 import SwiftUI
 import Combine
 
-class SearchManager<SearchItem: CatalogTitleItem & HasProperties>: ObservableObject {
+class SearchManager<SearchItem: CatalogTitle & HasProperties>: ObservableObject {
     
     private(set) var allItems: [SearchItem]
     @Published private(set) var visibleItems: [SearchItem] = []

@@ -7,13 +7,14 @@
 
 import SwiftUI
 
-struct CatalogView<Item: CatalogTitleItem & HasProperties>: View {
+struct CatalogView<Item: CatalogTitle & HasProperties>: View {
     @ObservedObject var searchManager: SearchManager<Item>
-    //var items: [Item]
     @Binding var selectedItem: Item?
+    var onAdd: ()->()
     
-    init(items: [Item], selectedItem: Binding<Item?>){
+    init(items: [Item], selectedItem: Binding<Item?>, onAdd: @escaping ()->()){
         self._selectedItem = selectedItem
+        self.onAdd = onAdd
         self.searchManager = SearchManager(items)
     }
     
@@ -34,7 +35,7 @@ struct CatalogView<Item: CatalogTitleItem & HasProperties>: View {
                     ForEach(searchManager.visibleItems, id:\.id) {item in
                         CatalogItemView(item: item)
                             .background(Color.black.opacity(isSelected(item.id) ? 0.2 : 0))
-                            .contentShape(Rectangle())
+                            .clipShape(RoundedRectangle(cornerRadius: 15))
                             .onTapGesture {
                                 withAnimation{self.selectedItem = item}
                             }
@@ -42,13 +43,12 @@ struct CatalogView<Item: CatalogTitleItem & HasProperties>: View {
                 }
             }
         }
-        
-        
+        .padding()
     }
     
     private var addButton: some View {
         Button {
-          
+          onAdd()
         } label: {
             HStack(spacing: 5){
                 Spacer()
@@ -102,5 +102,13 @@ struct CatalogView<Item: CatalogTitleItem & HasProperties>: View {
         }
         
         return selectedItem.id == itemID
+    }
+}
+
+
+struct CatalogView_Preview: PreviewProvider{
+    static var previews: some View {
+        CatalogContainer(manager: WorkoutsManager())
+            .preferredColorScheme(.dark)
     }
 }
