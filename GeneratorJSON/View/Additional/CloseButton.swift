@@ -9,9 +9,9 @@ import SwiftUI
 
 struct CloseButton: View {
     
-    var onTap: ()->()
     var color: Color = .white
     var font: Font = .title2
+    var onTap: ()->()
     
     var body: some View {
         Button {

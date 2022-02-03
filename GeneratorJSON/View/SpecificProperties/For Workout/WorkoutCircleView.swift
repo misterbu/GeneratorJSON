@@ -9,9 +9,13 @@ import SwiftUI
 
 struct WorkoutCircleView: View {
     @Binding var workoutCircle: WorkoutCircle
+    var workType: WorkType
+    @Binding var exercisesCatalogView: AnyView?
     var onDelete: (WorkoutCircle)->()
     
-    @State var showExerciseCatalog = false
+    //@State var showExerciseCatalog = false
+    
+    @EnvironmentObject var exerciseManager: ExercisesViewModel
     
     @State var showExerciseEdit = false
     @State var selectedExercise: Exercise = StrenghtExercise()
@@ -130,7 +134,13 @@ struct WorkoutCircleView: View {
     
     private var addExerciseButon: some View {
         Button {
-            showExerciseCatalog.toggle()
+            withAnimation {
+                self.exercisesCatalogView = AnyView(AdditionalCatalogItemsView(searchManager: SearchManager(exerciseManager.items
+                                                                                                                .filter({$0.type == workType})),
+                                                                               title: "Add exercise", subtitle: nil,
+                                                                               onSelect: {addExercise($0 as BasicExercise)},
+                                                                               onClose: {closeExercisesCatalogView()}))
+            }
         } label: {
             Image(systemName: "plus")
                 .font(.title2)
@@ -142,6 +152,19 @@ struct WorkoutCircleView: View {
         }.buttonStyle(PlainButtonStyle())
 
     }
+
+    private func addExercise(_ exercise: BasicExercise){
+        withAnimation{self.exercisesCatalogView = nil}
+        
+        if exercise.type == .hiit {
+            workoutCircle.exercises.append(IntervalExercise(exercise, orderAdd: workoutCircle.exercises.count))
+        } else {
+            workoutCircle.exercises.append(StrenghtExercise(exercise, orderAdd: workoutCircle.exercises.count))
+        }
+    }
     
+    private func closeExercisesCatalogView(){
+        withAnimation{self.exercisesCatalogView = nil}
+    }
 }
 

@@ -9,25 +9,28 @@ import SwiftUI
 
 struct WorkoutProgramPropertyView: View {
     @Binding var program: WorkoutProgmar
+    @Binding var workoutsCatalogView: AnyView?
     
     @EnvironmentObject var programsViewModel: ProgramsManager
     @EnvironmentObject var workoutsManager: WorkoutsManager
-    @State var showCatalog = false
+   // @State var showCatalog = false
     @State var selectedDay: String? = nil
     
     var body: some View{
-        HStack(spacing: 20){
-            ForEach(Calendar.current.shortWeekdaySymbols, id: \.self) {day in
-                getDayView(day)
+        VStack{
+            HStack(spacing: 20){
+                ForEach(Calendar.current.shortWeekdaySymbols.indices, id: \.self) {indexDay in
+                    getDayView(indexDay)
+                }
+                Spacer()
             }
-            Spacer()
         }
     }
     
     @ViewBuilder
-    private func getDayView(_ day: String) -> some View {
+    private func getDayView(_ indexDay: Int) -> some View {
         VStack{
-            if let workoutID = program.plan.first(where: {$0.key == day})?.value,
+            if let workoutID = program.plan.first(where: {$0.key == Calendar.current.shortWeekdaySymbols[indexDay]})?.value,
                let workout = workoutsManager.items.first(where: {$0.id == workoutID}) {
             
                 Image(nsImage: workout.image ?? NSImage(named: "ph")!)
@@ -44,30 +47,49 @@ struct WorkoutProgramPropertyView: View {
                                 .font(.body)
                                 .foregroundColor(.white.opacity(0.6)))
             }
-            
-            Text(day)
+            Text(Calendar.current.shortWeekdaySymbols[indexDay])
                 .foregroundColor(.white)
                 .font(.body)
                 .fontWeight(.semibold)
                 .textCase(.uppercase)
         }
         .contentShape(Rectangle())
-//        .onTapGesture {
-//            self.selectedDay = day
-//
-//            let catalogView = SearchCatalogView(searchManager: SearchManager(workoutsManager.items),
-//                                                title: "Select workout to \n\(selectedDay ?? "")",
-//                                                onSelect: {workout in
-//                //1. Add workout to plan
-//                if let selectedDay = selectedDay {
-//                    self.program.plan[selectedDay] = workout.id
-//                    self.selectedDay = nil
-//                }
-//
-//            })
-//
-//            showWorkoutsCatalog(AnyView(catalogView))
-//        }
+        .onTapGesture {
+            self.selectedDay = Calendar.current.shortWeekdaySymbols[indexDay]
+            
+            withAnimation {
+                self.workoutsCatalogView = AnyView(
+                    AdditionalCatalogItemsView(searchManager: SearchManager(workoutsManager.items),
+                                                             title: "to \(Calendar.current.weekdaySymbols[indexDay])",
+                                                             subtitle: "Select workout for add",
+                                                             onSelect: {setWorkout($0 as Workout)},
+                                                             onClose: {closeWorkoutsCatalogView()})
+                )
+            }
+            
+        }
+    }
+    
+    private func setWorkout(_ workout: Workout?){
+        //Close an additional view
+        withAnimation {
+            workoutsCatalogView = nil
+        }
+        
+        guard let workout = workout else { return }
+        guard let selectedDay = selectedDay else {return }
+        
+        program.plan[selectedDay] = workout.id
+        self.selectedDay = nil
+
+    }
+    
+    private func closeWorkoutsCatalogView(){
+        self.selectedDay = nil
+        withAnimation {
+            self.workoutsCatalogView = nil
+        }
+        
     }
 }
 

@@ -26,9 +26,9 @@ struct StrenghtExercise: Exercise {
     // MARK: - INIT
     init(){}
     
-    init(_ base: BasicExercise, order: Int){
-        self.basic = base
-        self.orderAdd = order
+    init(_ exercise: BasicExercise, orderAdd: Int?){
+        self.basic = exercise
+        self.orderAdd = orderAdd ?? 0
         self.sets = [ExerciseSet(order: 0)]
     }
     

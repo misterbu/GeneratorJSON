@@ -100,7 +100,7 @@ struct PropertySelectView: View {
         //Можно выбрать 1 элемент
         } else {
             //ПОНЯТЬ ПОЧЕМУ Добавляются или удаляются сразу оба элемента
-            
+//
 //            if !isSelected(property.id) {
 //                self.selected.append(property)
 //

@@ -12,7 +12,6 @@
 		240D011D27A471C3003270E2 /* JSONType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 240D011C27A471C3003270E2 /* JSONType.swift */; };
 		2411748F25F14886001EE7CB /* NSImage+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2411748E25F14886001EE7CB /* NSImage+ext.swift */; };
 		2411749225F152B4001EE7CB /* URL+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2411749125F152B4001EE7CB /* URL+ext.swift */; };
-		2413D74927A54A0000F0E062 /* SearchCatalogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2413D74827A54A0000F0E062 /* SearchCatalogView.swift */; };
 		24171CEF260A1CC3003852E0 /* Exercise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24171CEE260A1CC3003852E0 /* Exercise.swift */; };
 		24171CF3260A1DAB003852E0 /* WorkType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24171CF2260A1DAB003852E0 /* WorkType.swift */; };
 		24171CF6260A1E0D003852E0 /* LevelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24171CF5260A1E0D003852E0 /* LevelType.swift */; };
@@ -88,7 +87,7 @@
 		24B4AFF227A1C8FC008D0081 /* SearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B4AFF127A1C8FC008D0081 /* SearchManager.swift */; };
 		24B4AFF427A1CB87008D0081 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B4AFF327A1CB87008D0081 /* String.swift */; };
 		24B4AFF627A2828C008D0081 /* ItemManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B4AFF527A2828C008D0081 /* ItemManager.swift */; };
-		24F12EDC27ABC68F00384B07 /* WorkoutProgramPropertyWorkoutCatalogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F12EDB27ABC68F00384B07 /* WorkoutProgramPropertyWorkoutCatalogView.swift */; };
+		24F12EDC27ABC68F00384B07 /* AdditionalCatalogItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F12EDB27ABC68F00384B07 /* AdditionalCatalogItemsView.swift */; };
 		24F12EDE27AC3B1500384B07 /* HelpFuncs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F12EDD27AC3B1500384B07 /* HelpFuncs.swift */; };
 		24F24F4B25F0AF4C003C1D04 /* GeneratorJSONApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F24F4A25F0AF4C003C1D04 /* GeneratorJSONApp.swift */; };
 		24F24F4F25F0AF4E003C1D04 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 24F24F4E25F0AF4E003C1D04 /* Assets.xcassets */; };
@@ -102,7 +101,6 @@
 		240D011C27A471C3003270E2 /* JSONType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONType.swift; sourceTree = "<group>"; };
 		2411748E25F14886001EE7CB /* NSImage+ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSImage+ext.swift"; sourceTree = "<group>"; };
 		2411749125F152B4001EE7CB /* URL+ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+ext.swift"; sourceTree = "<group>"; };
-		2413D74827A54A0000F0E062 /* SearchCatalogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCatalogView.swift; sourceTree = "<group>"; };
 		24171CEE260A1CC3003852E0 /* Exercise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exercise.swift; sourceTree = "<group>"; };
 		24171CF2260A1DAB003852E0 /* WorkType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkType.swift; sourceTree = "<group>"; };
 		24171CF5260A1E0D003852E0 /* LevelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelType.swift; sourceTree = "<group>"; };
@@ -177,7 +175,7 @@
 		24B4AFF127A1C8FC008D0081 /* SearchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchManager.swift; sourceTree = "<group>"; };
 		24B4AFF327A1CB87008D0081 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		24B4AFF527A2828C008D0081 /* ItemManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemManager.swift; sourceTree = "<group>"; };
-		24F12EDB27ABC68F00384B07 /* WorkoutProgramPropertyWorkoutCatalogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutProgramPropertyWorkoutCatalogView.swift; sourceTree = "<group>"; };
+		24F12EDB27ABC68F00384B07 /* AdditionalCatalogItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalCatalogItemsView.swift; sourceTree = "<group>"; };
 		24F12EDD27AC3B1500384B07 /* HelpFuncs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpFuncs.swift; sourceTree = "<group>"; };
 		24F24F4725F0AF4C003C1D04 /* GeneratorJSON.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GeneratorJSON.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		24F24F4A25F0AF4C003C1D04 /* GeneratorJSONApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratorJSONApp.swift; sourceTree = "<group>"; };
@@ -394,7 +392,6 @@
 				24B4AFE527A16075008D0081 /* CatalogItemView.swift */,
 				24B4AFE727A1629A008D0081 /* DetailItemView.swift */,
 				24B4AFE927A163AE008D0081 /* ProperiesView.swift */,
-				2413D74827A54A0000F0E062 /* SearchCatalogView.swift */,
 				24B4AFEB27A1BC65008D0081 /* SpecificProperties */,
 				24B4AFDC27A1547D008D0081 /* Old */,
 				24721AD32707127900A27341 /* Additional */,
@@ -459,6 +456,7 @@
 		24B4AFEB27A1BC65008D0081 /* SpecificProperties */ = {
 			isa = PBXGroup;
 			children = (
+				24F12EDB27ABC68F00384B07 /* AdditionalCatalogItemsView.swift */,
 				24F12EDA27ABC62D00384B07 /* Workout Property */,
 				24F12ED927ABC60400384B07 /* Program Property */,
 				24B4AFF027A1C80D008D0081 /* For Workout */,
@@ -489,7 +487,6 @@
 			isa = PBXGroup;
 			children = (
 				24B4AFEC27A1C7E9008D0081 /* WorkoutProgramPropertyView.swift */,
-				24F12EDB27ABC68F00384B07 /* WorkoutProgramPropertyWorkoutCatalogView.swift */,
 			);
 			path = "Program Property";
 			sourceTree = "<group>";
@@ -652,8 +649,7 @@
 				24721AD62707129100A27341 /* MainPageType.swift in Sources */,
 				24171D0A260A2842003852E0 /* SexType.swift in Sources */,
 				24171D50260B8680003852E0 /* MusculeType.swift in Sources */,
-				2413D74927A54A0000F0E062 /* SearchCatalogView.swift in Sources */,
-				24F12EDC27ABC68F00384B07 /* WorkoutProgramPropertyWorkoutCatalogView.swift in Sources */,
+				24F12EDC27ABC68F00384B07 /* AdditionalCatalogItemsView.swift in Sources */,
 				240D011A27A45F56003270E2 /* JSONManager.swift in Sources */,
 				2458DE8527099CBA0031BD9D /* ExerciseItem.swift in Sources */,
 				24721AD82707148B00A27341 /* TabButton.swift in Sources */,

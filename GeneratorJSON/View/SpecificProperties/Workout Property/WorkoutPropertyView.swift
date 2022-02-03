@@ -10,13 +10,16 @@ import SwiftUI
 
 struct WorkoutPropertyView: View {
     @Binding var workout: Workout
+    @Binding var exercisesCatalogView: AnyView?
     
     var body: some View {
         //ЦИКЛЫ
         HStack(spacing: 30){
             ForEach(workout.workoutCircles.indices ,id: \.self){index in
                 Safe($workout.workoutCircles, index: index) { binding in
-                    WorkoutCircleView(workoutCircle: binding) { circle in
+                    WorkoutCircleView(workoutCircle: binding,
+                                      workType: workout.type,
+                                      exercisesCatalogView: $exercisesCatalogView) { circle in
                         //УДАЛЯЕМ ЦИКЛ
                         workout.workoutCircles.removeAll(where: {$0.id == circle.id})
                     }

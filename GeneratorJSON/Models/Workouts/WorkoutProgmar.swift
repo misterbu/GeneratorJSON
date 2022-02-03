@@ -97,6 +97,7 @@ struct WorkoutProgmar: Reviewble, CatalogItem, HasProperties {
             print(error.localizedDescription)
         }
     }
+    
 }
 
 
