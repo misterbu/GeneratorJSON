@@ -19,7 +19,7 @@ struct WorkoutPropertyView: View {
                 Safe($workout.workoutCircles, index: index) { binding in
                     WorkoutCircleView(workoutCircle: binding,
                                       workType: workout.type,
-                                      exercisesCatalogView: $exercisesCatalogView) { circle in
+                                      additionalView: $exercisesCatalogView) { circle in
                         //УДАЛЯЕМ ЦИКЛ
                         workout.workoutCircles.removeAll(where: {$0.id == circle.id})
                     }

@@ -8,7 +8,7 @@
 import SwiftUI
 import Combine
 
-struct IntervalExerciseSidePage: View {
+struct EditHiitExerciseView: View {
     @ObservedObject var viewModel: IntervalSideViewModel
     var onSave: (Exercise)->()
     var onDelete:(Exercise)->()
@@ -67,17 +67,6 @@ struct IntervalExerciseSidePage: View {
                 }
             }
         }
-        .padding(.vertical, 25)
-        .padding()
-        .background(ZStack{
-            Image(nsImage: viewModel.exercise.basic.image ?? NSImage(named: "ph")!)
-                        .resizable()
-                        .scaledToFill()
-            .clipped()
-            Color.black.opacity(0.8)
-        })
-        .frame(width: 350, height: 800)
-        .clipped()
     }
     
     var noTimeLimin: some View {

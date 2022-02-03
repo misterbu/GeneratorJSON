@@ -8,7 +8,7 @@
 import SwiftUI
 import Combine
 
-struct StrenghtExerciseSetView: View {
+struct EditStrenghtExerciseSetView: View {
     
     @Binding var exSet: ExerciseSet
     @State var countsText: String = ""

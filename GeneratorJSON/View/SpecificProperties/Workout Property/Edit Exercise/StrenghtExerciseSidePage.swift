@@ -1,7 +1,7 @@
 
 import SwiftUI
 
-struct StrenghtExerciseSidePage: View {
+struct EditStrenghtExerciseView: View {
 
     //@State var exercise: StrenghtExercise
     @ObservedObject var viewModel: StrenghtSideViewModel
@@ -28,6 +28,7 @@ struct StrenghtExerciseSidePage: View {
             }.padding(.bottom, 40)
             
             //СЕТЫ
+
             VStack(alignment:.center){
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(spacing: 15){
@@ -46,7 +47,7 @@ struct StrenghtExerciseSidePage: View {
                         //CЕТЫ
                         ForEach(viewModel.exercise.sets.indices, id:\.self){index in
                             Safe($viewModel.exercise.sets, index: index) { exSet in
-                                StrenghtExerciseSetView(exSet: exSet)
+                                EditStrenghtExerciseSetView(exSet: exSet)
                             }
                         }
                         
@@ -59,8 +60,8 @@ struct StrenghtExerciseSidePage: View {
             
             Spacer()
             
+            //BUTTONS
             HStack{
-                
                 IconButton(icon: "trash") {}
                 .opacity(0)
                 Spacer()
@@ -75,17 +76,6 @@ struct StrenghtExerciseSidePage: View {
                 }
             }
         }
-        .padding(.vertical, 25)
-        .padding()
-        .background(ZStack{
-            Image(nsImage: viewModel.exercise.basic.image ?? NSImage(named: "ph")!)
-                        .resizable()
-                        .scaledToFill()
-            .clipped()
-            Color.black.opacity(0.8)
-        })
-        .frame(width: 350, height: 800)
-        .clipped()
     }
     
     var noLimitReps: some View {

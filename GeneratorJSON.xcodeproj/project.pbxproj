@@ -68,7 +68,6 @@
 		245E29BD271575CF0072E856 /* ProgramsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245E29BC271575CF0072E856 /* ProgramsView.swift */; };
 		245E29BF2715761E0072E856 /* ProgramReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245E29BE2715761E0072E856 /* ProgramReview.swift */; };
 		245E29C12715834A0072E856 /* ProgramDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245E29C02715834A0072E856 /* ProgramDetail.swift */; };
-		245E29C32715886F0072E856 /* WorkoutCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245E29C22715886F0072E856 /* WorkoutCatalog.swift */; };
 		245E29C52715C3DD0072E856 /* SpecialProgram.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245E29C42715C3DD0072E856 /* SpecialProgram.swift */; };
 		24721AD02707108000A27341 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24721ACF2707108000A27341 /* Home.swift */; };
 		24721AD22707113B00A27341 /* NSScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24721AD12707113B00A27341 /* NSScreen.swift */; };
@@ -156,7 +155,6 @@
 		245E29BC271575CF0072E856 /* ProgramsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramsView.swift; sourceTree = "<group>"; };
 		245E29BE2715761E0072E856 /* ProgramReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramReview.swift; sourceTree = "<group>"; };
 		245E29C02715834A0072E856 /* ProgramDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramDetail.swift; sourceTree = "<group>"; };
-		245E29C22715886F0072E856 /* WorkoutCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkoutCatalog.swift; sourceTree = "<group>"; };
 		245E29C42715C3DD0072E856 /* SpecialProgram.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialProgram.swift; sourceTree = "<group>"; };
 		24721ACF2707108000A27341 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		24721AD12707113B00A27341 /* NSScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSScreen.swift; sourceTree = "<group>"; };
@@ -346,14 +344,14 @@
 			path = Additional;
 			sourceTree = "<group>";
 		};
-		2458DE89270B21D10031BD9D /* RightSide */ = {
+		2458DE89270B21D10031BD9D /* Edit Exercise */ = {
 			isa = PBXGroup;
 			children = (
 				2458DE87270A08B00031BD9D /* StrenghtExerciseSidePage.swift */,
 				24FA8D22270F24F400B8504A /* StrenghtExerciseSetView.swift */,
 				245E29B7271568280072E856 /* IntervalExerciseSidePage.swift */,
 			);
-			path = RightSide;
+			path = "Edit Exercise";
 			sourceTree = "<group>";
 		};
 		245E29BB2715756B0072E856 /* Program */ = {
@@ -459,19 +457,8 @@
 				24F12EDB27ABC68F00384B07 /* AdditionalCatalogItemsView.swift */,
 				24F12EDA27ABC62D00384B07 /* Workout Property */,
 				24F12ED927ABC60400384B07 /* Program Property */,
-				24B4AFF027A1C80D008D0081 /* For Workout */,
 			);
 			path = SpecificProperties;
-			sourceTree = "<group>";
-		};
-		24B4AFF027A1C80D008D0081 /* For Workout */ = {
-			isa = PBXGroup;
-			children = (
-				2458DE89270B21D10031BD9D /* RightSide */,
-				2424DC522708CC7500569856 /* WorkoutCircleView.swift */,
-				245E29C22715886F0072E856 /* WorkoutCatalog.swift */,
-			);
-			path = "For Workout";
 			sourceTree = "<group>";
 		};
 		24B4AFF727A28496008D0081 /* Protocol */ = {
@@ -495,6 +482,8 @@
 			isa = PBXGroup;
 			children = (
 				24B4AFEE27A1C805008D0081 /* WorkoutPropertyView.swift */,
+				2424DC522708CC7500569856 /* WorkoutCircleView.swift */,
+				2458DE89270B21D10031BD9D /* Edit Exercise */,
 			);
 			path = "Workout Property";
 			sourceTree = "<group>";
@@ -665,7 +654,6 @@
 				2424DC23270725FE00569856 /* ExercisesView.swift in Sources */,
 				240D011D27A471C3003270E2 /* JSONType.swift in Sources */,
 				24171D10260A49A7003852E0 /* EquipmentType.swift in Sources */,
-				245E29C32715886F0072E856 /* WorkoutCatalog.swift in Sources */,
 				245E29B8271568280072E856 /* IntervalExerciseSidePage.swift in Sources */,
 				245E29B42714A5010072E856 /* StrenghtExerciseSetView.swift in Sources */,
 				240D011827A45EB4003270E2 /* JSONble.swift in Sources */,
