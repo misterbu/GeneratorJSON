@@ -10,31 +10,51 @@ import SwiftUI
 
 struct CatalogItemView<Item: CatalogTitle>: View {
     var item: Item
+    var colorTitle: Color = .primary
+    var fontTitle: Font = .title
+    var position: PositionType = .horizontal
+    
+    enum PositionType {
+        case horizontal, vertical
+    }
     
     var body: some View {
-        HStack(spacing: 20){
-            if let image = item.image {
-                Image(nsImage: image)
-                    .resizable()
-                    .frame(width: 50, height: 50)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                    .overlay(RoundedRectangle(cornerRadius: 10)
-                                .stroke(item.type == .hiit ? Color.orange : Color.blue,
-                                        lineWidth: 3))
-                    .padding(5)
-                    
+        ZStack{
+            if position == .horizontal {
+                HStack(spacing: 20){
+                    itemImage
+                    itemTitle
+                    Spacer(minLength: 30)
+                }
+            } else {
+                VStack(spacing: 5){
+                    itemImage
+                    itemTitle
+                }
             }
-            
-            Text(item.name)
-                .lineLimit(2)
-                .font(.title)
-                .foregroundColor(.primary)
-                .frame(maxWidth: 250, alignment: .leading)
-            
-            Spacer(minLength: 30)
         }
         .contentShape(Rectangle())
         .padding(5)
         .cornerRadius(10)
     }
+    
+    var itemImage: some View {
+        Image(nsImage: item.image ?? NSImage(named: "bgImage")!)
+            .resizable()
+            .frame(width: 50, height: 50)
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .overlay(RoundedRectangle(cornerRadius: 10)
+                        .stroke(item.type == .hiit ? Color.orange : Color.blue,
+                                lineWidth: 3))
+            .padding(5)
+    }
+    
+    var itemTitle: some View {
+        Text(item.name)
+            .lineLimit(2)
+            .font(fontTitle)
+            .foregroundColor(colorTitle)
+            .frame(maxWidth: 250, alignment: .leading)
+    }
 }
+

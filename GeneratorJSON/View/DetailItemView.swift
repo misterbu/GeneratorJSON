@@ -60,7 +60,7 @@ struct DetailItemView<Item: CatalogDetail & HasProperties>: View {
                 }
                 
                 //СВОЙСТВА
-                ProperiesView(properties: $item.properties)
+                ProperiesView(item: $item)
                 
                 //ОПРЕДЕЛЕННОЕ СВОЙСТВО В ЗАВИСИМОСТИ ОТ ТИПА ОБЬЕКТА
                 specificProperties

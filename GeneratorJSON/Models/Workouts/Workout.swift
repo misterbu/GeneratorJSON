@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftyJSON
 
-struct Workout: Identifiable, Reviewble, CatalogItem, HasProperties {
+struct Workout: Identifiable, CatalogItem, HasProperties {
     var id: String = UUID().uuidString
     var createAt: Date = Date()
     var orderAdd: Int = 0
@@ -31,37 +31,23 @@ struct Workout: Identifiable, Reviewble, CatalogItem, HasProperties {
     var description: String {description_en}
     
     var workoutCircles: [WorkoutCircle] = []
-    var seriaId: String?
-    
-    var level: [LevelType] = []
-    var type: WorkType = .combine
-    var muscle: [MuscleType] = []
-    var sex: SexType = .unisex
-    var target: [TargetType] = []
-    var equipment: [EquipmentType] = []
-    var place: PlaceType = .home
-    
     var authorId: String?
-    
     var isPro: Bool = false
+    var properties: [Property] = []
     
-    var properties: [Property] {
-        get{
-            var value = [Property]()
-            value.append(contentsOf: level)
-            value.append( type)
-            value.append(sex)
-            value.append(contentsOf: target)
-            value.append(place)
-            return value
+    var type: WorkType {
+        if let type = properties.first(where: {$0.type == .exerciseType}) as? WorkType {
+            return type
+        } else {
+            return .hiit
         }
-        set{}
     }
     
     var entityType: NSManagedObject.Type {WorkoutEntity.self}
-    
+
     // MARK: - INIT
-    init(){}
+    init(){
+    }
     
     
     // MARK: - FUNCS
@@ -114,7 +100,6 @@ struct Workout: Identifiable, Reviewble, CatalogItem, HasProperties {
     }
 }
 
-
 // MARK: - COREDATABLE
 extension Workout: CoreDatable  {
     init<S>(entity: S) where S : NSManagedObject {
@@ -129,35 +114,11 @@ extension Workout: CoreDatable  {
         self.shortDescription_ru = entity.shortDescrRu ?? ""
         self.description_ru = entity.descrRu ?? ""
         
-        self.seriaId = entity.seriesWorkouts
-        
-        self.type = WorkType(rawValue: Int(entity.type)) ?? .hiit
-        self.sex = SexType(rawValue: Int(entity.sex)) ?? .unisex
-        self.place = PlaceType(rawValue: entity.place.int) ?? .home
-        
-        if let targetStr = entity.target {
-            self.target = targetStr.components(separatedBy: ",")
-                .filter({$0 != ""})
-                .map({ TargetType(strValue: $0)})
-        }
-        
-        if let equipnemtStr = entity.equipment {
-            self.equipment = equipnemtStr.components(separatedBy: ",")
-                .filter({$0 != ""})
-                .map({EquipmentType(strValue: $0)})
-        }
-        
-        if let levelStr = entity.level {
-            self.level = levelStr
-                .components(separatedBy: ",")
-                .filter({$0 != ""})
-                .map({LevelType(strValue: $0)})
-        }
-        
-        if let muscleStr = entity.muscle {
-            self.muscle = muscleStr.components(separatedBy: ",")
-                .filter({$0 != ""})
-                .map({MuscleType(strValue: $0)})
+        if let entityProperty = entity.properties{
+            let propertiesIDs = entityProperty.components(separatedBy: ",")
+            self.properties =  propertiesIDs.compactMap({
+                HelpFuncs.getProperty(from: $0)
+            })
         }
         
         self.authorId = entity.authorId
@@ -196,24 +157,8 @@ extension Workout: CoreDatable  {
         entity.shortDescrRu = shortDescription_ru
         entity.descrRu = description_ru
         
-        entity.seriesWorkouts = seriaId
-        entity.type = type.rawValue.int32
-        entity.sex = sex.rawValue.int32
-        entity.place = place.rawValue.int32
-        entity.authorId = authorId
-        entity.isPro = isPro
-        
-        entity.target = ""
-        target.forEach({entity.target?.append($0.str + ",")})
-        
-        entity.equipment = ""
-        equipment.forEach({entity.equipment?.append($0.str + ",")})
-        
-        entity.muscle = ""
-        muscle.forEach({entity.muscle?.append($0.str + ",")})
-        
-        entity.level = ""
-        level.forEach({entity.level?.append($0.str + ",")})
+        entity.properties = ""
+        properties.forEach({entity.properties?.append($0.id + ",")})
         
         entity.iconImage = iconImage?.imageToJPEGData()
         entity.image = image?.imageToJPEGData()
@@ -245,14 +190,6 @@ extension Workout: JSONble {
             "name_ru": name_ru,
             "shortDescription_ru" : shortDescription_ru,
             "description_ru" : description_ru,
-            "serieaId" : seriaId ?? "",
-            "level" : level.map({$0.rawValue}),
-            "muscle": muscle.map({$0.rawValue}),
-            "type": type.rawValue,
-            "sex": sex.rawValue,
-            "target" : target.map({$0.rawValue}),
-            "equipment" : equipment.map({$0.rawValue}),
-            "place" : place.rawValue,
             "autorId": authorId ?? "",
             "isPro" : isPro,
             "workoutCircles" : workoutCircles.map({$0.getForJSON()})
@@ -262,5 +199,28 @@ extension Workout: JSONble {
         saveIcon()
         
         return json
+    }
+}
+
+// MARK: - SAMPLE
+extension Workout {
+    static var sample: Workout {
+        var workout = Workout()
+        workout.name_en = "Hiit workout"
+        workout.properties = [WorkType.hiit,
+                              MuscleType.shoulders]
+        workout.image = NSImage(named: "bgImage")
+        workout.iconImage = NSImage(named: "bgImage")
+        return workout
+    }
+    
+    static var sample2: Workout {
+        var workout = Workout()
+        workout.name_en = "Classic workout"
+        workout.properties = [WorkType.strenght,
+                              MuscleType.shoulders]
+        workout.image = NSImage(named: "bgImage")
+        workout.iconImage = NSImage(named: "bgImage")
+        return workout
     }
 }

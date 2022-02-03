@@ -28,7 +28,7 @@ enum TargetType: Int, CaseIterable, StrChooseble, Property {
         }
     }
     
-    var id: String {"SexType_\(str)"}
+    var id: String {"TargetType_\(str)"}
     
     var str: String {
         switch self {

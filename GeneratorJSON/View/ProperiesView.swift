@@ -7,21 +7,34 @@
 
 import SwiftUI
 
-struct ProperiesView: View {
+struct ProperiesView<Item: HasProperties>: View {
     
-    @Binding var properties: [Property]
-    @State var types: [Property.Type] = []
+    @Binding var item: Item
+    @State var propertiesTypes: [Property.Type] = []
     
-    init(properties: Binding<[Property]>){
-        self._properties = properties
-        self._types = .init(initialValue: getTypesOfProperty(for: properties.wrappedValue))
+    init(item: Binding<Item>){
+        self._item = item
+        
+        //Different array of Properties Types for Programs, Workouts, Exercises
+        switch item.wrappedValue.self{
+        case is WorkoutProgmar:
+            self._propertiesTypes = .init(initialValue: [WorkType.self, LevelType.self, TargetType.self, PlaceType.self])
+            break
+        case is Workout:
+            self._propertiesTypes = .init(initialValue: [WorkType.self, LevelType.self, EquipmentType.self, PlaceType.self, MuscleType.self])
+            break
+        case is BasicExercise:
+            self._propertiesTypes = .init(initialValue: [WorkType.self, EquipmentType.self, PlaceType.self, MuscleType.self])
+        default:
+            break
+        }
     }
     
     var body: some View {
         HStack(alignment: .top, spacing: 30){
-            ForEach(types.indices, id: \.self){index in
-                PropertySelectView(selected: $properties,
-                                   propertyType: types[index])
+            ForEach(propertiesTypes.indices, id: \.self){index in
+                PropertySelectView(selected: $item.properties,
+                                   propertyType: propertiesTypes[index])
             }
             
             Spacer()
@@ -42,7 +55,7 @@ struct ProperiesView: View {
     }
     
     private func getProperties(for selectType: Property.Type)->[Property]{
-        self.properties.filter({type(of: $0) == selectType})
+        self.item.properties.filter({type(of: $0) == selectType})
     }
 }
 

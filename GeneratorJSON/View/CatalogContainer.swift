@@ -25,8 +25,8 @@ struct CatalogContainer<Manager: ItemManager>: View {
             if let item = manager.selectedItem {
                 DetailItemView(item: .init(get: {item},
                                            set: {manager.selectedItem = $0}),
-                               onSave: {_ in},
-                               onDelete: {_ in })
+                               onSave: {manager.save($0)},
+                               onDelete: {manager.delete($0)})
             } else {
                 //Отображаем страницу предлагающую создать первый элемент
             }

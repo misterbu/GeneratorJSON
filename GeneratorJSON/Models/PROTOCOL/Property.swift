@@ -11,10 +11,12 @@ protocol Property {
     var id: String {get}
     var str: String {get}
     var type: PropertyType {get}
+    
     static var typeName: String {get}
     static var allCases: [Self] {get}
     static var multiSelect: Bool {get}
 }
+
 
 
 protocol HasProperties {

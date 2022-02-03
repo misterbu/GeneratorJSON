@@ -9,9 +9,6 @@ import SwiftUI
 import Combine
 
 final class WorkoutsManager: ObservableObject, ItemManager, JSONManager {
-
-    
-
     typealias Item = Workout
     typealias CoreDataItem = Workout
     
@@ -29,18 +26,4 @@ final class WorkoutsManager: ObservableObject, ItemManager, JSONManager {
         selectedItem = items.first
     }
 
-    // MARK: - EDIT WORKOUT
-    func addSeriaId(for workout: Workout, seriaId: String){
-        var changedWorkout = workout
-        changedWorkout.seriaId = seriaId
-        
-     //   save(changedWorkout)
-    }
-    
-    func deleteSeriaId(for workout: Workout){
-        var changedWorkout = workout
-        changedWorkout.seriaId = nil
-        
-      //  save(changedWorkout)
-    }
 }

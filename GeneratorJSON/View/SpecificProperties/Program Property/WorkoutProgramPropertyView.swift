@@ -17,27 +17,11 @@ struct WorkoutProgramPropertyView: View {
     
     var body: some View{
         HStack(spacing: 20){
-            
             ForEach(Calendar.current.shortWeekdaySymbols, id: \.self) {day in
                 getDayView(day)
             }
             Spacer()
         }
-//        .sheet(isPresented: $showCatalog) {
-//            WorkoutCatalog(show: $showCatalog, programId: program.id) { newWorkout in
-//
-//                guard let day = selectedDay else {return}
-//
-//                //ДОБАВЛЯЕМ ТРЕНИРОВКУ
-//                program.plan[day] = newWorkout.id
-//                self.selectedDay = nil
-//
-//                //Сохраняем
-//                //programsViewModel.save(program)
-//
-//                withAnimation{self.showCatalog = false}
-//            }
-//        }
     }
     
     @ViewBuilder

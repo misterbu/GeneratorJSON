@@ -30,27 +30,20 @@ struct BasicExercise: Identifiable, Reviewble, CatalogItem, HasProperties {
     var description: String {description_en}
     
     var voiceComment: [String] = []
-    
-    var level: [LevelType] = []
-    var type: WorkType = .hiit
-    var muscle: [MuscleType] = []
-    var equipment: [EquipmentType] = []
-    
+  
     var authorId: String?
     
     var isPro: Bool = false
     
-    var properties: [Property] {
-        get{
-            var value = [Property]()
-            value.append(contentsOf: level)
-            value.append( type)
-            value.append(contentsOf: muscle)
-            return value
-        }
-        set{}
-    }
+    var properties: [Property] = []
     
+    var type: WorkType {
+        if let type = properties.first(where: {$0.type == .exerciseType}) as? WorkType {
+            return type
+        } else {
+            return .hiit
+        }
+    }
     var entityType: NSManagedObject.Type {ExerciseEntity.self}
     
     // MARK: -  INIT
@@ -119,10 +112,15 @@ extension BasicExercise: CoreDatable {
         self.name_ru = entity.nameRu ?? ""
         self.shortDescription_ru = entity.shortDescrRu ?? ""
         self.description_ru = entity.descrRu ?? ""
-       // self.level = LevelType(rawValue: Int(entity.level)) ?? .all
-        self.type = WorkType(rawValue: Int(entity.type)) ?? .hiit
         self.authorId = entity.autorId
         self.isPro = entity.isPro
+        
+        if let entityProperty = entity.properties{
+            let propertiesIDs = entityProperty.components(separatedBy: ",")
+            self.properties =  propertiesIDs.compactMap({
+                HelpFuncs.getProperty(from: $0)
+            })
+        }
         
         //Voice comment
         if let strVoiseComment = entity.voiceComment {
@@ -138,26 +136,6 @@ extension BasicExercise: CoreDatable {
         if let imageData = entity.image {
             self.image = NSImage(data: imageData)
         }
-        
-        if let muscleStr = entity.muscle {
-            self.muscle = muscleStr.components(separatedBy: ",")
-                .filter({$0 != ""})
-                .map({MuscleType(strValue: $0)})
-        }
-        if let equipnemtStr = entity.equipment {
-            self.equipment = equipnemtStr.components(separatedBy: ",")
-                .filter({$0 != ""})
-                .map({EquipmentType(strValue: $0)})
-        }
-        
-        if let levelStr = entity.level {
-            self.level = levelStr
-                .components(separatedBy: ",")
-                .filter({$0 != ""})
-                .map({LevelType(strValue: $0)})
-        }
-        
-        //addVideo
     }
     
     func getEntity<S>() -> S where S : NSManagedObject {
@@ -170,9 +148,11 @@ extension BasicExercise: CoreDatable {
         entity.nameRu = name_ru
         entity.shortDescrRu = shortDescription_ru
         entity.descrRu = description_ru
-        entity.type = type.rawValue.int32
         entity.autorId = authorId
         entity.isPro = isPro
+        
+        entity.properties = ""
+        properties.forEach({entity.properties?.append($0.id + ",")})
         
         //Voice comment
         entity.voiceComment = voiceComment.joined(separator: ";")
@@ -180,17 +160,7 @@ extension BasicExercise: CoreDatable {
         entity.iconImage = iconImage?.imageToJPEGData()
         entity.image = image?.imageToJPEGData()
         
-        entity.muscle = ""
-        muscle.forEach({entity.muscle?.append($0.str + ",")})
-        
-        entity.equipment = ""
-        equipment.forEach({entity.equipment?.append($0.str + ",")})
-        
-        entity.level = ""
-        level.forEach({entity.level?.append($0.str + ",")})
-        
-        //add video
-        
+     
         return entity as! S
     }
 }
@@ -209,9 +179,6 @@ extension BasicExercise: JSONble {
             "shortDescription_ru" : shortDescription_ru,
             "description_ru" : description_ru,
             "voiceComment" : voiceComment.joined(separator: ";"),
-            "level" : level.map({$0.rawValue}),
-            "type": type.rawValue,
-            "muscle" : muscle.map({$0.rawValue}),
             "autorId": authorId ?? "",
             "isPro" : isPro
         ])

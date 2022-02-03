@@ -19,18 +19,15 @@
         <attribute name="autorId" optional="YES" attributeType="String"/>
         <attribute name="descr" optional="YES" attributeType="String"/>
         <attribute name="descrRu" optional="YES" attributeType="String"/>
-        <attribute name="equipment" optional="YES" attributeType="String"/>
         <attribute name="iconImage" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
         <attribute name="id" optional="YES" attributeType="String"/>
         <attribute name="image" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
         <attribute name="isPro" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="level" optional="YES" attributeType="String"/>
-        <attribute name="muscle" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="nameRu" optional="YES" attributeType="String"/>
+        <attribute name="properties" optional="YES" attributeType="String"/>
         <attribute name="shortDescr" optional="YES" attributeType="String"/>
         <attribute name="shortDescrRu" optional="YES" attributeType="String"/>
-        <attribute name="type" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="video" optional="YES" attributeType="String"/>
         <attribute name="voiceComment" optional="YES" attributeType="String"/>
         <relationship name="intervalExercise" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="IntervalExerciseEntity" inverseName="basic" inverseEntity="IntervalExerciseEntity"/>
@@ -103,23 +100,16 @@
         <attribute name="createAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="descr" optional="YES" attributeType="String"/>
         <attribute name="descrRu" optional="YES" attributeType="String"/>
-        <attribute name="equipment" optional="YES" attributeType="String"/>
         <attribute name="iconImage" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
         <attribute name="id" optional="YES" attributeType="String"/>
         <attribute name="image" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
         <attribute name="isPro" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="level" optional="YES" attributeType="String"/>
-        <attribute name="muscle" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="nameRu" optional="YES" attributeType="String"/>
         <attribute name="orderAdd" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="place" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="seriesWorkouts" optional="YES" attributeType="String"/>
-        <attribute name="sex" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="properties" optional="YES" attributeType="String"/>
         <attribute name="shortDescr" optional="YES" attributeType="String"/>
         <attribute name="shortDescrRu" optional="YES" attributeType="String"/>
-        <attribute name="target" optional="YES" attributeType="String"/>
-        <attribute name="type" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="video" optional="YES" attributeType="String"/>
         <relationship name="special" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SpecialEntity" inverseName="workouts" inverseEntity="SpecialEntity"/>
         <relationship name="workoutCircles" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="CircleEntity" inverseName="workouts" inverseEntity="CircleEntity"/>
@@ -133,21 +123,16 @@
         <attribute name="authorId" optional="YES" attributeType="String"/>
         <attribute name="descr" optional="YES" attributeType="String"/>
         <attribute name="descrRu" optional="YES" attributeType="String"/>
-        <attribute name="equipment" optional="YES" attributeType="String"/>
         <attribute name="iconImage" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
         <attribute name="id" optional="YES" attributeType="String"/>
         <attribute name="image" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
         <attribute name="isPro" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="level" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="nameRu" optional="YES" attributeType="String"/>
-        <attribute name="place" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="plan" optional="YES" attributeType="Binary"/>
-        <attribute name="sex" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="properties" optional="YES" attributeType="String"/>
         <attribute name="shortDescr" optional="YES" attributeType="String"/>
         <attribute name="shortDescrRu" optional="YES" attributeType="String"/>
-        <attribute name="target" optional="YES" attributeType="String"/>
-        <attribute name="type" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="video" optional="YES" attributeType="String"/>
         <relationship name="special" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SpecialEntity" inverseName="programs" inverseEntity="SpecialEntity"/>
         <uniquenessConstraints>
@@ -158,12 +143,12 @@
     </entity>
     <elements>
         <element name="CircleEntity" positionX="-18" positionY="171" width="128" height="149"/>
-        <element name="ExerciseEntity" positionX="18" positionY="189" width="128" height="314"/>
+        <element name="ExerciseEntity" positionX="18" positionY="189" width="128" height="269"/>
         <element name="ExerciseSetEntity" positionX="0" positionY="180" width="128" height="134"/>
         <element name="IntervalExerciseEntity" positionX="-63" positionY="-18" width="128" height="14"/>
         <element name="SpecialEntity" positionX="-18" positionY="144" width="128" height="104"/>
         <element name="StrenghtExerciseEntity" positionX="-54" positionY="-9" width="128" height="14"/>
-        <element name="WorkoutEntity" positionX="-36" positionY="135" width="128" height="389"/>
-        <element name="WorkoutsSeriaEntity" positionX="-18" positionY="144" width="128" height="329"/>
+        <element name="WorkoutEntity" positionX="-36" positionY="135" width="128" height="284"/>
+        <element name="WorkoutsSeriaEntity" positionX="-18" positionY="144" width="128" height="254"/>
     </elements>
 </model>

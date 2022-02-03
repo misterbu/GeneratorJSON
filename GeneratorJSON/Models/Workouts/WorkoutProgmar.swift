@@ -29,19 +29,19 @@ struct WorkoutProgmar: Reviewble, CatalogItem, HasProperties {
     var description: String {description_en}
     
     var plan: [String: String] = [:]
-    
-    var level: [LevelType] = []
-    var type: WorkType = .combine
-    var sex: SexType = .unisex
-    var target: [TargetType] = []
-    var equipment: [EquipmentType] = []
-    var place: PlaceType = .home
-    
+
     var authorId: String?
     var isPro: Bool = false
     
     var properties: [Property] = []
     
+    var type: WorkType {
+        if let type = properties.first(where: {$0.type == .exerciseType}) as? WorkType {
+            return type
+        } else {
+            return .hiit
+        }
+    }
     var entityType: NSManagedObject.Type {WorkoutsSeriaEntity.self}
     
     // MARK: - INIT
@@ -117,27 +117,11 @@ extension WorkoutProgmar: CoreDatable {
             self.plan = value
         }
         
-        self.type = WorkType(rawValue: Int(entity.type)) ?? .hiit
-        self.sex = SexType(rawValue: Int(entity.sex)) ?? .unisex
-        self.place = PlaceType(rawValue: entity.place.int) ?? .home
-
-        if let targetStr = entity.target {
-            self.target = targetStr.components(separatedBy: ",")
-                .filter({$0 != ""})
-                .map({ TargetType(strValue: $0)})
-        }
-
-        if let equipnemtStr = entity.equipment {
-            self.equipment = equipnemtStr.components(separatedBy: ",")
-                .filter({$0 != ""})
-                .map({EquipmentType(strValue: $0)})
-        }
-
-        if let levelStr = entity.level {
-            self.level = levelStr
-                .components(separatedBy: ",")
-                .filter({$0 != ""})
-                .map({LevelType(strValue: $0)})
+        if let entityProperty = entity.properties{
+            let propertiesIDs = entityProperty.components(separatedBy: ",")
+            self.properties =  propertiesIDs.compactMap({
+                HelpFuncs.getProperty(from: $0)
+            })
         }
         
         self.authorId = entity.authorId
@@ -150,13 +134,6 @@ extension WorkoutProgmar: CoreDatable {
         if let imageData = entity.image {
             self.image = NSImage(data: imageData)
         }
-        
-        self.properties.append(type)
-        self.properties.append(sex)
-        self.properties.append(place)
-        self.properties.append(contentsOf: target)
-        self.properties.append(contentsOf: equipment)
-        self.properties.append(contentsOf: level)
     }
     
     func getEntity<S>() -> S where S : NSManagedObject {
@@ -169,25 +146,16 @@ extension WorkoutProgmar: CoreDatable {
         entity.nameRu = name_ru
         entity.shortDescrRu = shortDescription_ru
         entity.descrRu = description_ru
-        entity.type = type.rawValue.int32
-        entity.sex = sex.rawValue.int32
-        entity.place = place.rawValue.int32
         entity.authorId = authorId
         entity.isPro = isPro
+        
+        entity.properties = ""
+        properties.forEach({entity.properties?.append($0.id + ",")})
         
         if let data = try? JSONEncoder().encode(plan) {
             entity.plan = data
         }
-        
-        entity.target = ""
-        target.forEach({entity.target?.append($0.str + ",")})
-        
-        entity.equipment = ""
-        equipment.forEach({entity.equipment?.append($0.str + ",")})
-        
-        entity.level = ""
-        level.forEach({entity.level?.append($0.str + ",")})
-        
+            
         entity.iconImage = iconImage?.imageToJPEGData()
         entity.image = image?.imageToJPEGData()
         
@@ -207,12 +175,6 @@ extension WorkoutProgmar: JSONble{
             "name_ru": name_ru,
             "shortDescription_ru" : shortDescription_ru,
             "description_ru" : description_ru,
-            "level" : level.map({$0.rawValue}),
-            "type": type.rawValue,
-            "sex": sex.rawValue,
-            "target" : target.map({$0.rawValue}),
-            "equipment" : equipment.map({$0.rawValue}),
-            "place" : place.rawValue,
             "autorId": authorId ?? "",
             "isPro" : isPro
         ])
