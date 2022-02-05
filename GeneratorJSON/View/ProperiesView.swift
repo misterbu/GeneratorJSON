@@ -90,19 +90,17 @@ struct PropertySelectView: View {
     private func tapTo(property: Property){
         //Множественный выбор
         if propertyType.multiSelect {
-
             //Удаляем элемент из выбранных
             if isSelected(property.id){
                 selected.removeAll(where: {$0.id == property.id})
-            //Добавляем элемен в выбранные
+                //Добавляем элемен в выбранные
             } else {
                 selected.append(property)
             }
             //Можно выбрать 1 элемент
         } else {
-            selected
-                selected.removeAll(where: {type(of: $0) == propertyType})
-                selected.append(property)
+            selected.removeAll(where: {type(of: $0) == propertyType})
+            selected.append(property)
         }
     }
     

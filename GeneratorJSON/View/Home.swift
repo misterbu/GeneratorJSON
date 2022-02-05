@@ -25,6 +25,11 @@ struct Home: View {
             .padding(.horizontal, 10)
             .background(BlurWindow())
             
+            Rectangle()
+                .fill(Color.white.opacity(0.1))
+                .frame(width: 2)
+                .frame(maxHeight: .infinity)
+            
             // MARK: - ОСНОВНОЙ КОНТЕНТ
             ZStack{
                 switch activeTab {

@@ -88,6 +88,7 @@
 		24B4AFF627A2828C008D0081 /* ItemManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B4AFF527A2828C008D0081 /* ItemManager.swift */; };
 		24F12EDC27ABC68F00384B07 /* AdditionalItemsCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F12EDB27ABC68F00384B07 /* AdditionalItemsCatalog.swift */; };
 		24F12EDE27AC3B1500384B07 /* HelpFuncs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F12EDD27AC3B1500384B07 /* HelpFuncs.swift */; };
+		24F12EE027AEF70B00384B07 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F12EDF27AEF70B00384B07 /* SearchBarView.swift */; };
 		24F24F4B25F0AF4C003C1D04 /* GeneratorJSONApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F24F4A25F0AF4C003C1D04 /* GeneratorJSONApp.swift */; };
 		24F24F4F25F0AF4E003C1D04 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 24F24F4E25F0AF4E003C1D04 /* Assets.xcassets */; };
 		24F24F5225F0AF4E003C1D04 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 24F24F5125F0AF4E003C1D04 /* Preview Assets.xcassets */; };
@@ -175,6 +176,7 @@
 		24B4AFF527A2828C008D0081 /* ItemManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemManager.swift; sourceTree = "<group>"; };
 		24F12EDB27ABC68F00384B07 /* AdditionalItemsCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalItemsCatalog.swift; sourceTree = "<group>"; };
 		24F12EDD27AC3B1500384B07 /* HelpFuncs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpFuncs.swift; sourceTree = "<group>"; };
+		24F12EDF27AEF70B00384B07 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
 		24F24F4725F0AF4C003C1D04 /* GeneratorJSON.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GeneratorJSON.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		24F24F4A25F0AF4C003C1D04 /* GeneratorJSONApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratorJSONApp.swift; sourceTree = "<group>"; };
 		24F24F4E25F0AF4E003C1D04 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -455,6 +457,7 @@
 			isa = PBXGroup;
 			children = (
 				24F12EDB27ABC68F00384B07 /* AdditionalItemsCatalog.swift */,
+				24F12EDF27AEF70B00384B07 /* SearchBarView.swift */,
 				24F12EDA27ABC62D00384B07 /* Workout Property */,
 				24F12ED927ABC60400384B07 /* Program Property */,
 			);
@@ -653,6 +656,7 @@
 				245E29C52715C3DD0072E856 /* SpecialProgram.swift in Sources */,
 				2424DC23270725FE00569856 /* ExercisesView.swift in Sources */,
 				240D011D27A471C3003270E2 /* JSONType.swift in Sources */,
+				24F12EE027AEF70B00384B07 /* SearchBarView.swift in Sources */,
 				24171D10260A49A7003852E0 /* EquipmentType.swift in Sources */,
 				245E29B8271568280072E856 /* IntervalExerciseSidePage.swift in Sources */,
 				245E29B42714A5010072E856 /* StrenghtExerciseSetView.swift in Sources */,
@@ -824,7 +828,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = gazizov.GeneratorJSON;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -848,7 +852,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = gazizov.GeneratorJSON;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

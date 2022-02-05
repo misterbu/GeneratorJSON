@@ -8,12 +8,37 @@
 import SwiftUI
 
 struct AdditionalItemsCatalog<Item: HasProperties & CatalogTitle>: View {
-    
     @ObservedObject var searchManager: SearchManager<Item>
     var title: String?
     var subtitle: String?
     var onSelect: (Item)->()
     var onClose: ()->()
+    
+    @FocusState var searchFocused: Bool
+    
+    init(searchManager: SearchManager<Item>,
+         title: String?,
+         subtitle: String?,
+         onSelect: @escaping (Item)->(),
+         onClose: @escaping ()->()){
+        self.onSelect = onSelect
+        self.onClose = onClose
+        self.searchManager = searchManager
+        self.title = title
+        self.subtitle = subtitle
+    }
+   
+    @State var sortedType: SortedType = .byName
+
+    enum SortedType {
+        case byName, byMuscle
+        var name: String {
+            switch self {
+            case .byName: return "by name"
+            case .byMuscle: return "by muscle"
+            }
+        }
+    }
     
     var body: some View {
         VStack(spacing: 15){
@@ -45,32 +70,77 @@ struct AdditionalItemsCatalog<Item: HasProperties & CatalogTitle>: View {
             }
             
             //Search bar
-            Text("Search")
-                .foregroundColor(.white.opacity(0.5))
-                .padding(.horizontal, 20)
-                .padding(.vertical, 8)
+            SearchBarView(search: $searchManager.search,
+                          focusedSearchField: $searchFocused,
+                          onResetSearch: {searchManager.searchReset()})
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .background(Color.white.opacity(0.1))
-                .clipShape(Capsule())
             
+            //Buttons for sorted items
+            HStack(spacing: 20){
+                Spacer()
+                sortedButton(for: .byName)
+                sortedButton(for: .byMuscle)
+            }
             
             //Workouts
             ScrollView(.vertical, showsIndicators: false) {
-                VStack(spacing: 5){
-                    ForEach(searchManager.visibleItems, id: \.id){item in
-                        CatalogItemView(item: item,
-                                        colorTitle: .white.opacity(0.8),
-                                        fontTitle: .title2,
-                                        position: .horizontal)
-                            .onTapGesture {
-                                onSelect(item)
-                            }
+                //SORTED BY NAME
+                if sortedType == .byName{
+                    VStack(spacing: 5){
+                        ForEach(searchManager.visibleItems.sorted(by: {$0.name > $1.name}), id: \.id){item in
+                            CatalogItemView(item: item,
+                                            colorTitle: .white.opacity(0.8),
+                                            fontTitle: .title2,
+                                            position: .horizontal)
+                                .onTapGesture {
+                                    onSelect(item)
+                                }
+                        }
+                        
                     }
-                    
+                }
+                //SORTED BY MUSCLE
+                else {
+                    VStack(alignment: .leading, spacing: 40){
+                        ForEach(MuscleType.allCases, id: \.id){muscle in
+                            if getItems(for: muscle).count > 0 {
+                                VStack(alignment: .leading, spacing: 5){
+                                    Text(muscle.str)
+                                        .font(.body)
+                                        .foregroundColor(.white.opacity(0.4))
+                                        .textCase(.uppercase)
+                                    
+                                    ForEach(getItems(for: muscle), id: \.id){item in
+                                        CatalogItemView(item: item,
+                                                        colorTitle: .white.opacity(0.8),
+                                                        fontTitle: .title2,
+                                                        position: .horizontal)
+                                            .onTapGesture {
+                                                onSelect(item)
+                                            }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
-        
+    }
+    
+    private func sortedButton(for type: SortedType) -> some View {
+        Button {
+            withAnimation{sortedType = type}
+        } label: {
+            Text(type.name)
+                .font(.callout)
+                .foregroundColor(type == sortedType ? .white : .white.opacity(0.6))
+        }
+    }
+    
+    private func getItems(for muscle: MuscleType) -> [Item]{
+        searchManager.visibleItems
+                    .filter({$0.properties.contains(where: {$0.id == muscle.id})})
     }
 }
 
@@ -86,6 +156,7 @@ struct AdditionalCatalogItemsView_Previews: PreviewProvider {
                                                      subtitle: "Select workout for",
                                                      onSelect: {_ in},
                                                      onClose: {})
+                .buttonStyle(PlainButtonStyle())
                 .padding()
         }
     }

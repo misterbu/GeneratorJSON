@@ -110,6 +110,13 @@ struct DetailItemView<Item: CatalogDetail & HasProperties>: View {
             }
         }
         .padding(.horizontal)
+        //When a selected item was changed
+        .onChange(of: item.id) { _ in
+            //Close additional view
+            withAnimation{
+                self.additionalView = nil
+            }
+        }
     }
     
     
