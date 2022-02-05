@@ -51,6 +51,7 @@ struct WorkoutCircleView: View {
 
     }
     
+    // MARK: - DELETE EXERCISE
     private var deleteCircleButton: some View {
         Button {
             onDelete(workoutCircle)
@@ -65,7 +66,7 @@ struct WorkoutCircleView: View {
     }
     
     
-    
+    // MARK: EDIT EXERCISE
     private func showEditExerciseView(for exercise: Exercise){
         //FOR STRENGHT
         if let exercise = exercise as? StrenghtExercise {
@@ -112,12 +113,13 @@ struct WorkoutCircleView: View {
         workoutCircle.exercises.removeAll(where: {$0.id == exercise.id})
     }
     
+    
     //MARK: ADD EXERCISE
     private var showAddNewExerciseButton: some View {
         Button {
             withAnimation {
                 self.additionalView = AnyView(
-                    AdditionalCatalogItemsView(searchManager: SearchManager(exerciseManager.items
+                    AdditionalItemsCatalog(searchManager: SearchManager(exerciseManager.items
                                                                                 .filter({$0.type == workType})),
                                                title: "Add exercise", subtitle: nil,
                                                onSelect: {addExercise($0 as BasicExercise)},
@@ -145,6 +147,7 @@ struct WorkoutCircleView: View {
         }
     }
     
+    // MARK: CLOSE ADDITIONAL VIEW
     private func closeAdditionalViewView(){
         withAnimation{self.additionalView = nil}
     }

@@ -11,9 +11,8 @@ struct WorkoutProgramPropertyView: View {
     @Binding var program: WorkoutProgmar
     @Binding var workoutsCatalogView: AnyView?
     
-    @EnvironmentObject var programsViewModel: ProgramsManager
     @EnvironmentObject var workoutsManager: WorkoutsManager
-   // @State var showCatalog = false
+
     @State var selectedDay: String? = nil
     
     var body: some View{
@@ -27,9 +26,11 @@ struct WorkoutProgramPropertyView: View {
         }
     }
     
+
     @ViewBuilder
     private func getDayView(_ indexDay: Int) -> some View {
         VStack{
+            //Day's with attached a workout
             if let workoutID = program.plan.first(where: {$0.key == Calendar.current.shortWeekdaySymbols[indexDay]})?.value,
                let workout = workoutsManager.items.first(where: {$0.id == workoutID}) {
             
@@ -38,7 +39,7 @@ struct WorkoutProgramPropertyView: View {
                     .scaledToFill()
                     .frame(width: 100, height: 100)
                     .clipShape(Circle())
-            
+            //Free day
             } else {
                 Circle()
                     .fill(Color.white.opacity(0.2))
@@ -53,13 +54,13 @@ struct WorkoutProgramPropertyView: View {
                 .fontWeight(.semibold)
                 .textCase(.uppercase)
         }
-        .contentShape(Rectangle())
+        .contentShape(Circle())
         .onTapGesture {
             self.selectedDay = Calendar.current.shortWeekdaySymbols[indexDay]
             
             withAnimation {
                 self.workoutsCatalogView = AnyView(
-                    AdditionalCatalogItemsView(searchManager: SearchManager(workoutsManager.items),
+                    AdditionalItemsCatalog(searchManager: SearchManager(workoutsManager.items),
                                                              title: "to \(Calendar.current.weekdaySymbols[indexDay])",
                                                              subtitle: "Select workout for add",
                                                              onSelect: {setWorkout($0 as Workout)},

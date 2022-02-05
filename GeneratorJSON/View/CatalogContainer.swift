@@ -5,6 +5,7 @@ import SwiftUI
 struct CatalogContainer<Manager: ItemManager>: View {
     
     @ObservedObject var manager: Manager
+    
  
     init(manager: Manager){
         self.manager = manager
@@ -22,8 +23,8 @@ struct CatalogContainer<Manager: ItemManager>: View {
                
             
             //DetailViewOfCatalogItem
-            if let item = manager.selectedItem {
-                DetailItemView(item: .init(get: {item},
+            if  manager.selectedItem != nil {
+                DetailItemView(item: .init(get: {manager.selectedItem!},
                                            set: {manager.selectedItem = $0}),
                                onSave: {manager.save($0)},
                                onDelete: {manager.delete($0)})

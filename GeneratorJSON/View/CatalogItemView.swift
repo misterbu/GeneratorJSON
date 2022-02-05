@@ -20,12 +20,14 @@ struct CatalogItemView<Item: CatalogTitle>: View {
     
     var body: some View {
         ZStack{
+            //For horizontal type
             if position == .horizontal {
                 HStack(spacing: 20){
                     itemImage
                     itemTitle
                     Spacer(minLength: 30)
                 }
+            //For vertical
             } else {
                 VStack(spacing: 5){
                     itemImage

@@ -20,16 +20,16 @@ struct CatalogView<Item: CatalogTitle & HasProperties>: View {
     
     var body: some View {
         VStack{
-            //ДОБАВИТЬ ТРЕНИРОВКУ
+            //Add New Item
             addButton
             
-            //ОТОБРАЖАТЬ ТОЛЬКО СИЛОВЫЕ ИЛИ ИНТЕРВАЛЬНЫЕ ТРЕНИРОВКИ ИЛИ И ТО И ТО
+            //Filter items by WorkType
             HStack(spacing: 20){
                 showStrenghtButton
                 showHiitButton
             }.padding(.bottom, 20)
             
-            //ЭЛЕМЕНТЫ КАТАЛОГА
+            //Catalog
             VStack(spacing: 0){
                 ScrollView(.vertical, showsIndicators: false) {
                     ForEach(searchManager.visibleItems, id:\.id) {item in

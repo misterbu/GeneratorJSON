@@ -67,3 +67,12 @@ struct Home: View {
 }
 
 
+struct Home_Preview: PreviewProvider {
+    static var previews: some View{
+        Home()
+            .preferredColorScheme(.dark)
+            .environmentObject(WorkoutsManager())
+            .environmentObject(ProgramsManager())
+            .environmentObject(ExercisesViewModel())
+    }
+}

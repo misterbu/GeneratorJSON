@@ -39,7 +39,6 @@ struct ProperiesView<Item: HasProperties>: View {
             
             Spacer()
         }
-        
     }
     
     private func getTypesOfProperty(for properties: [Property])->[Property.Type]{
@@ -57,12 +56,15 @@ struct ProperiesView<Item: HasProperties>: View {
     private func getProperties(for selectType: Property.Type)->[Property]{
         self.item.properties.filter({type(of: $0) == selectType})
     }
+    
+  
 }
 
 struct PropertySelectView: View {
     @Binding var selected: [Property]
     var propertyType: Property.Type
     
+
     var body: some View{
         VStack(spacing: 8){
             Text(propertyType.typeName)
@@ -79,38 +81,29 @@ struct PropertySelectView: View {
                     .foregroundColor(isSelected(property.id) ? .white : .white.opacity(0.6))
                     .textCase(.uppercase)
                     .onTapGesture {
-                        withAnimation{tapTo(property)}
+                        tapTo(property: property)
                     }
             }
         }
     }
     
-    private func tapTo(_ property: Property){
+    private func tapTo(property: Property){
         //Множественный выбор
         if propertyType.multiSelect {
+
             //Удаляем элемент из выбранных
             if isSelected(property.id){
-                print("Multisell - Remove property \(property.str)")
                 selected.removeAll(where: {$0.id == property.id})
             //Добавляем элемен в выбранные
             } else {
-                print(" Multisell - Add property \(property.str)")
                 selected.append(property)
             }
-        //Можно выбрать 1 элемент
+            //Можно выбрать 1 элемент
         } else {
-            //ПОНЯТЬ ПОЧЕМУ Добавляются или удаляются сразу оба элемента
-//
-//            if !isSelected(property.id) {
-//                self.selected.append(property)
-//
-//                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//                    self.selected.removeAll(where: {type(of: $0) == propertyType && $0.id != property.id})
-//                }
-//
-//            }
+            selected
+                selected.removeAll(where: {type(of: $0) == propertyType})
+                selected.append(property)
         }
-        
     }
     
     private func isSelected(_ id: String)->Bool {

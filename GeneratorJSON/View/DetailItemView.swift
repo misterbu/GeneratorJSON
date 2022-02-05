@@ -14,10 +14,16 @@ struct DetailItemView<Item: CatalogDetail & HasProperties>: View {
     
     @State var additionalView: AnyView? = nil
     
+    init(item: Binding<Item>, onSave: @escaping (Item)->(), onDelete: @escaping (Item)->()){
+        self._item = item
+        self.onSave = onSave
+        self.onDelete = onDelete
+    }
+    
     var body: some View {
         
         HStack(spacing: 20){
-            //MAIN VIEW
+            //Main content
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(spacing: 20){
                     HStack(spacing: 20){
@@ -71,9 +77,10 @@ struct DetailItemView<Item: CatalogDetail & HasProperties>: View {
                     specificProperties
                         .padding(.vertical, 20)
                     
-                    //КНОПКИ УДАЛИТЬ СОХРАНИТЬ
+                    
                     Divider()
                     
+                    //КНОПКИ УДАЛИТЬ СОХРАНИТЬ
                     if additionalView == nil {
                         HStack(spacing: 50){
                             Spacer()
@@ -91,7 +98,7 @@ struct DetailItemView<Item: CatalogDetail & HasProperties>: View {
                 }
             }
             
-            //ADDITIONAL VIEW
+            //Additional view (appear from right side)
             if let additionalView = additionalView {
                 additionalView
                     .padding()
@@ -125,11 +132,12 @@ struct DetailItemView<Item: CatalogDetail & HasProperties>: View {
     
     private var specificProperties: some View {
         VStack{
+            //For Workout Programs
             if let workoutProgram = item as? WorkoutProgmar {
                 WorkoutProgramPropertyView(program: .init(get: {workoutProgram},
                                                           set: {item = $0 as! Item }),
                                            workoutsCatalogView: $additionalView)
-                
+            //For Workouts
             } else if let workout = item as? Workout {
                 WorkoutPropertyView(workout: .init(get: {workout},
                                                    set: {item = $0 as! Item}),

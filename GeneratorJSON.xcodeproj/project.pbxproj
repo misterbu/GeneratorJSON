@@ -86,7 +86,7 @@
 		24B4AFF227A1C8FC008D0081 /* SearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B4AFF127A1C8FC008D0081 /* SearchManager.swift */; };
 		24B4AFF427A1CB87008D0081 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B4AFF327A1CB87008D0081 /* String.swift */; };
 		24B4AFF627A2828C008D0081 /* ItemManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B4AFF527A2828C008D0081 /* ItemManager.swift */; };
-		24F12EDC27ABC68F00384B07 /* AdditionalCatalogItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F12EDB27ABC68F00384B07 /* AdditionalCatalogItemsView.swift */; };
+		24F12EDC27ABC68F00384B07 /* AdditionalItemsCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F12EDB27ABC68F00384B07 /* AdditionalItemsCatalog.swift */; };
 		24F12EDE27AC3B1500384B07 /* HelpFuncs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F12EDD27AC3B1500384B07 /* HelpFuncs.swift */; };
 		24F24F4B25F0AF4C003C1D04 /* GeneratorJSONApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F24F4A25F0AF4C003C1D04 /* GeneratorJSONApp.swift */; };
 		24F24F4F25F0AF4E003C1D04 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 24F24F4E25F0AF4E003C1D04 /* Assets.xcassets */; };
@@ -173,7 +173,7 @@
 		24B4AFF127A1C8FC008D0081 /* SearchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchManager.swift; sourceTree = "<group>"; };
 		24B4AFF327A1CB87008D0081 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		24B4AFF527A2828C008D0081 /* ItemManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemManager.swift; sourceTree = "<group>"; };
-		24F12EDB27ABC68F00384B07 /* AdditionalCatalogItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalCatalogItemsView.swift; sourceTree = "<group>"; };
+		24F12EDB27ABC68F00384B07 /* AdditionalItemsCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalItemsCatalog.swift; sourceTree = "<group>"; };
 		24F12EDD27AC3B1500384B07 /* HelpFuncs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpFuncs.swift; sourceTree = "<group>"; };
 		24F24F4725F0AF4C003C1D04 /* GeneratorJSON.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GeneratorJSON.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		24F24F4A25F0AF4C003C1D04 /* GeneratorJSONApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratorJSONApp.swift; sourceTree = "<group>"; };
@@ -454,7 +454,7 @@
 		24B4AFEB27A1BC65008D0081 /* SpecificProperties */ = {
 			isa = PBXGroup;
 			children = (
-				24F12EDB27ABC68F00384B07 /* AdditionalCatalogItemsView.swift */,
+				24F12EDB27ABC68F00384B07 /* AdditionalItemsCatalog.swift */,
 				24F12EDA27ABC62D00384B07 /* Workout Property */,
 				24F12ED927ABC60400384B07 /* Program Property */,
 			);
@@ -638,7 +638,7 @@
 				24721AD62707129100A27341 /* MainPageType.swift in Sources */,
 				24171D0A260A2842003852E0 /* SexType.swift in Sources */,
 				24171D50260B8680003852E0 /* MusculeType.swift in Sources */,
-				24F12EDC27ABC68F00384B07 /* AdditionalCatalogItemsView.swift in Sources */,
+				24F12EDC27ABC68F00384B07 /* AdditionalItemsCatalog.swift in Sources */,
 				240D011A27A45F56003270E2 /* JSONManager.swift in Sources */,
 				2458DE8527099CBA0031BD9D /* ExerciseItem.swift in Sources */,
 				24721AD82707148B00A27341 /* TabButton.swift in Sources */,

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct AdditionalCatalogItemsView<Item: HasProperties & CatalogTitle>: View {
+struct AdditionalItemsCatalog<Item: HasProperties & CatalogTitle>: View {
     
     @ObservedObject var searchManager: SearchManager<Item>
     var title: String?
@@ -79,7 +79,7 @@ struct AdditionalCatalogItemsView_Previews: PreviewProvider {
         ZStack{
             Color.black
             
-            AdditionalCatalogItemsView(searchManager: SearchManager([Workout.sample,
+            AdditionalItemsCatalog(searchManager: SearchManager([Workout.sample,
                                                                                    Workout.sample2,
                                                                                    Workout.sample]),
                                                      title: "To Tuesday",
