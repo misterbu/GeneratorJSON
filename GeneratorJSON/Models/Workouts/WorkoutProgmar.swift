@@ -33,7 +33,9 @@ struct WorkoutProgmar: Reviewble, CatalogItem, HasProperties {
     var authorId: String?
     var isPro: Bool = false
     
-    var properties: [Property] = []
+    var properties: [Property] = [WorkType.hiit,
+                                  LevelType.all,
+                                  PlaceType.gym]
     
     var type: WorkType {
         if let type = properties.first(where: {$0.type == .exerciseType}) as? WorkType {

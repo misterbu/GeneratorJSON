@@ -68,7 +68,6 @@
 		245E29BD271575CF0072E856 /* ProgramsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245E29BC271575CF0072E856 /* ProgramsView.swift */; };
 		245E29BF2715761E0072E856 /* ProgramReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245E29BE2715761E0072E856 /* ProgramReview.swift */; };
 		245E29C12715834A0072E856 /* ProgramDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245E29C02715834A0072E856 /* ProgramDetail.swift */; };
-		245E29C52715C3DD0072E856 /* SpecialProgram.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245E29C42715C3DD0072E856 /* SpecialProgram.swift */; };
 		24721AD02707108000A27341 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24721ACF2707108000A27341 /* Home.swift */; };
 		24721AD22707113B00A27341 /* NSScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24721AD12707113B00A27341 /* NSScreen.swift */; };
 		24721AD62707129100A27341 /* MainPageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24721AD52707129100A27341 /* MainPageType.swift */; };
@@ -156,7 +155,6 @@
 		245E29BC271575CF0072E856 /* ProgramsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramsView.swift; sourceTree = "<group>"; };
 		245E29BE2715761E0072E856 /* ProgramReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramReview.swift; sourceTree = "<group>"; };
 		245E29C02715834A0072E856 /* ProgramDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgramDetail.swift; sourceTree = "<group>"; };
-		245E29C42715C3DD0072E856 /* SpecialProgram.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialProgram.swift; sourceTree = "<group>"; };
 		24721ACF2707108000A27341 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		24721AD12707113B00A27341 /* NSScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSScreen.swift; sourceTree = "<group>"; };
 		24721AD52707129100A27341 /* MainPageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageType.swift; sourceTree = "<group>"; };
@@ -280,7 +278,6 @@
 				24171D12260A4A30003852E0 /* WorkoutProgmar.swift */,
 				24171D05260A2746003852E0 /* Workout.swift */,
 				24171D5B260C7FB1003852E0 /* Circle.swift */,
-				24B4AFDB27A15457008D0081 /* old */,
 			);
 			path = Workouts;
 			sourceTree = "<group>";
@@ -431,14 +428,6 @@
 			children = (
 				2424DC3B2707687100569856 /* StrChooseble.swift */,
 				2424DC4E2708BCE600569856 /* Reviewble.swift */,
-			);
-			path = old;
-			sourceTree = "<group>";
-		};
-		24B4AFDB27A15457008D0081 /* old */ = {
-			isa = PBXGroup;
-			children = (
-				245E29C42715C3DD0072E856 /* SpecialProgram.swift */,
 			);
 			path = old;
 			sourceTree = "<group>";
@@ -653,7 +642,6 @@
 				24B4AFE227A15E56008D0081 /* CatalogContainer.swift in Sources */,
 				2424DC3E27076FBB00569856 /* MultiPropertyChooser.swift in Sources */,
 				24171D35260A62AB003852E0 /* CoreDatable.swift in Sources */,
-				245E29C52715C3DD0072E856 /* SpecialProgram.swift in Sources */,
 				2424DC23270725FE00569856 /* ExercisesView.swift in Sources */,
 				240D011D27A471C3003270E2 /* JSONType.swift in Sources */,
 				24F12EE027AEF70B00384B07 /* SearchBarView.swift in Sources */,
