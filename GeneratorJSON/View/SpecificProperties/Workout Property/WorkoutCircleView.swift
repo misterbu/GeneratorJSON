@@ -11,6 +11,7 @@ struct WorkoutCircleView: View {
     @Binding var workoutCircle: WorkoutCircle
     var workType: WorkType
     @Binding var additionalView: AnyView?
+    @Namespace var animation
     var onDelete: (WorkoutCircle)->()
 
     @EnvironmentObject var exerciseManager: ExercisesViewModel
@@ -120,10 +121,10 @@ struct WorkoutCircleView: View {
             withAnimation {
                 self.additionalView = AnyView(
                     AdditionalItemsCatalog(searchManager: SearchManager(exerciseManager.items
-                                                                                .filter({$0.type == workType})),
-                                               title: "Add exercise", subtitle: nil,
-                                               onSelect: {addExercise($0 as BasicExercise)},
-                                               onClose: {closeAdditionalViewView()}))
+                                                                            .filter({$0.type == workType})),
+                                           title: "Add exercise", subtitle: nil,
+                                           onSelect: {addExercise($0 as BasicExercise)},
+                                           onClose: {closeAdditionalViewView()}))
             }
         } label: {
             Image(systemName: "plus")

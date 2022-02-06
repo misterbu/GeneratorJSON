@@ -399,6 +399,7 @@
 		24721AD32707127900A27341 /* Additional */ = {
 			isa = PBXGroup;
 			children = (
+				24F12EDF27AEF70B00384B07 /* SearchBarView.swift */,
 				24721AD72707148B00A27341 /* TabButton.swift */,
 				2424DC4427084AC300569856 /* ButtonWIthIcon.swift */,
 				245E29B52714B3A10072E856 /* IconButton.swift */,
@@ -446,7 +447,6 @@
 			isa = PBXGroup;
 			children = (
 				24F12EDB27ABC68F00384B07 /* AdditionalItemsCatalog.swift */,
-				24F12EDF27AEF70B00384B07 /* SearchBarView.swift */,
 				24F12EDA27ABC62D00384B07 /* Workout Property */,
 				24F12ED927ABC60400384B07 /* Program Property */,
 			);

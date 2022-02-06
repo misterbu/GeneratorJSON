@@ -15,6 +15,7 @@ class SearchManager<SearchItem: CatalogTitle & HasProperties>: ObservableObject 
     
     private var searchedItems: CurrentValueSubject<[SearchItem], Never>
     @Published var search: String = ""
+    @Published var searchedProperties: [Property] = [] //Properties, which have a names is equal to search
     
     private var filtredItems: CurrentValueSubject<[SearchItem], Never>
     @Published private(set) var selectedFilters: [Property] = [] {
@@ -79,6 +80,7 @@ class SearchManager<SearchItem: CatalogTitle & HasProperties>: ObservableObject 
                 //Reset search
                 if value == "" {
                     self.searchedItems.send(self.allItems)
+                    self.searchedProperties = []
                 }
                 
                 if value.count >= 2 {
@@ -91,22 +93,34 @@ class SearchManager<SearchItem: CatalogTitle & HasProperties>: ObservableObject 
         
         guard value != "" else {return}
         
+        self.searchedProperties = []
+        
         self.searchedItems.send(
             allItems.filter({item in
                 //Search in Name
                 //Делим название на отдельные слова. И сравниваем введенное значение с началом каждого слова
                 if item.name.isContainEqual(value) != nil {return true}
                 //Search in Properties
-                if item.properties.contains(where: { $0.str.isContainEqual(value) != nil }) {return true}
-                 
+                if item.properties.contains(where: { property in
+                    if property.str.isContainEqual(value) != nil {
+                        //Add property to searched properties array
+                        if !self.searchedProperties.contains(where: {$0.id == property.id}) {
+                            self.searchedProperties.append(property)
+                        }
+                        return true
+                    } else {
+                        return false
+                    }
+                }) {return true}
+                
                 return false
             })
         )
     }
     
     func searchReset(){
-    self.search = ""
-}
+        self.search = ""
+    }
     
     // MARK: - FILTER
     private func filterObserve(){

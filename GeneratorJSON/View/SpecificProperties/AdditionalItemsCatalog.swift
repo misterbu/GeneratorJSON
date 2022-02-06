@@ -14,6 +14,7 @@ struct AdditionalItemsCatalog<Item: HasProperties & CatalogTitle>: View {
     var onSelect: (Item)->()
     var onClose: ()->()
     
+    
     @FocusState var searchFocused: Bool
     
     init(searchManager: SearchManager<Item>,
@@ -91,7 +92,10 @@ struct AdditionalItemsCatalog<Item: HasProperties & CatalogTitle>: View {
                             CatalogItemView(item: item,
                                             colorTitle: .white.opacity(0.8),
                                             fontTitle: .title2,
-                                            position: .horizontal)
+                                            position: .horizontal,
+                                            properties: searchManager.searchedProperties .filter({ property in
+                                                                        item.properties
+                                                                            .contains(where: {$0.id == property.id})}))
                                 .onTapGesture {
                                     onSelect(item)
                                 }
@@ -114,7 +118,10 @@ struct AdditionalItemsCatalog<Item: HasProperties & CatalogTitle>: View {
                                         CatalogItemView(item: item,
                                                         colorTitle: .white.opacity(0.8),
                                                         fontTitle: .title2,
-                                                        position: .horizontal)
+                                                        position: .horizontal,
+                                                        properties: searchManager.searchedProperties.filter({ property in
+                                                                                    item.properties
+                                                                                        .contains(where: {$0.id == property.id})}))
                                             .onTapGesture {
                                                 onSelect(item)
                                             }
@@ -146,18 +153,14 @@ struct AdditionalItemsCatalog<Item: HasProperties & CatalogTitle>: View {
 
 struct AdditionalCatalogItemsView_Previews: PreviewProvider {
     static var previews: some View {
-        ZStack{
-            Color.black
-            
-            AdditionalItemsCatalog(searchManager: SearchManager([Workout.sample,
-                                                                                   Workout.sample2,
-                                                                                   Workout.sample]),
-                                                     title: "To Tuesday",
-                                                     subtitle: "Select workout for",
-                                                     onSelect: {_ in},
-                                                     onClose: {})
-                .buttonStyle(PlainButtonStyle())
-                .padding()
-        }
+        AdditionalItemsCatalog(searchManager: SearchManager([Workout.sample,
+                                                             Workout.sample2,
+                                                             Workout.sample]),
+                               title: "To Tuesday",
+                               subtitle: "Select workout for",
+                               onSelect: {_ in},
+                               onClose: {})
+            .buttonStyle(PlainButtonStyle())
+            .padding()
     }
 }

@@ -8,12 +8,13 @@
 import SwiftUI
 
 
-struct CatalogItemView<Item: CatalogTitle>: View {
+struct CatalogItemView<Item: CatalogTitle & HasProperties>: View {
     var item: Item
     var colorTitle: Color = .primary
     var fontTitle: Font = .title
     var position: PositionType = .horizontal
-    
+    var properties: [Property]? = nil
+   
     enum PositionType {
         case horizontal, vertical
     }
@@ -41,6 +42,7 @@ struct CatalogItemView<Item: CatalogTitle>: View {
     }
     
     var itemImage: some View {
+        
         Image(nsImage: item.image ?? NSImage(named: "bgImage")!)
             .resizable()
             .frame(width: 50, height: 50)
@@ -52,11 +54,27 @@ struct CatalogItemView<Item: CatalogTitle>: View {
     }
     
     var itemTitle: some View {
-        Text(item.name)
-            .lineLimit(2)
-            .font(fontTitle)
-            .foregroundColor(colorTitle)
-            .frame(maxWidth: 250, alignment: .leading)
+        VStack(alignment: .leading){
+            Text(item.name)
+                .lineLimit(2)
+                .font(fontTitle)
+                .foregroundColor(colorTitle)
+                .frame(maxWidth: 250, alignment: .leading)
+            
+            //Show property name when we searched item by this property
+            if let properties = properties, properties.count > 0 {
+                HStack(spacing: 5){
+                    ForEach(properties.prefix(2), id:\.id){property in
+                        Text("#\(property.str)")
+                            .font(.system(size: 9, weight: .medium))
+                            .foregroundColor(Color.white.opacity(0.7))
+                            .textCase(.uppercase)
+                    }
+                }
+            }
+        }
     }
+    
+
 }
 

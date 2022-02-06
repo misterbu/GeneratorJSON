@@ -35,7 +35,8 @@ struct BasicExercise: Identifiable, Reviewble, CatalogItem, HasProperties {
     
     var isPro: Bool = false
     
-    var properties: [Property] = []
+    var properties: [Property] = [WorkType.hiit,
+                                  PlaceType.gym]
     
     var type: WorkType {
         if let type = properties.first(where: {$0.type == .exerciseType}) as? WorkType {

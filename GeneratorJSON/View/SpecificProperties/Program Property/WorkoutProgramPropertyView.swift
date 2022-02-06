@@ -61,10 +61,10 @@ struct WorkoutProgramPropertyView: View {
             withAnimation {
                 self.workoutsCatalogView = AnyView(
                     AdditionalItemsCatalog(searchManager: SearchManager(workoutsManager.items),
-                                                             title: "to \(Calendar.current.weekdaySymbols[indexDay])",
-                                                             subtitle: "Select workout for add",
-                                                             onSelect: {setWorkout($0 as Workout)},
-                                                             onClose: {closeWorkoutsCatalogView()})
+                                           title: "to \(Calendar.current.weekdaySymbols[indexDay])",
+                                           subtitle: "Select workout for add",
+                                           onSelect: {setWorkout($0 as Workout)},
+                                           onClose: {closeWorkoutsCatalogView()})
                 )
             }
             
