@@ -107,6 +107,7 @@ struct DetailItemView<Item: CatalogDetail & HasProperties>: View {
                     .frame(width: 500)
                     .transition(.move(edge: .trailing))
                     .padding(.bottom)
+                   
             }
         }
         .padding(.horizontal)
@@ -140,13 +141,13 @@ struct DetailItemView<Item: CatalogDetail & HasProperties>: View {
     private var specificProperties: some View {
         VStack{
             //For Workout Programs
-            if let workoutProgram = item as? WorkoutProgmar {
-                WorkoutProgramPropertyView(program: .init(get: {workoutProgram},
+            if  (item as? WorkoutProgmar) != nil {
+                WorkoutProgramPropertyView(program: .init(get: {item as! WorkoutProgmar},
                                                           set: {item = $0 as! Item }),
                                            workoutsCatalogView: $additionalView)
             //For Workouts
-            } else if let workout = item as? Workout {
-                WorkoutPropertyView(workout: .init(get: {workout},
+            } else if  (item as? Workout) != nil {
+                WorkoutPropertyView(workout: .init(get: {item as! Workout},
                                                    set: {item = $0 as! Item}),
                                     exercisesCatalogView: $additionalView)
             }

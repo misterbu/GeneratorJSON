@@ -23,7 +23,7 @@ struct CatalogContainer<Manager: ItemManager>: View {
                
             
             //DetailViewOfCatalogItem
-            if  manager.selectedItem != nil {
+            if manager.selectedItem != nil  {
                 DetailItemView(item: .init(get: {manager.selectedItem!},
                                            set: {manager.selectedItem = $0}),
                                onSave: {manager.save($0)},

@@ -14,7 +14,6 @@ struct AdditionalItemsCatalog<Item: HasProperties & CatalogTitle>: View {
     var onSelect: (Item)->()
     var onClose: ()->()
     
-    
     @FocusState var searchFocused: Bool
     
     init(searchManager: SearchManager<Item>,
@@ -152,15 +151,26 @@ struct AdditionalItemsCatalog<Item: HasProperties & CatalogTitle>: View {
 }
 
 struct AdditionalCatalogItemsView_Previews: PreviewProvider {
+    struct Test: View {
+        @Namespace var ns
+        
+        var body: some View{ ZStack{
+            Color.black
+            
+            AdditionalItemsCatalog(searchManager: SearchManager([Workout.sample,
+                                                                 Workout.sample2,
+                                                                 Workout.sample]),
+                                   title: "To Tuesday",
+                                   subtitle: "Select workout for",
+                                   onSelect: {_ in},
+                                   onClose: {})
+                .buttonStyle(PlainButtonStyle())
+                .padding()
+        }
+            
+        }
+    }
     static var previews: some View {
-        AdditionalItemsCatalog(searchManager: SearchManager([Workout.sample,
-                                                             Workout.sample2,
-                                                             Workout.sample]),
-                               title: "To Tuesday",
-                               subtitle: "Select workout for",
-                               onSelect: {_ in},
-                               onClose: {})
-            .buttonStyle(PlainButtonStyle())
-            .padding()
+       Test()
     }
 }

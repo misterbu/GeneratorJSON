@@ -12,9 +12,9 @@ typealias CatalogItem = CatalogTitle & CatalogDetail
 
 protocol CatalogTitle {
     var id: String {get}
-    var name: String {get}
-    var image: NSImage? {get}
-    var type: WorkType {get}
+       var name: String {get}
+       var image: NSImage? {get}
+       var type: WorkType {get}
     
     init()
 }

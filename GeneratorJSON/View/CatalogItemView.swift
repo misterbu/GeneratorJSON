@@ -42,7 +42,6 @@ struct CatalogItemView<Item: CatalogTitle & HasProperties>: View {
     }
     
     var itemImage: some View {
-        
         Image(nsImage: item.image ?? NSImage(named: "bgImage")!)
             .resizable()
             .frame(width: 50, height: 50)

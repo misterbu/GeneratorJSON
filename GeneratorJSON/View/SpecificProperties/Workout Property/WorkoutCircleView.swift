@@ -11,7 +11,6 @@ struct WorkoutCircleView: View {
     @Binding var workoutCircle: WorkoutCircle
     var workType: WorkType
     @Binding var additionalView: AnyView?
-    @Namespace var animation
     var onDelete: (WorkoutCircle)->()
 
     @EnvironmentObject var exerciseManager: ExercisesViewModel
@@ -46,7 +45,6 @@ struct WorkoutCircleView: View {
         }
         .padding(.vertical, 20)
         .padding(.horizontal, 20)
-        .frame(width: 600, height: 220)
         .background(Color.black.opacity(0.4))
         .cornerRadius(10)
 
