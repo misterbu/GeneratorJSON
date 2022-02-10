@@ -9,50 +9,74 @@ struct Home: View {
     @EnvironmentObject var programsManager: ProgramsManager
     @EnvironmentObject var exercisesViewModel: ExercisesViewModel
     
+    @State var generatingJSON: Bool = false
+    
     var body: some View {
-        HStack(spacing: 0){
-            // MARK: - ЛЕВЫЙ СТОЛБ ВЫБОРА: Программы, тренировки, упр
-            VStack(spacing: 30){
-                TabButton(pageType: .programs, activeTab: $activeTab)
-                TabButton(pageType: .workouts, activeTab: $activeTab)
-                TabButton(pageType: .exercises, activeTab: $activeTab)
-                
-                Spacer()
-                
-                generateJSONButton
-            }
-            .padding(.vertical, 35)
-            .padding(.horizontal, 10)
-            .background(BlurWindow())
-            
-            Rectangle()
-                .fill(Color.white.opacity(0.1))
-                .frame(width: 2)
-                .frame(maxHeight: .infinity)
-            
-            // MARK: - ОСНОВНОЙ КОНТЕНТ
-            ZStack{
-                switch activeTab {
-                case .programs:
-                    CatalogContainer(manager: programsManager)
-                case .workouts:
-                    CatalogContainer(manager: workoutsManager)
-                case .exercises:
-                    CatalogContainer(manager: exercisesViewModel)
+        ZStack{
+            HStack(spacing: 0){
+                // MARK: - ЛЕВЫЙ СТОЛБ ВЫБОРА: Программы, тренировки, упр
+                VStack(spacing: 30){
+                    TabButton(pageType: .programs, activeTab: $activeTab)
+                    TabButton(pageType: .workouts, activeTab: $activeTab)
+                    TabButton(pageType: .exercises, activeTab: $activeTab)
+                    
+                    Spacer()
+                    
+                    generateJSONButton
                 }
-            }.frame(maxWidth: .infinity, maxHeight: .infinity)
+                .padding(.vertical, 35)
+                .padding(.horizontal, 10)
+                .background(BlurWindow())
+                
+                Rectangle()
+                    .fill(Color.white.opacity(0.1))
+                    .frame(width: 2)
+                    .frame(maxHeight: .infinity)
+                
+                // MARK: - ОСНОВНОЙ КОНТЕНТ
+                ZStack{
+                    switch activeTab {
+                    case .programs:
+                        CatalogContainer(manager: programsManager)
+                    case .workouts:
+                        CatalogContainer(manager: workoutsManager)
+                    case .exercises:
+                        CatalogContainer(manager: exercisesViewModel)
+                    }
+                }.frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
+            
+            if generatingJSON {
+                Color.black.opacity(0.8)
+                
+                Text("GENERATING JSON ... ")
+                    .font(.largeTitle)
+                    .foregroundColor(.white.opacity(0.3))
+            }
         }
         .edgesIgnoringSafeArea(.all)
         .frame(width: NSScreen.width/1.2, height: NSScreen.height/1.2)
-        
     }
     
     
     var generateJSONButton: some View {
         Button {
-            workoutsManager.generateJSON()
-            programsManager.generateJSON()
-            exercisesViewModel.generateJSON()
+            DispatchQueue.global(qos: .background).async {
+                DispatchQueue.main.async {
+                    withAnimation{generatingJSON = true}
+                }
+                
+                workoutsManager.generateJSON()
+                programsManager.generateJSON()
+                exercisesViewModel.generateJSON()
+                
+                DispatchQueue.main.async {
+                    withAnimation{generatingJSON = false}
+                }
+            }
+           
+            
+            
         } label: {
             VStack{
                 Image(systemName: "square.and.arrow.down")

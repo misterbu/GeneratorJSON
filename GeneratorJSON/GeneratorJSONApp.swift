@@ -19,7 +19,6 @@ struct GeneratorJSONApp: App {
                 .environmentObject(WorkoutsManager())
                 .preferredColorScheme(.dark)
         }
-        .windowStyle(.hiddenTitleBar)
-//        .windowStyle(HiddenTitleBarWindowStyle())
+        .windowStyle(HiddenTitleBarWindowStyle())
     }
 }

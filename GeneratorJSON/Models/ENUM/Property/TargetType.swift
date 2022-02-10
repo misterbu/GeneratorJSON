@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum TargetType: Int, CaseIterable, StrChooseble, Property {
+enum TargetType: Int, CaseIterable, Property {
     case healt = 0
     case loseWeight = 1
     case buildMuscule = 2

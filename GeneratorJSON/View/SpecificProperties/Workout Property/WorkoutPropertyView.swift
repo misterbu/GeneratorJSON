@@ -19,21 +19,11 @@ struct WorkoutPropertyView: View {
             ForEach($workout.workoutCircles, id: \.id){$circle in
                 WorkoutCircleView(workoutCircle: $circle,
                                   workType: workout.type,
-                                  additionalView: $exercisesCatalogView) { circle in
+                                  additionalView: $exercisesCatalogView
+                ) { circle in
                     workout.workoutCircles.removeAll(where: {$0.id == circle.id})
                 }
             }
-            
-//            ForEach(workout.workoutCircles.indices ,id: \.self){index in
-//                Safe($workout.workoutCircles, index: index) { binding in
-//                    //Circle
-//                    WorkoutCircleView(workoutCircle: binding,
-//                                      workType: workout.type,
-//                                      additionalView: $exercisesCatalogView) { circle in
-//                        workout.workoutCircles.removeAll(where: {$0.id == circle.id})
-//                    }
-//                }
-//            }
             
             Spacer()
         }

@@ -22,7 +22,7 @@ class CoreDataFuncs {
     //MARK: -SAVE NEW MODEL
     func add<T: NSManagedObject, S: CoreDatable>(model: S, entity: T.Type) {
         print("CD: Save model with id \(model.id)")
-        var entity = model.getEntity()
+        _ = model.getEntity()
         
         do {
             try context.save()

@@ -12,6 +12,8 @@ struct WorkoutCircleView: View {
     var workType: WorkType
     @Binding var additionalView: AnyView?
     var onDelete: (WorkoutCircle)->()
+    //@State var additionalView: AnyView? = nil
+    @State var selectedExercise: Exercise? = nil
 
     @EnvironmentObject var exerciseManager: ExercisesViewModel
     
@@ -27,19 +29,23 @@ struct WorkoutCircleView: View {
             
             HStack(spacing: 20){
                 ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 20){
+                    HStack(alignment: .top, spacing: 20){
                         ForEach(workoutCircle.exercises, id:\.id){exercise in
-                            //УПРАЖНЕНИЕ
-                            ExerciseItem(exercise: exercise.basic)
+                            CatalogItemView(item: exercise.basic,
+                                            colorTitle: .white,
+                                            fontTitle: .system(size: 12, weight: .regular),
+                                            position: .vertical)
                                 .onTapGesture {
                                     showEditExerciseView(for: exercise)
                                 }
+                            
                         }
                         
-                        showAddNewExerciseButton
+                        AddNewExerciseButton
                     }
                 }
             }
+            
             
             Spacer()
         }
@@ -47,6 +53,7 @@ struct WorkoutCircleView: View {
         .padding(.horizontal, 20)
         .background(Color.black.opacity(0.4))
         .cornerRadius(10)
+        
 
     }
     
@@ -68,32 +75,32 @@ struct WorkoutCircleView: View {
     // MARK: EDIT EXERCISE
     private func showEditExerciseView(for exercise: Exercise){
         //FOR STRENGHT
-        if let exercise = exercise as? StrenghtExercise {
+        if let strenghtExercise = exercise as? StrenghtExercise {
             withAnimation {
                 self.additionalView = AnyView (
-                    EditStrenghtExerciseView(viewModel: StrenghtSideViewModel(exercise: exercise)) { changedExercise in
-                        self.saveExercise(as: changedExercise)
-                    } onDelete: { deletedExercise in
-                        self.deleteExercise(deletedExercise)
-                    } onClose: {
-                        self.closeAdditionalViewView()
-                    }
+                    EditStrenghtExerciseView(exercise: strenghtExercise,
+                                             onSave: {saveExercise(as: $0)},
+                                             onDelete: {deleteExercise($0)},
+                                             onClose: {closeAdditionalViewView()})
                 )
             }
         //FOR HIIT
-        } else if let exercise = exercise as? IntervalExercise {
+        } else if let intervalExercise = exercise as? IntervalExercise {
             withAnimation {
                 self.additionalView = AnyView (
-                    EditHiitExerciseView(viewModel: IntervalSideViewModel(exercise: exercise)) { changedExrcise in
-                        self.saveExercise(as: changedExrcise)
-                    } onDelete: { deletedExercise in
-                        self.deleteExercise(deletedExercise)
-                    } onClose: {
-                        self.closeAdditionalViewView()
-                    }
+                    EditHiitExerciseView(exercise: intervalExercise,
+                                         onSave: {saveExercise(as: $0)},
+                                         onDelete: {deleteExercise($0)},
+                                         onClose: {closeAdditionalViewView()})
                 )
             }
         }
+    }
+    
+    private func changeExercise(to exercise: Exercise){
+        guard let index = self.workoutCircle.exercises.firstIndex(where: {$0.id == exercise.id}) else {return}
+       // print("Change ex, count sets = \((exercise as! StrenghtExercise).sets.count), index \(index)")
+        self.workoutCircle.exercises[index] = exercise
     }
     
     private func saveExercise(as exercise: Exercise){
@@ -114,7 +121,7 @@ struct WorkoutCircleView: View {
     
     
     //MARK: ADD EXERCISE
-    private var showAddNewExerciseButton: some View {
+    private var AddNewExerciseButton: some View {
         Button {
             withAnimation {
                 self.additionalView = AnyView(
@@ -132,7 +139,7 @@ struct WorkoutCircleView: View {
                 .background(RoundedRectangle(cornerRadius: 10)
                                 .stroke(Color.white.opacity(0.4), lineWidth: 2))
                 .contentShape(RoundedRectangle(cornerRadius: 10))
-        }.buttonStyle(PlainButtonStyle())
+        }
         
     }
     

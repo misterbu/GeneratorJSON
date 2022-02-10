@@ -10,7 +10,7 @@ import CoreData
 import SwiftUI
 import SwiftyJSON
 
-struct BasicExercise: Identifiable, Reviewble, CatalogItem, HasProperties {
+struct BasicExercise: Identifiable, CatalogItem, HasProperties {
     var id: String = UUID().uuidString
     
     var iconImage: NSImage?
@@ -119,7 +119,7 @@ extension BasicExercise: CoreDatable {
         if let entityProperty = entity.properties{
             let propertiesIDs = entityProperty.components(separatedBy: ",")
             self.properties =  propertiesIDs.compactMap({
-                HelpFuncs.getProperty(from: $0)
+                PropertyHelp.getProperty(from: $0)
             })
         }
         
@@ -189,5 +189,16 @@ extension BasicExercise: JSONble {
         saveIcon()
         
         return json
+    }
+}
+
+
+extension BasicExercise {
+    static var sample: BasicExercise {
+        var value = BasicExercise()
+        value.name_en = "Bicheps press with gantels"
+        value.image = NSImage(named: "bgImage")
+        value.iconImage = NSImage(named: "bgImage")
+        return value
     }
 }

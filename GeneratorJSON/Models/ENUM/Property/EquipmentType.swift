@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum EquipmentType: Int, CaseIterable, StrChooseble, Property {
+enum EquipmentType: Int, CaseIterable, Property {
     case nothing = 0
     case gym = 1
     case dumbbells = 2

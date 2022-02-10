@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum MuscleType: Int, CaseIterable, Identifiable, StrChooseble, Property {
+enum MuscleType: Int, CaseIterable, Identifiable, Property {
     case fullBody = 0
     case upperBody = 1
     case lowBody = 2

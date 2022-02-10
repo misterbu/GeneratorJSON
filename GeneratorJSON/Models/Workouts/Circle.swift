@@ -14,7 +14,7 @@ struct WorkoutCircle: Identifiable, CoreDatable {
     var orderAdd: Int = 0
     var name: String = ""
     var canGetOff: Bool = false
-    var type: CircleType = .main
+ //   var type: CircleType = .main
     var exercises: [Exercise] = []
     
     var entityType: NSManagedObject.Type {CircleEntity.self}
@@ -48,7 +48,7 @@ extension WorkoutCircle {
         self.orderAdd = Int(entity.orderAdd)
         self.name = entity.name ?? ""
         self.canGetOff = entity.canGetOff
-        self.type = CircleType(rawValue: entity.type.int) ?? .main
+       // self.type = CircleType(rawValue: entity.type.int) ?? .main
         
         //Получаем все типы тренировок из CD и сортируем их в нужном порядке
         if let intervalsEntities = entity.intervalExercises as? Set<IntervalExerciseEntity>  {
@@ -70,7 +70,7 @@ extension WorkoutCircle {
         entity.orderAdd = orderAdd.int32
         entity.name = name
         entity.canGetOff = canGetOff
-        entity.type = type.rawValue.int32
+      //  entity.type = type.rawValue.int32
         
         //Сохраняем упражнения
         var intervalsEntities = Set<IntervalExerciseEntity>()
@@ -109,7 +109,7 @@ extension WorkoutCircle {
             "name" : name,
             "canGetOff" : canGetOff,
             "exercises" : exercises.map({$0.getForJSON()}),
-            "type": type.rawValue
+       //     "type": type.rawValue
         ]
         
         return dict
@@ -121,7 +121,7 @@ extension WorkoutCircle: Equatable {
     static func == (lhs: WorkoutCircle, rhs: WorkoutCircle) -> Bool {
         guard lhs.name == rhs.name,
            lhs.canGetOff == rhs.canGetOff,
-              lhs.type.str == rhs.type.str,
+          //    lhs.type.str == rhs.type.str,
               lhs.exercises.count == rhs.exercises.count else {return false}
         
         return true

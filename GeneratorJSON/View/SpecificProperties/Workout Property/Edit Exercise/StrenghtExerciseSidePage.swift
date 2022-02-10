@@ -3,8 +3,7 @@ import SwiftUI
 
 struct EditStrenghtExerciseView: View {
 
-    //@State var exercise: StrenghtExercise
-    @ObservedObject var viewModel: StrenghtSideViewModel
+    @State var exercise: StrenghtExercise
     var onSave: (Exercise)->()
     var onDelete:(Exercise)->()
     var onClose: ()->()
@@ -17,24 +16,29 @@ struct EditStrenghtExerciseView: View {
             }
             
             //НАЗВАНИЕ
-            Text(viewModel.exercise.basic.name.uppercased() )
-                .font(.title2)
-                .foregroundColor(.white)
-            
-            //КНОПКИ БЕЗ КОЛИЧЕСТВА ПОВТОРЕНИЙ и С СОБСТВЕННЫМ ВЕСОМ
-            HStack(spacing: 20){
-                noLimitReps
-                withOwnWeight
-            }.padding(.bottom, 40)
+            VStack(alignment: .center, spacing: 10){
+                Text("EDIT")
+                    .font(.title2)
+                    .foregroundColor(.white.opacity(0.8))
+                
+                Text(exercise.basic.name.uppercased() )
+                    .font(.title2)
+                    .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
+                    .lineLimit(3)
+            }
             
             //СЕТЫ
-
             VStack(alignment:.center){
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(spacing: 15){
                         
                         //НАИМЕНОВАНИЕ СТОЛБЦОВ(КОЛ_ВО ПОВТОРЕНИЙ И РАЗМИНКА)
                         HStack(spacing: 40){
+                            Text("Delete")
+                                .font(.callout)
+                                .foregroundColor(.white.opacity(0.6))
+                            
                             Text("REPS:")
                                 .font(.callout)
                                 .foregroundColor(.white.opacity(0.6))
@@ -44,13 +48,12 @@ struct EditStrenghtExerciseView: View {
                                 .foregroundColor(.white.opacity(0.6))
                         }
                         
-                        //CЕТЫ
-                        ForEach(viewModel.exercise.sets.indices, id:\.self){index in
-                            Safe($viewModel.exercise.sets, index: index) { exSet in
-                                EditStrenghtExerciseSetView(exSet: exSet)
-                            }
+                       // CЕТЫ
+                        ForEach($exercise.sets, id:\.id){$exSet in
+                            EditStrenghtExerciseSetView(exSet: $exSet,
+                                                        onDelete: {deleteSet($0)})
+                                .transition(.move(edge: .trailing).combined(with: .opacity))
                         }
-                        
                         //ДОБАВИТЬ СЕТ
                         addSet
                             .padding(.top, 20)
@@ -66,61 +69,48 @@ struct EditStrenghtExerciseView: View {
                 .opacity(0)
                 Spacer()
                 // MARK: - КНОПКА СОХРАНИТЬ
-                ButtonWIthIcon(name: "Save", icon: "square.and.arrow.down.on.square") {
-                    onSave(viewModel.exercise)
+                ButtonWithIcon(name: "Save",
+                               icon: "square.and.arrow.down.on.square",
+                               font: .title2) {
+                    onSave(exercise)
                 }
                 Spacer()
                 // MARK: - КНОПКА   УДАЛИТЬ
                 IconButton(icon: "trash") {
-                    onDelete(viewModel.exercise)
+                    onDelete(exercise)
                 }
             }
         }
     }
     
-    var noLimitReps: some View {
+    private var addSet: some View {
         Button {
-            viewModel.exercise.noLimitReps.toggle()
-        } label: {
-            Text("No reps limit")
-                .font(.title3)
-                .foregroundColor(viewModel.exercise.noLimitReps ? .black.opacity(0.4) : .white)
-                .padding(.horizontal, 5)
-                .padding(.vertical, 3)
-                .background(Color.white.opacity(viewModel.exercise.noLimitReps ? 1 : 0))
-                .overlay(RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.white.opacity(viewModel.exercise.noLimitReps ? 0 : 1)))
-                .clipShape(RoundedRectangle(cornerRadius: 10))
-        }.buttonStyle(PlainButtonStyle())
-
-    }
-
-    var withOwnWeight: some View {
-        Button {
-            viewModel.exercise.ownWeight.toggle()
-        } label: {
-            Text("With own weight")
-                .font(.title3)
-                .foregroundColor(viewModel.exercise.ownWeight ? .black.opacity(0.4) : .white)
-                .padding(.horizontal, 5)
-                .padding(.vertical, 3)
-                .background(Color.white.opacity(viewModel.exercise.ownWeight ? 1 : 0))
-                .overlay(RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.white.opacity(viewModel.exercise.ownWeight ? 0 : 1)))
-                .clipShape(RoundedRectangle(cornerRadius: 10))
-        }.buttonStyle(PlainButtonStyle())
-    }
-    
-    var addSet: some View {
-        Button {
-            viewModel.exercise.sets.append(ExerciseSet(order: viewModel.exercise.sets.count))
+            withAnimation{
+            self.exercise.sets.append(ExerciseSet(order: self.exercise.sets.count))
+            }
         } label: {
             Image(systemName: "plus.circle")
                 .font(.largeTitle)
                 .foregroundColor(.white.opacity(0.5))
         }.buttonStyle(PlainButtonStyle())
-
+        
+    }
+    
+    private func deleteSet(_ exSet: ExerciseSet){
+        withAnimation{
+            exercise.sets.removeAll(where: {$0.id == exSet.id})
+        }
     }
     
     
+}
+
+struct EditStrenghtExerciseView_Preview: PreviewProvider {
+    static var previews: some View {
+        EditStrenghtExerciseView(exercise: .sample,
+                                 onSave: {_ in},
+                                 onDelete: {_ in},
+                                 onClose: {})
+            .preferredColorScheme(.dark)
+    }
 }

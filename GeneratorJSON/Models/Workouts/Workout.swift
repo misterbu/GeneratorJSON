@@ -119,7 +119,7 @@ extension Workout: CoreDatable  {
         if let entityProperty = entity.properties{
             let propertiesIDs = entityProperty.components(separatedBy: ",")
             self.properties =  propertiesIDs.compactMap({
-                HelpFuncs.getProperty(from: $0)
+                PropertyHelp.getProperty(from: $0)
             })
         }
         

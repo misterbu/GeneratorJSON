@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum PlaceType: Int, CaseIterable, StrChooseble , Property{
+enum PlaceType: Int, CaseIterable, Property{
     case home = 0
     case gym = 1
     case outdoor = 2

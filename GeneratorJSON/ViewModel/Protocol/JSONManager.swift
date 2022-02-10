@@ -25,6 +25,7 @@ extension JSONManager {
         let json = JSON(["items" : items.map({$0.getForJSON()})])
         
         do {
+            
             let data = try json.rawData()
             try data.write(to: url)
         } catch {

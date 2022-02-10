@@ -26,14 +26,19 @@ struct CatalogItemView<Item: CatalogTitle & HasProperties>: View {
                 HStack(spacing: 20){
                     itemImage
                     itemTitle
+                        .multilineTextAlignment(.leading)
+                        .lineLimit(2)
                     Spacer(minLength: 30)
                 }
             //For vertical
             } else {
-                VStack(spacing: 5){
+                VStack(alignment: .center, spacing: 5){
                     itemImage
                     itemTitle
+                        .multilineTextAlignment(.center)
+                        .lineLimit(2)
                 }
+                .frame(width: 70)
             }
         }
         .contentShape(Rectangle())

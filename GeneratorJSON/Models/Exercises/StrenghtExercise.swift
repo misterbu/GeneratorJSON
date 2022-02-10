@@ -34,12 +34,12 @@ struct StrenghtExercise: Exercise {
     
 
     // MARK: - FUNCS
-    mutating func setProperied(values: [String : Any]) {
-        if let restValue = values["restDuration"] as? Int {
-            self.restDuration = restValue
-        }
-        
-    }
+//    mutating func setProperied(values: [String : Any]) {
+//        if let restValue = values["restDuration"] as? Int {
+//            self.restDuration = restValue
+//        }
+//
+//    }
 }
 
 
@@ -122,15 +122,10 @@ extension StrenghtExercise{
     }
 }
 
-
-// MARK: - EQUTABLE
-extension StrenghtExercise:Equatable {
-    static func == (lhs: StrenghtExercise, rhs: StrenghtExercise) -> Bool {
-        if lhs.ownWeight == rhs.ownWeight,
-           lhs.noLimitReps == rhs.noLimitReps,
-           lhs.id == rhs.id {
-            return true
-        } else {return false}
-
+extension StrenghtExercise {
+    static var sample: StrenghtExercise {
+        var value = StrenghtExercise(.sample, orderAdd: 0)
+        value.sets = [ExerciseSet(order: 0), ExerciseSet(order: 1)]
+        return value
     }
 }

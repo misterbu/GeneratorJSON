@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum SexType: Int, CaseIterable, StrChooseble, Property {
+enum SexType: Int, CaseIterable, Property {
     case unisex = 0
     case male = 1
     case female = 2

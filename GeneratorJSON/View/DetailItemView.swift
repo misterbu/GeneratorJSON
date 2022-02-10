@@ -33,7 +33,7 @@ struct DetailItemView<Item: CatalogDetail & HasProperties>: View {
                             .foregroundColor(Color.white.opacity(0.4))
                         
                         //КНОПКА КОПИРОВАТЬ ID
-                        ButtonWIthIcon(name: "COPY ID", icon: "doc.on.doc") {
+                        ButtonWithIcon(name: "COPY ID", icon: "doc.on.doc") {
                             let pasteboard = NSPasteboard.general
                             pasteboard.clearContents()
                             pasteboard.setString(item.id, forType: .string)
@@ -85,12 +85,12 @@ struct DetailItemView<Item: CatalogDetail & HasProperties>: View {
                         HStack(spacing: 50){
                             Spacer()
                             //СОХРАНИТЬ
-                            ButtonWIthIcon(name: "SAVE", icon: "opticaldiscdrive.fill", isBig: true) {
+                            ButtonWithIcon(name: "SAVE", icon: "opticaldiscdrive.fill", type: .big) {
                                 onSave(item)
                             }
                             
                             //УДАЛИТь
-                            ButtonWIthIcon(name: "DELETE", icon: "trash", isBig: true) {
+                            ButtonWithIcon(name: "DELETE", icon: "trash", type: .big) {
                                 onDelete(item)
                             }
                         }
@@ -107,7 +107,6 @@ struct DetailItemView<Item: CatalogDetail & HasProperties>: View {
                     .frame(width: 500)
                     .transition(.move(edge: .trailing))
                     .padding(.bottom)
-                   
             }
         }
         .padding(.horizontal)

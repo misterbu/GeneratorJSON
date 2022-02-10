@@ -9,7 +9,7 @@ import SwiftUI
 import Combine
 
 struct EditHiitExerciseView: View {
-    @ObservedObject var viewModel: IntervalSideViewModel
+    @State var exercise: IntervalExercise
     var onSave: (Exercise)->()
     var onDelete:(Exercise)->()
     var onClose: ()->()
@@ -24,22 +24,20 @@ struct EditHiitExerciseView: View {
             }
             
             //НАЗВАНИЕ
-            Text(viewModel.exercise.basic.name.uppercased() )
+            Text(exercise.basic.name.uppercased() )
                 .font(.title2)
                 .foregroundColor(.white)
             
-            //КНОПКИ БЕЗ ЛИМИТА ВРЕМЕНИ
-            noTimeLimin
-            
+    
             //СЕТЫ
-            if !viewModel.exercise.noTimeLimit {
+            if !exercise.noTimeLimit {
                 VStack{
                     Text("Duration")
                         .font(.callout)
                         .foregroundColor(.white.opacity(0.5))
                     
-                    TextField("\(viewModel.exercise.duration)", text: $duration) {
-                        viewModel.exercise.duration = Int(duration) ?? 20
+                    TextField("\(exercise.duration)", text: $duration) {
+                        exercise.duration = Int(duration) ?? 20
                     }.onReceive(Just(duration)) { newValue in
                         let filtered = newValue.filter { "0123456789".contains($0) }
                         if filtered != newValue {
@@ -57,35 +55,16 @@ struct EditHiitExerciseView: View {
                 .opacity(0)
                 Spacer()
                 // MARK: - КНОПКА СОХРАНИТЬ
-                ButtonWIthIcon(name: "Save", icon: "square.and.arrow.down.on.square") {
-                    onSave(viewModel.exercise)
+                ButtonWithIcon(name: "Save", icon: "square.and.arrow.down.on.square") {
+                    onSave(exercise)
                 }
                 Spacer()
                 // MARK: - КНОПКА   УДАЛИТЬ
                 IconButton(icon: "trash") {
-                    onDelete(viewModel.exercise)
+                    onDelete(exercise)
                 }
             }
         }
     }
-    
-    var noTimeLimin: some View {
-        Button {
-            viewModel.exercise.noTimeLimit.toggle()
-        } label: {
-            Text("No reps limit")
-                .font(.title3)
-                .foregroundColor(viewModel.exercise.noTimeLimit ? .black.opacity(0.4) : .white)
-                .padding(.horizontal, 5)
-                .padding(.vertical, 3)
-                .background(Color.white.opacity(viewModel.exercise.noTimeLimit ? 1 : 0))
-                .overlay(RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.white.opacity(viewModel.exercise.noTimeLimit ? 0 : 1)))
-                .clipShape(RoundedRectangle(cornerRadius: 10))
-        }.buttonStyle(PlainButtonStyle())
-
-    }
-
-
 
 }

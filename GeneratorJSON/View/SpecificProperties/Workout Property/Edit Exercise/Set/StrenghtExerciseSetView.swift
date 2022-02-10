@@ -12,9 +12,17 @@ struct EditStrenghtExerciseSetView: View {
     
     @Binding var exSet: ExerciseSet
     @State var countsText: String = ""
+    var onDelete: (ExerciseSet) -> () = {_ in}
 
     var body: some View {
         HStack(spacing: 40){
+            //DELETE BUTTON
+            IconButton(icon: "trash",
+                       iconColor: .white.opacity(0.8),
+                       bgColor: .clear) {
+                onDelete(exSet)
+            }
+            
             //КОЛИЧЕСТВО ПОВТОРЕНИЙ
             TextField("\(exSet.reps)", text: $countsText, onCommit: {
                 self.exSet.reps = Int(countsText) ?? 10
@@ -48,5 +56,16 @@ struct EditStrenghtExerciseSetView: View {
                 .contentShape(Circle())
         }.buttonStyle(PlainButtonStyle())
 
+    }
+}
+
+
+struct EditStrenghtExerciseSetView_Preview: PreviewProvider {
+    static var previews: some View {
+        EditStrenghtExerciseView(exercise: .sample,
+                                 onSave: {_ in},
+                                 onDelete: {_ in},
+                                 onClose: {})
+            .preferredColorScheme(.dark)
     }
 }

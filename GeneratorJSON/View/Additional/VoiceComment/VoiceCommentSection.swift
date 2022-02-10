@@ -44,7 +44,7 @@ struct VoiceCommentSection: View {
             }
             
             //КНОПКА ДОБАВИТЬ КОММЕНТ
-            ButtonWIthIcon(name: "Add comment", icon: "plus", onTap: {
+            ButtonWithIcon(name: "Add comment", icon: "plus", onTap: {
                 show.toggle()
             })
             
