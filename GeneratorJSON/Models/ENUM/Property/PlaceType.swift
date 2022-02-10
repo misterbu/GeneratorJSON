@@ -25,19 +25,6 @@ enum PlaceType: Int, CaseIterable, Property{
         }
     }
     
-    init(strValue: String){
-        switch strValue {
-        case "Home":
-            self = .home
-        case "Gym":
-            self = .gym
-        case "Outdoor":
-            self = .outdoor
-        default:
-            self = .home
-        }
-    }
-    
     var type: PropertyType {.placeType}
     
     static var typeName: String {"Place"}

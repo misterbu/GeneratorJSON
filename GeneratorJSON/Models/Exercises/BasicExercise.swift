@@ -17,7 +17,7 @@ struct BasicExercise: Identifiable, CatalogItem, HasProperties {
     var image: NSImage?
     var video: String?
     
-    var name_en: String = "Default"
+    var name_en: String = ""
     var shortDescription_en: String = ""
     var description_en: String = ""
     
@@ -25,7 +25,7 @@ struct BasicExercise: Identifiable, CatalogItem, HasProperties {
     var description_ru: String = ""
     var shortDescription_ru: String = ""
     
-    var name: String {name_en}
+    var name: String {name_en != "" ? name_en : "Exercise"}
     var shortDescription: String {shortDescription_en}
     var description: String {description_en}
     
@@ -62,7 +62,7 @@ struct BasicExercise: Identifiable, CatalogItem, HasProperties {
         }
         
         // 2 Get Url
-        guard let url = URL.getURL(location: .exerciseImage, fileName: "exercise_image_\(id)", fileType: "jpg", create: true) else {
+        guard let url = URL.getURL(location: .exerciseImage, fileName: "imageExercise_\(id)", fileType: "jpg", create: true) else {
             print("Save Image: Can't get URL")
             return
         }

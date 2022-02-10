@@ -26,11 +26,11 @@ enum JSONType {
     var prefix: String {
         switch self {
         case .program:
-            return "ProgramJSON"
+            return "json_program"
         case .workout:
-            return "WorkoutJSON"
+            return "json_workout"
         case .exercise:
-            return "ExerciseJSON"
+            return "json_exercise"
         }
     }
 }

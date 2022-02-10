@@ -53,7 +53,7 @@ struct CatalogView<Item: CatalogTitle & HasProperties>: View {
             HStack(spacing: 5){
                 Spacer()
                 Image(systemName: "plus")
-                Text("Add workout".uppercased())
+                Text("Add".uppercased())
                 Spacer()
             }
             .font(.body)
@@ -68,7 +68,9 @@ struct CatalogView<Item: CatalogTitle & HasProperties>: View {
     
     private var showHiitButton: some View {
         Button {
-            searchManager.selectFilter(WorkType.hiit)
+            withAnimation{
+                searchManager.selectFilter(WorkType.hiit)
+            }
         } label: {
             Text("HIIT")
                 .foregroundColor(.white)
@@ -77,14 +79,16 @@ struct CatalogView<Item: CatalogTitle & HasProperties>: View {
                 .frame(width: 150)
                 .background(Color.orange.opacity(searchManager.selectedFilters.contains(where: {$0.id == WorkType.hiit.id}) ? 1 : 0.2))
                 .cornerRadius(5)
-
+            
         }
         .buttonStyle(PlainButtonStyle())
     }
-
+    
     private var showStrenghtButton: some View {
         Button {
-            searchManager.selectFilter(WorkType.strenght)
+            withAnimation{
+                searchManager.selectFilter(WorkType.strenght)
+            }
         } label: {
             Text("STRENGHT")
                 .foregroundColor(.white)

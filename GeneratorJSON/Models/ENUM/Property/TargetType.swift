@@ -12,22 +12,7 @@ enum TargetType: Int, CaseIterable, Property {
     case loseWeight = 1
     case buildMuscule = 2
     case drying = 3
-    
-    init(strValue: String){
-        switch strValue {
-        case "Healt":
-            self = .healt
-        case "LoseWeight":
-            self = .loseWeight
-        case "BuildMuscule":
-            self = .buildMuscule
-        case  "Drying":
-            self = .drying
-        default:
-            self = .healt
-        }
-    }
-    
+
     var id: String {"TargetType_\(str)"}
     
     var str: String {

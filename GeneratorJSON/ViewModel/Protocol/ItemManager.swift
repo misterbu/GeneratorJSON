@@ -34,8 +34,8 @@ extension ItemManager {
     
     func save(_ item: Item){
         CoreDataFuncs.shared.save(entity: item.entityType, model: item)
-        items.removeAll(where: {$0.id == item.id})
-        items.append(item)
+        self.items.removeAll(where: {$0.id == item.id})
+        self.items.append(item)
     }
     
     func delete(_ item: Item) {

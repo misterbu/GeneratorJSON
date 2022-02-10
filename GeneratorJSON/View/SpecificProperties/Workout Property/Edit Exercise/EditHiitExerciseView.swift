@@ -14,7 +14,7 @@ struct EditHiitExerciseView: View {
     @State var duration = ""
     
     var body: some View {
-        VStack{
+        VStack(spacing: 20){
             Text("Duration")
                 .font(.callout)
                 .foregroundColor(.white.opacity(0.5))

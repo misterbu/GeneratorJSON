@@ -17,7 +17,7 @@ struct Workout: Identifiable, CatalogItem, HasProperties {
     var image: NSImage?
     var video: String?
     
-    var name_en: String = "Default"
+    var name_en: String = ""
     var shortDescription_en: String = ""
     var description_en: String = ""
     
@@ -26,7 +26,7 @@ struct Workout: Identifiable, CatalogItem, HasProperties {
     var shortDescription_ru: String = ""
     
     
-    var name: String {name_en}
+    var name: String {name_en != "" ? name_en : "Workout"}
     var shortDescription: String {shortDescription_en}
     var description: String {description_en}
     
@@ -49,6 +49,7 @@ struct Workout: Identifiable, CatalogItem, HasProperties {
 
     // MARK: - INIT
     init(){
+        self.workoutCircles = [WorkoutCircle(order: 0)]
     }
     
     
@@ -223,6 +224,7 @@ extension Workout {
                               MuscleType.shoulders]
         workout.image = NSImage(named: "bgImage")
         workout.iconImage = NSImage(named: "bgImage")
+        workout.workoutCircles = [WorkoutCircle(order: 0)]
         return workout
     }
 }

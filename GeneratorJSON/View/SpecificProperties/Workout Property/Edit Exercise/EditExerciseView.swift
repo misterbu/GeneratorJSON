@@ -15,7 +15,7 @@ struct EditExerciseView: View {
     var onClose: ()->()
     
     var body: some View {
-        VStack{
+        VStack(spacing: 40){
             CloseButton {
                 onClose()
             }

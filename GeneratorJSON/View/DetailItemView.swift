@@ -13,6 +13,9 @@ struct DetailItemView<Item: CatalogDetail & HasProperties>: View {
     var onDelete: (Item)->()
     
     @State var additionalView: AnyView? = nil
+    var isLockedMainContent: Bool {
+        additionalView != nil
+    }
     
     init(item: Binding<Item>, onSave: @escaping (Item)->(), onDelete: @escaping (Item)->()){
         self._item = item
@@ -25,7 +28,7 @@ struct DetailItemView<Item: CatalogDetail & HasProperties>: View {
         HStack(spacing: 20){
             //Main content
             ScrollView(.vertical, showsIndicators: false) {
-                VStack(spacing: 20){
+                VStack(spacing: 40){
                     HStack(spacing: 20){
                         //ID
                         Text(item.id)
@@ -45,22 +48,24 @@ struct DetailItemView<Item: CatalogDetail & HasProperties>: View {
                         isPro
                     }
                     
-                    //НАЗВАНИЕ
-                    HStack(spacing: 10){
-                        MyTextField(name: "Name", text: $item.name_en)
-                        MyTextField(name: "Имя", text: $item.name_ru)
+                    VStack(spacing: 15){
+                        //НАЗВАНИЕ
+                        HStack(spacing: 10){
+                            MyTextField(name: "Name", text: $item.name_en)
+                            MyTextField(name: "Имя", text: $item.name_ru)
+                            
+                        }
                         
-                    }
-                    
-                    //ОПИСАНИЕ
-                    HStack(spacing: 10){
-                        MyTextField(name: "Description", text: $item.description_en, multiline: true)
-                        MyTextField(name: "Описание", text: $item.description_ru, multiline: true)                    }
-                    //КОРОТКОЕ ОПИСАНИЕ
-                    HStack(spacing: 10){
-                        MyTextField(name: "Short description", text: $item.shortDescription_en, multiline: true)
-                        MyTextField(name: "Короткое описание", text: $item.shortDescription_ru, multiline: true)
-                        
+                        //ОПИСАНИЕ
+                        HStack(spacing: 10){
+                            MyTextField(name: "Description", text: $item.description_en, multiline: true)
+                            MyTextField(name: "Описание", text: $item.description_ru, multiline: true)                    }
+                        //КОРОТКОЕ ОПИСАНИЕ
+                        HStack(spacing: 10){
+                            MyTextField(name: "Short description", text: $item.shortDescription_en, multiline: true)
+                            MyTextField(name: "Короткое описание", text: $item.shortDescription_ru, multiline: true)
+                            
+                        }
                     }
                     
                     //ФОТО
@@ -78,12 +83,11 @@ struct DetailItemView<Item: CatalogDetail & HasProperties>: View {
                         .padding(.vertical, 20)
                     
                     
-                    Divider()
-                    
-                    //КНОПКИ УДАЛИТЬ СОХРАНИТЬ
-                    if additionalView == nil {
+                    VStack(spacing: 15) {
+                        Divider()
+                        
+                        //КНОПКИ УДАЛИТЬ СОХРАНИТЬ
                         HStack(spacing: 50){
-                            Spacer()
                             //СОХРАНИТЬ
                             ButtonWithIcon(name: "SAVE", icon: "opticaldiscdrive.fill", type: .big) {
                                 onSave(item)
@@ -93,20 +97,32 @@ struct DetailItemView<Item: CatalogDetail & HasProperties>: View {
                             ButtonWithIcon(name: "DELETE", icon: "trash", type: .big) {
                                 onDelete(item)
                             }
+                            
+                            Spacer()
+                            
                         }
                     }
                 }
+                .padding(.vertical)
+            }
+            //Disable main content when show additional
+            .blur(radius: isLockedMainContent ? 4 : 0)
+            .opacity(isLockedMainContent ? 0.6 : 1)
+            .disabled(isLockedMainContent)
+            .onTapGesture {
+                guard isLockedMainContent else {return}
+                withAnimation{additionalView = nil}
             }
             
             //Additional view (appear from right side)
             if let additionalView = additionalView {
                 additionalView
                     .padding()
-                    .background(Color.black.opacity(0.15))
-                    .cornerRadius(15)
                     .frame(width: 500)
-                    .transition(.move(edge: .trailing))
+                    .background(.black.opacity(0.1))
+                    .cornerRadius(15)
                     .padding(.bottom)
+                    .transition(.move(edge: .trailing))
             }
         }
         .padding(.horizontal)

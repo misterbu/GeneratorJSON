@@ -16,7 +16,7 @@ struct WorkoutProgmar: CatalogItem, HasProperties {
     var image: NSImage?
     var video: String?
     
-    var name_en: String = "Default"
+    var name_en: String = ""
     var shortDescription_en: String = ""
     var description_en: String = ""
     
@@ -24,7 +24,7 @@ struct WorkoutProgmar: CatalogItem, HasProperties {
     var description_ru: String = ""
     var shortDescription_ru: String = ""
     
-    var name: String {name_en}
+    var name: String {name_en != "" ? name_en : "Program"}
     var shortDescription: String {shortDescription_en}
     var description: String {description_en}
     
@@ -62,7 +62,7 @@ struct WorkoutProgmar: CatalogItem, HasProperties {
         }
 
         // 2 Get Url
-        guard let url = URL.getURL(location: .seriaImage, fileName: "program_image_\(id)", fileType: "jpg", create: true) else {
+        guard let url = URL.getURL(location: .seriaImage, fileName: "iconImage_\(id)", fileType: "jpg", create: true) else {
             print("Save Image: Can't get URL")
             return
         }
@@ -87,7 +87,7 @@ struct WorkoutProgmar: CatalogItem, HasProperties {
         }
 
         // 2 Get Url
-        guard let url = URL.getURL(location: .seriaImage, fileName: "program_icon_\(id)", fileType: "jpg", create: true) else {
+        guard let url = URL.getURL(location: .seriaImage, fileName: "iconProgram_\(id)", fileType: "jpg", create: true) else {
             print("Save Image: Can't get URL")
             return
         }
@@ -189,5 +189,15 @@ extension WorkoutProgmar: JSONble{
         saveImage()
         
         return json
+    }
+}
+
+extension WorkoutProgmar {
+    static var sample: WorkoutProgmar {
+        var value = WorkoutProgmar()
+        value.name_en = "Basic relief program"
+        value.image = NSImage(named: "bgImage")
+        value.iconImage = NSImage(named: "bgImage")
+        return value
     }
 }

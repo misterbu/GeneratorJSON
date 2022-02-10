@@ -15,18 +15,6 @@ struct AdditionalItemsCatalog<Item: HasProperties & CatalogTitle>: View {
     var onClose: ()->()
     
     @FocusState var searchFocused: Bool
-    
-    init(searchManager: SearchManager<Item>,
-         title: String?,
-         subtitle: String?,
-         onSelect: @escaping (Item)->(),
-         onClose: @escaping ()->()){
-        self.onSelect = onSelect
-        self.onClose = onClose
-        self.searchManager = searchManager
-        self.title = title
-        self.subtitle = subtitle
-    }
    
     @State var sortedType: SortedType = .byName
 
@@ -38,6 +26,18 @@ struct AdditionalItemsCatalog<Item: HasProperties & CatalogTitle>: View {
             case .byMuscle: return "by muscle"
             }
         }
+    }
+    
+    init(searchManager: SearchManager<Item>,
+         title: String?,
+         subtitle: String?,
+         onSelect: @escaping (Item)->(),
+         onClose: @escaping ()->()){
+        self.onSelect = onSelect
+        self.onClose = onClose
+        self.searchManager = searchManager
+        self.title = title
+        self.subtitle = subtitle
     }
     
     var body: some View {

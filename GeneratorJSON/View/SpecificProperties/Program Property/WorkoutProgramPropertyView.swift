@@ -16,7 +16,11 @@ struct WorkoutProgramPropertyView: View {
     @State var selectedDay: String? = nil
     
     var body: some View{
-        VStack{
+        VStack(alignment: .leading, spacing: 20){
+            Text("Workout's plan:".uppercased())
+                .foregroundColor(.white.opacity(0.8))
+                .font(.title2)
+            
             HStack(spacing: 20){
                 ForEach(Calendar.current.shortWeekdaySymbols.indices, id: \.self) {indexDay in
                     getDayView(indexDay)
@@ -94,13 +98,10 @@ struct WorkoutProgramPropertyView: View {
     }
 }
 
-
-struct WorkoutsCatalog: View {
-    var body: some View {
-        VStack{
-            Text("CATALOG ")
-                .font(.title)
-                .foregroundColor(.red)
-        }
+struct WorkoutProgramPropertyView_Preview: PreviewProvider {
+    static var previews: some View {
+        WorkoutProgramPropertyView(program: .constant(.sample), workoutsCatalogView: .constant(nil))
+            .preferredColorScheme(.dark)
+            .padding()
     }
 }

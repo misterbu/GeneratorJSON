@@ -12,25 +12,12 @@ enum SexType: Int, CaseIterable, Property {
     case male = 1
     case female = 2
     
-    init(strValue: String) {
-        switch strValue{
-        case "Unisex":
-            self = .unisex
-        case "Male":
-            self = .male
-        case "Female":
-            self = .female
-        default:
-            self = .unisex
-        }
-    }
-    
     var id: String {"SexType_\(str)"}
     
     var str: String {
         switch self {
         case .unisex:
-            return "Unisex"
+            return "Not specify"
         case .male:
             return "Male"
         case .female:

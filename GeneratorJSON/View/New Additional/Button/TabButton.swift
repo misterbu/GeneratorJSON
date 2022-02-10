@@ -19,7 +19,9 @@ struct TabButton: View {
     
     var body: some View {
         Button {
-            activeTab = type
+            withAnimation{
+                activeTab = type
+            }
         } label: {
             VStack{
                 type.image

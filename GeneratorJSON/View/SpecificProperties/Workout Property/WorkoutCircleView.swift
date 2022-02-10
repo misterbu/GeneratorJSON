@@ -12,9 +12,9 @@ struct WorkoutCircleView: View {
     var workType: WorkType
     @Binding var additionalView: AnyView?
     var onDelete: (WorkoutCircle)->()
-    //@State var additionalView: AnyView? = nil
+    
+    
     @State var selectedExercise: Exercise? = nil
-
     @EnvironmentObject var exerciseManager: ExercisesViewModel
     
     var body: some View {
@@ -42,6 +42,7 @@ struct WorkoutCircleView: View {
                         }
                         
                         AddNewExerciseButton
+                            .padding(5)
                     }
                 }
             }
@@ -51,7 +52,7 @@ struct WorkoutCircleView: View {
         }
         .padding(.vertical, 20)
         .padding(.horizontal, 20)
-        .background(Color.black.opacity(0.4))
+        .background(Color.black.opacity(0.15))
         .cornerRadius(10)
         
 
@@ -74,12 +75,14 @@ struct WorkoutCircleView: View {
     
     // MARK: EDIT EXERCISE
     private func showEditExerciseView(for exercise: Exercise){
-        self.additionalView = AnyView (
-            EditExerciseView(exercise: exercise,
-                             onSave: {saveExercise(as: $0)},
-                             onDelete: {deleteExercise($0)},
-                             onClose: {closeAdditionalViewView()})
-        )
+        withAnimation{
+            self.additionalView = AnyView (
+                EditExerciseView(exercise: exercise,
+                                 onSave: {saveExercise(as: $0)},
+                                 onDelete: {deleteExercise($0)},
+                                 onClose: {closeAdditionalViewView()})
+            )
+        }
     }
     
     private func changeExercise(to exercise: Exercise){
@@ -144,3 +147,15 @@ struct WorkoutCircleView: View {
     }
 }
 
+
+struct WorkoutCircleView_Preview: PreviewProvider {
+    static var previews: some View {
+        WorkoutCircleView(workoutCircle: .constant(.sample),
+                          workType: .strenght,
+                          additionalView: .constant(nil),
+                          onDelete: {_ in})
+            .preferredColorScheme(.dark)
+            .buttonStyle(.plain)
+            .padding()
+    }
+}

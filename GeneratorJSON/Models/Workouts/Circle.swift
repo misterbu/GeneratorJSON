@@ -22,6 +22,7 @@ struct WorkoutCircle: Identifiable, CoreDatable {
     // MARK: -  INIT
     init(order: Int){
         self.orderAdd = order
+        self.name = "Circle " + "\(order + 1)"
     }
 
 
@@ -77,9 +78,6 @@ extension WorkoutCircle {
         var strenghtEntities = Set<StrenghtExerciseEntity>()
         exercises.forEach({
             switch $0.basic.type {
-            case .combine:
-                //Доделать для комбинированно
-            print("Here will be a combine")
             case .hiit:
                 if let model = $0 as? IntervalExercise {
                     intervalsEntities.insert(model.getEntity())
@@ -87,11 +85,7 @@ extension WorkoutCircle {
             case .strenght:
                 if let model = $0 as? StrenghtExercise {
                     strenghtEntities.insert(model.getEntity())
-                }
-            case .stretching:
-                //Доделать для растяжки
-                print("Here will be a stretching")
-            }
+                }}
         })
         entity.intervalExercises = intervalsEntities as NSSet
         entity.strenghtExercises = strenghtEntities as NSSet
@@ -125,5 +119,15 @@ extension WorkoutCircle: Equatable {
               lhs.exercises.count == rhs.exercises.count else {return false}
         
         return true
+    }
+}
+
+extension WorkoutCircle {
+    static var sample: WorkoutCircle {
+        var value = WorkoutCircle(order: 0)
+        value.name = "Circle 1" 
+        value.exercises.append(StrenghtExercise.sample)
+        value.exercises.append(StrenghtExercise.sample)
+        return value
     }
 }

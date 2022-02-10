@@ -13,20 +13,20 @@ enum LevelType: Int, CaseIterable, Property {
     case intermediate = 2
     case profi = 3
     
-    init(strValue:String){
-        switch strValue {
-        case "all levels":
-            self = .all
-        case "beginner":
-            self = .beginner
-        case "intermediate":
-            self = .intermediate
-        case "profi":
-            self = .profi
-        default:
-            self = .all
-        }
-    }
+//    init(strValue:String){
+//        switch strValue {
+//        case "all levels":
+//            self = .all
+//        case "beginner":
+//            self = .beginner
+//        case "intermediate":
+//            self = .intermediate
+//        case "profi":
+//            self = .profi
+//        default:
+//            self = .all
+//        }
+//    }
     
     var id: String {"LevelType_\(str)"}
     

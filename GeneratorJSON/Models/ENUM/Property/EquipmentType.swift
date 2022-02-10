@@ -8,18 +8,15 @@
 import Foundation
 
 enum EquipmentType: Int, CaseIterable, Property {
-    case nothing = 0
-    case gym = 1
-    case dumbbells = 2
-    case skippingRope = 3
-    case horizontalBar = 4
+    case gym = 0
+    case dumbbells
+    case skippingRope
+    case horizontalBar
     
     var id: String {"EquipmentType_\(str)"}
     
     var str : String {
         switch self {
-        case .nothing:
-            return "Noring"
         case .gym:
             return "Gym"
         case .dumbbells:
@@ -28,23 +25,6 @@ enum EquipmentType: Int, CaseIterable, Property {
             return "Skipping rope"
         case .horizontalBar:
             return "Horizontal Bar"
-        }
-    }
-    
-    init(strValue: String){
-        switch strValue {
-        case "Noring":
-            self = .nothing
-        case "Gym":
-            self = .gym
-        case "Dumbbells":
-            self = .dumbbells
-        case "Skipping rope":
-            self = .skippingRope
-        case "Horizontal Bar":
-            self = .horizontalBar
-        default:
-            self = .nothing
         }
     }
     
