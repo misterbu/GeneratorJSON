@@ -3,30 +3,30 @@ import SwiftUI
 
 struct EditStrenghtExerciseView: View {
 
-    @State var exercise: StrenghtExercise
-    var onSave: (Exercise)->()
-    var onDelete:(Exercise)->()
-    var onClose: ()->()
+    @Binding var exercise: StrenghtExercise
+//    var onSave: (Exercise)->()
+//    var onDelete:(Exercise)->()
+//    var onClose: ()->()
 
     var body: some View {
         VStack(alignment: .center, spacing: 30){
             
-            CloseButton {
-                onClose()
-            }
-            
-            //НАЗВАНИЕ
-            VStack(alignment: .center, spacing: 10){
-                Text("EDIT")
-                    .font(.title2)
-                    .foregroundColor(.white.opacity(0.8))
-                
-                Text(exercise.basic.name.uppercased() )
-                    .font(.title2)
-                    .foregroundColor(.white)
-                    .multilineTextAlignment(.center)
-                    .lineLimit(3)
-            }
+//            CloseButton {
+//                onClose()
+//            }
+//
+//            //НАЗВАНИЕ
+//            VStack(alignment: .center, spacing: 10){
+//                Text("EDIT")
+//                    .font(.title2)
+//                    .foregroundColor(.white.opacity(0.8))
+//
+//                Text(exercise.basic.name.uppercased() )
+//                    .font(.title2)
+//                    .foregroundColor(.white)
+//                    .multilineTextAlignment(.center)
+//                    .lineLimit(3)
+//            }
             
             //СЕТЫ
             VStack(alignment:.center){
@@ -60,26 +60,26 @@ struct EditStrenghtExerciseView: View {
                     }
                 }
             }
-            
-            Spacer()
-            
-            //BUTTONS
-            HStack{
-                IconButton(icon: "trash") {}
-                .opacity(0)
-                Spacer()
-                // MARK: - КНОПКА СОХРАНИТЬ
-                ButtonWithIcon(name: "Save",
-                               icon: "square.and.arrow.down.on.square",
-                               font: .title2) {
-                    onSave(exercise)
-                }
-                Spacer()
-                // MARK: - КНОПКА   УДАЛИТЬ
-                IconButton(icon: "trash") {
-                    onDelete(exercise)
-                }
-            }
+//            
+//            Spacer()
+//            
+//            //BUTTONS
+//            HStack{
+//                IconButton(icon: "trash") {}
+//                .opacity(0)
+//                Spacer()
+//                // MARK: - КНОПКА СОХРАНИТЬ
+//                ButtonWithIcon(name: "Save",
+//                               icon: "square.and.arrow.down.on.square",
+//                               font: .title2) {
+//                    onSave(exercise)
+//                }
+//                Spacer()
+//                // MARK: - КНОПКА   УДАЛИТЬ
+//                IconButton(icon: "trash") {
+//                    onDelete(exercise)
+//                }
+//            }
         }
     }
     
@@ -105,12 +105,12 @@ struct EditStrenghtExerciseView: View {
     
 }
 
-struct EditStrenghtExerciseView_Preview: PreviewProvider {
-    static var previews: some View {
-        EditStrenghtExerciseView(exercise: .sample,
-                                 onSave: {_ in},
-                                 onDelete: {_ in},
-                                 onClose: {})
-            .preferredColorScheme(.dark)
-    }
-}
+//struct EditStrenghtExerciseView_Preview: PreviewProvider {
+//    static var previews: some View {
+//        EditStrenghtExerciseView(exercise: .sample,
+//                                 onSave: {_ in},
+//                                 onDelete: {_ in},
+//                                 onClose: {})
+//            .preferredColorScheme(.dark)
+//    }
+//}

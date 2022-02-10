@@ -116,3 +116,12 @@ extension IntervalExercise {
             return dict
         }
 }
+
+
+extension IntervalExercise {
+    static var sample: IntervalExercise {
+        var value = IntervalExercise(.sample, orderAdd: 0)
+        value.duration = 35
+        return value
+    }
+}

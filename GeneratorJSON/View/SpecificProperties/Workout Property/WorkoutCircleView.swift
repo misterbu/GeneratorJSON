@@ -74,27 +74,12 @@ struct WorkoutCircleView: View {
     
     // MARK: EDIT EXERCISE
     private func showEditExerciseView(for exercise: Exercise){
-        //FOR STRENGHT
-        if let strenghtExercise = exercise as? StrenghtExercise {
-            withAnimation {
-                self.additionalView = AnyView (
-                    EditStrenghtExerciseView(exercise: strenghtExercise,
-                                             onSave: {saveExercise(as: $0)},
-                                             onDelete: {deleteExercise($0)},
-                                             onClose: {closeAdditionalViewView()})
-                )
-            }
-        //FOR HIIT
-        } else if let intervalExercise = exercise as? IntervalExercise {
-            withAnimation {
-                self.additionalView = AnyView (
-                    EditHiitExerciseView(exercise: intervalExercise,
-                                         onSave: {saveExercise(as: $0)},
-                                         onDelete: {deleteExercise($0)},
-                                         onClose: {closeAdditionalViewView()})
-                )
-            }
-        }
+        self.additionalView = AnyView (
+            EditExerciseView(exercise: exercise,
+                             onSave: {saveExercise(as: $0)},
+                             onDelete: {deleteExercise($0)},
+                             onClose: {closeAdditionalViewView()})
+        )
     }
     
     private func changeExercise(to exercise: Exercise){

@@ -59,13 +59,13 @@ struct EditStrenghtExerciseSetView: View {
     }
 }
 
-
-struct EditStrenghtExerciseSetView_Preview: PreviewProvider {
-    static var previews: some View {
-        EditStrenghtExerciseView(exercise: .sample,
-                                 onSave: {_ in},
-                                 onDelete: {_ in},
-                                 onClose: {})
-            .preferredColorScheme(.dark)
-    }
-}
+//
+//struct EditStrenghtExerciseSetView_Preview: PreviewProvider {
+//    static var previews: some View {
+//        EditStrenghtExerciseView(exercise: .sample,
+//                                 onSave: {_ in},
+//                                 onDelete: {_ in},
+//                                 onClose: {})
+//            .preferredColorScheme(.dark)
+//    }
+//}
